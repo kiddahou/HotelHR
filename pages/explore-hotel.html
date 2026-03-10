@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>探索飯店 - HotelHR-1111</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --tiffany: #0ABAB5;
+            --tiffany-dark: #089B97;
+            --tiffany-light: #B2E7E4;
+            --tiffany-pale: #E6F7F6;
+        }
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .hotel-card.active {
+            border-color: var(--tiffany);
+            background-color: var(--tiffany-pale);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 導覽列 -->
+        <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative flex items-center h-16">
+                <!-- Left: Brand -->
+                <a href="../index.html" class="flex items-center space-x-2 shrink-0">
+                    <span class="text-2xl font-bold text-[var(--tiffany)]">HotelHR-1111</span>
+                    <span class="hidden md:block text-gray-400 font-light">| 旅宿業徵才首選</span>
+                </a>
+
+                <!-- Center: Tabs (visually centered) -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium absolute left-1/2 -translate-x-1/2">
+                    <a href="hotel-hr-search.html" class="hover:text-[var(--tiffany)] transition">找工作</a>
+                    <a href="explore-hotel.html" class="text-[var(--tiffany)] font-bold">探索飯店</a>
+                    <a href="shop-all.html" class="hover:text-[var(--tiffany)] transition">旅宿市集</a>
+                    <a href="career-guide.html" class="hover:text-[var(--tiffany)] transition">職場攻略</a>
+                    <a href="hotel-news.html" class="hover:text-[var(--tiffany)] transition">旅宿新聞</a>
+                </div>
+
+                <!-- Right: Search + Actions -->
+                <div class="ml-auto flex items-center gap-4 shrink-0">
+                    <div class="hidden lg:block" id="navSearch">
+                        <div class="relative">
+                            <button id="navSearchToggle" type="button" class="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition" aria-label="搜尋其他飯店" aria-expanded="false">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </button>
+
+                            <div id="navSearchPanel" class="hidden absolute right-0 top-12 w-72 xl:w-80">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </div>
+                                    <input type="text" id="hotelSearchInput" placeholder="搜尋其他飯店..." class="block w-full pl-10 pr-10 py-2 border border-gray-200 rounded-full leading-5 bg-white shadow-lg placeholder-gray-500 focus:outline-none focus:border-[var(--tiffany)] focus:ring-1 focus:ring-[var(--tiffany)] sm:text-sm transition" />
+                                    <button id="navSearchClose" type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600" aria-label="關閉搜尋">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div id="searchDropdown" class="hidden mt-2 w-full bg-white rounded-2xl shadow-xl border border-gray-100 z-[60] overflow-hidden">
+                                    <div id="searchResults" class="max-h-60 overflow-y-auto py-2">
+                                        <!-- 結果將由 JS 動態產生 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-600 hover:text-[var(--tiffany)] font-medium">登入</button>
+                        <button class="bg-[var(--tiffany)] text-white px-5 py-2 rounded-full font-medium hover:bg-[var(--tiffany-dark)] transition">企業徵才</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄區塊 -->
+    <header class="hero-bg h-[320px] flex items-center justify-center text-white px-4">
+        <div class="text-center w-full max-w-4xl">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">探索飯店</h1>
+            <p class="text-lg md:text-xl mb-8 opacity-90">一次掌握飯店房型、餐廳、菜色與商品</p>
+
+            <div class="bg-white p-1.5 rounded-xl md:rounded-full shadow-2xl flex flex-col md:flex-row space-y-1.5 md:space-y-0 text-gray-800">
+                <div class="flex-1 flex items-center px-4 border-r border-gray-100">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input id="q" type="text" placeholder="輸入飯店名稱或關鍵字" class="w-full py-2.5 outline-none" />
+                </div>
+                <div class="flex-1 flex items-center px-4 border-r border-gray-100">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <select id="city" class="w-full py-2.5 outline-none bg-transparent">
+                        <option value="">全台灣</option>
+                        <option value="台北">台北</option>
+                        <option value="新北">新北</option>
+                        <option value="台中">台中</option>
+                        <option value="台南">台南</option>
+                        <option value="高雄">高雄</option>
+                        <option value="宜蘭">宜蘭</option>
+                        <option value="花蓮">花蓮</option>
+                    </select>
+                </div>
+                <button id="btnSearch" class="bg-[var(--tiffany)] hover:bg-[var(--tiffany-dark)] text-white px-10 py-3 rounded-xl md:rounded-full font-bold transition">搜尋</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-10">
+
+        <!-- 飯店清單網格 -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold">找飯店</h2>
+                    <p id="listHint" class="text-gray-500 text-sm mt-1">共 8 家飯店符合您的需求</p>
+                </div>
+                <button id="btnReset" class="text-[var(--tiffany)] text-sm font-medium hover:underline">顯示全部飯店</button>
+            </div>
+            <!-- 增加 grid-flow-dense 讓插入的 detailWrapper 不會留下空格 -->
+            <div id="hotelListGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 飯店卡片將由 JS 產生 -->
+            </div>
+        </section>
+
+        <!-- 置中彈窗 Modal -->
+        <div id="detailWrapper" class="hidden fixed inset-0 z-50">
+            <div id="modalOverlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+            <div class="relative w-full h-full flex items-center justify-center p-4">
+                <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-3xl overflow-hidden card-shadow border border-gray-200 flex flex-col">
+                    <div class="flex items-center justify-between px-6 py-4 border-b bg-white">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-[var(--tiffany)]"></span>
+                            <h2 class="text-lg font-bold">飯店資訊：</h2>
+                        </div>
+                        <button id="btnCloseModal" class="p-2 rounded-full hover:bg-gray-100 transition" aria-label="關閉">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                    <div class="p-6 overflow-y-auto">
+            <!-- 飯店詳細摘要 -->
+            <section id="hotelDetailSection" class="mb-10 scroll-mt-24">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold">飯店詳細資訊</h2>
+                        <div class="flex items-center gap-4">
+                            <a href="hotel-hr-search.html" class="text-[var(--tiffany)] text-sm font-medium hover:underline">看更多職缺</a>
+                            <div id="hotelSelectWrapper" class="hidden sm:block">
+                                <select id="hotelSelect" class="bg-white border rounded-xl px-4 py-2 text-sm w-[240px]">
+                                    <option value="">快速切換飯店</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                <div id="hotelHero" class="bg-white rounded-3xl overflow-hidden card-shadow border-2 border-[var(--tiffany)]">
+                    <div class="grid grid-cols-1 md:grid-cols-5">
+                        <div class="md:col-span-2 h-64 md:h-full overflow-hidden">
+                            <img id="hotelImage" src="" class="w-full h-full object-cover" alt="飯店圖片" />
+                        </div>
+                        <div class="md:col-span-3 p-8">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <h3 id="hotelName" class="text-2xl font-bold">飯店名稱</h3>
+                                        <span id="hotelTag" class="hidden text-xs font-bold px-2 py-1 rounded bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)]">推薦</span>
+                                    </div>
+                                    <p id="hotelMeta" class="text-gray-500"></p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-gray-400 text-xs">滿意度</p>
+                                    <p id="hotelRating" class="text-2xl font-bold text-[var(--tiffany-dark)]">-</p>
+                                </div>
+                            </div>
+                            <p id="hotelDesc" class="text-gray-600 mt-4 leading-relaxed text-sm md:text-base"></p>
+                            <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-3">
+                                <a id="btnHotelDetail" href="#" class="inline-flex items-center justify-center bg-[var(--tiffany)] text-white px-6 py-3 rounded-xl font-bold hover:bg-[var(--tiffany-dark)] transition">
+                                    查看詳細資訊
+                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </a>
+                                <p class="text-xs text-gray-500">後續可導向獨立頁面（目前先用參數連回探索頁）</p>
+                            </div>
+                            <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                <div class="bg-gray-50 rounded-2xl p-4 text-center">
+                                    <p class="text-xs text-gray-400 mb-1">房型數量</p>
+                                    <p id="countRooms" class="text-xl font-bold text-gray-800">-</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-2xl p-4 text-center">
+                                    <p class="text-xs text-gray-400 mb-1">餐飲空間</p>
+                                    <p id="countRestaurants" class="text-xl font-bold text-gray-800">-</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-2xl p-4 text-center">
+                                    <p class="text-xs text-gray-400 mb-1">特色菜色</p>
+                                    <p id="countDishes" class="text-xl font-bold text-gray-800">-</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-2xl p-4 text-center">
+                                    <p class="text-xs text-gray-400 mb-1">精選商品</p>
+                                    <p id="countProducts" class="text-xl font-bold text-gray-800">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 分類 Tabs -->
+            <section id="tabsSection" class="mb-8">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex flex-wrap gap-3">
+                        <button data-tab="rooms" class="tab-btn px-6 py-3 rounded-full bg-[var(--tiffany)] text-white font-bold shadow-lg shadow-tiffany/20 transition-all">房型介紹</button>
+                        <button data-tab="restaurants" class="tab-btn px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-[var(--tiffany)] transition-all font-bold">餐廳資訊</button>
+                        <button data-tab="dishes" class="tab-btn px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-[var(--tiffany)] transition-all font-bold">必吃菜色</button>
+                        <button data-tab="products" class="tab-btn px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-[var(--tiffany)] transition-all font-bold">嚴選商品</button>
+                    </div>
+                    <a id="tabMoreLink" href="shop-all.html" class="text-[var(--tiffany)] text-sm font-bold hover:underline">看更多</a>
+                </div>
+            </section>
+
+            <!-- 內容區 -->
+            <section id="contentSection">
+                <div id="panel-rooms" class="tab-panel hidden">
+                    <div id="roomsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+                </div>
+
+                <div id="panel-restaurants" class="tab-panel hidden">
+                    <div id="restaurantsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+                </div>
+
+                <div id="panel-dishes" class="tab-panel hidden">
+                    <div id="dishesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+                </div>
+
+                <div id="panel-products" class="tab-panel hidden">
+                    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+                </div>
+            </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="emptyState" class="bg-white rounded-3xl card-shadow p-20 text-center mb-16">
+            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">尚未選擇飯店</h3>
+            <p class="text-gray-500">請點擊上方列表中的飯店卡片，查看詳細的設施與商品資訊。</p>
+        </div>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-gray-900 text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-1">
+                <span class="text-3xl font-bold text-[var(--tiffany-light)]">HotelHR</span>
+                <p class="mt-4 text-gray-400 text-sm leading-relaxed">我們致力於為旅宿業者與優秀人才建立最短的距離，讓每一次款待都更有價值。</p>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6 text-lg">快速連結</h5>
+                <ul class="space-y-4 text-gray-400 text-sm">
+                    <li><a href="hotel-hr-search.html" class="hover:text-white transition">找工作</a></li>
+                    <li><a href="explore-hotel.html" class="hover:text-white transition">探索飯店</a></li>
+                    <li><a href="shop-all.html" class="hover:text-white transition">旅宿市集</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6 text-lg">關於我們</h5>
+                <ul class="space-y-4 text-gray-400 text-sm">
+                    <li><a href="#" class="hover:text-white transition">服務條款</a></li>
+                    <li><a href="#" class="hover:text-white transition">隱私權政策</a></li>
+                    <li><a href="#" class="hover:text-white transition">聯繫客服</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6 text-lg">聯絡我們</h5>
+                <p class="text-gray-400 text-sm mb-4">有任何問題嗎？歡迎隨時聯繫我們。</p>
+                <div class="flex">
+                    <input type="email" placeholder="您的電子郵件" class="bg-gray-800 border-none p-3 rounded-l-xl w-full focus:ring-1 focus:ring-[var(--tiffany)]" />
+                    <button class="bg-[var(--tiffany)] px-6 rounded-r-xl hover:bg-[var(--tiffany-dark)] transition-colors font-bold">訂閱</button>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 border-t border-gray-800 mt-16 pt-8 text-center text-gray-500 text-xs">
+            © 2026 HotelHR-1111 旅宿人才網 版權所有
+        </div>
+    </footer>
+
+    <script>
+        const hotels = [
+            {
+                id: 'h1',
+                name: '寒沐酒店集團',
+                city: '台北',
+                area: '信義區',
+                tag: '五星級',
+                rating: 4.7,
+                image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                desc: '都會精緻度假風格，結合舒適客房、主題餐廳與嚴選伴手禮，打造完整的旅宿體驗。',
+                rooms: [
+                    { name: '豪華客房', size: '33m²', capacity: '2 位', price: 5200, amenities: ['浴缸', '高速 Wi‑Fi', '城市景'], image: 'https://images.unsplash.com/photo-1505692952047-1a78307da8f2?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '行政套房', size: '55m²', capacity: '2-3 位', price: 9800, amenities: ['行政酒廊', '大客廳', '膠囊咖啡機'], image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '家庭四人房', size: '46m²', capacity: '4 位', price: 7600, amenities: ['雙床', '親子備品', '大收納'], image: 'https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                restaurants: [
+                    { name: '翡翠全日餐廳', type: 'Buffet', hours: '06:30 - 21:30', location: '1F', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '雲端酒吧', type: 'Bar', hours: '17:00 - 01:00', location: '頂樓', image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '爐烤牛排拼盤', restaurant: '翡翠全日餐廳', price: 980, spicy: '不辣', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '海鮮叻沙', restaurant: '翡翠全日餐廳', price: 420, spicy: '小辣', image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '特調琴酒氣泡', restaurant: '雲端酒吧', price: 360, spicy: '-', image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '手工鳳梨酥禮盒', price: 520, tag: '人氣', desc: '酸甜平衡、奶香酥皮，適合送禮。', image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '香氛擴香組', price: 690, tag: '質感', desc: '以旅宿香氣延伸回家，放鬆每一天。', image: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h2',
+                name: '雲山水和風會館',
+                city: '宜蘭',
+                area: '礁溪鄉',
+                tag: '溫泉旅館',
+                rating: 4.5,
+                image: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                desc: '以溫泉、山景與和風餐食著稱，提供精緻小店商品，延續旅程記憶。',
+                rooms: [
+                    { name: '景觀湯屋房', size: '38m²', capacity: '2 位', price: 6400, amenities: ['景觀湯池', '山景', '榻榻米'], image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '和洋家庭房', size: '50m²', capacity: '4 位', price: 8800, amenities: ['雙空間', '親子友善', '浴衣'], image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                restaurants: [
+                    { name: '森之旬味', type: '日式會席', hours: '11:30 - 14:00 / 17:30 - 21:00', location: '1F', image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '季節刺身盛合', restaurant: '森之旬味', price: 680, spicy: '不辣', image: 'https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '昆布高湯鍋物', restaurant: '森之旬味', price: 520, spicy: '不辣', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '礁溪溫泉鹽皂', price: 180, tag: '伴手禮', desc: '溫和清潔，洗後清爽不乾澀。', image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '手作抹茶餅乾', price: 240, tag: '甜點', desc: '抹茶香濃，搭配茶飲剛剛好。', image: 'https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h3',
+                name: '承億文旅',
+                city: '高雄',
+                area: '鹽埕區',
+                tag: '文創旅店',
+                rating: 4.3,
+                image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                desc: '融合在地文化策展，提供特色房型與聯名商品，並以創意料理吸引旅人。',
+                rooms: [
+                    { name: '文青標準房', size: '28m²', capacity: '2 位', price: 3600, amenities: ['策展選書', '在地選物', '乾濕分離'], image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '港景套房', size: '48m²', capacity: '2-3 位', price: 7200, amenities: ['港景', '小客廳', '藍牙音響'], image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                restaurants: [
+                    { name: '黑潮小館', type: '創意台菜', hours: '11:00 - 15:00 / 17:00 - 22:00', location: '2F', image: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '屋頂咖啡', type: 'Cafe', hours: '10:00 - 20:00', location: '頂樓', image: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '鹽埕小卷米粉', restaurant: '黑潮小館', price: 260, spicy: '小辣', image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '黑糖拿鐵', restaurant: '屋頂咖啡', price: 160, spicy: '-', image: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '柚香油封鴨胸', restaurant: '黑潮小館', price: 420, spicy: '不辣', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '聯名帆布袋', price: 390, tag: '聯名', desc: '耐用好搭配，旅行日常都適合。', image: 'https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '城市明信片組', price: 120, tag: '收藏', desc: '以插畫記錄城市片刻。', image: 'https://images.unsplash.com/photo-1473181488821-2d23949a045a?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h4',
+                name: '台中清新溫泉飯店',
+                city: '台中',
+                area: '烏日區',
+                tag: '五星級',
+                rating: 4.6,
+                image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                desc: '俯瞰台中市夜景，提供露天溫泉、戶外泳池與多樣化餐廳，是家庭度假的首選。',
+                rooms: [
+                    { name: '景觀大床房', size: '35m²', capacity: '2 位', price: 4800, amenities: ['獨立湯池', '市景', '大螢幕'], image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                restaurants: [
+                    { name: '天地一家', type: '中式', hours: '11:30 - 21:00', location: '2F', image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '港式點心拼盤', restaurant: '天地一家', price: 580, spicy: '不辣', image: 'https://images.unsplash.com/photo-1563245394-57d5c029d3d3?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '茶籽堂洗浴組', price: 880, tag: '精選', desc: '草本修護，溫和呵護肌膚。', image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h5',
+                name: '花蓮理想大地',
+                city: '花蓮',
+                area: '壽豐鄉',
+                tag: '渡假村',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                desc: '西班牙式環河度假建築，提供遊艇導覽、多樣戶外活動，彷彿置身國外。',
+                rooms: [
+                    { name: '豪華客房(閣樓)', size: '45m²', capacity: '2-4 位', price: 7200, amenities: ['河景', '露台', '木質地板'], image: 'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                restaurants: [
+                    { name: '里拉餐廳', type: '西式', hours: '07:00 - 21:00', location: '1F', image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '原住民風味餐', restaurant: '里拉餐廳', price: 850, spicy: '小辣', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '蜂巢糕禮盒', price: 450, tag: '人氣', desc: '在地名產，Q彈香甜。', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h6',
+                name: '台南晶英酒店',
+                city: '台南',
+                area: '中西區',
+                tag: '五星級',
+                rating: 4.9,
+                image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80',
+                desc: '將府城儒學意象融入設計，提供多樣化餐廳與戶外泳池，座落於台南精華地段。',
+                rooms: [
+                    { name: '海東客房', size: '38m²', capacity: '2 位', price: 5800, amenities: ['大螢幕', '浴缸', '中式設計'], image: 'https://images.unsplash.com/photo-1595576508898-0ad5c879a061?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                restaurants: [
+                    { name: 'ROBIN\'S 牛排屋', type: '西式', hours: '12:00 - 22:00', location: '1F', image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '頂級肋眼牛排', restaurant: 'ROBIN\'S', price: 1800, spicy: '不辣', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '府城選物禮盒', price: 1200, tag: '精選', desc: '結合在地老店名產。', image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h7',
+                name: '宜蘭蘭城晶英',
+                city: '宜蘭',
+                area: '宜蘭市',
+                tag: '親子飯店',
+                rating: 4.7,
+                image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=80',
+                desc: '全台知名親子飯店，提供兒童電動車遊樂場與電影院，還有著名的櫻桃烤鴨。',
+                rooms: [
+                    { name: '芬朵奇堡主題房', size: '40m²', capacity: '2-4 位', price: 12000, amenities: ['兒童帳篷', '專屬小車', '親子備品'], image: 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                restaurants: [
+                    { name: '紅樓中餐廳', type: '中式', hours: '11:00 - 21:00', location: '6F', image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '櫻桃烤鴨握壽司', restaurant: '紅樓中餐廳', price: 2800, spicy: '不辣', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '吉祥物奇晶公仔', price: 350, tag: '親子', desc: '深受孩童喜愛的公仔。', image: 'https://images.unsplash.com/photo-1558017487-06bf9f82613a?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h8',
+                name: '台北晶華酒店',
+                city: '台北',
+                area: '中山區',
+                tag: '五星級',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                desc: '國際級精品飯店，擁有豐富餐飲選擇與頂級購物商場，提供極致奢華服務。',
+                rooms: [
+                    { name: '大班客房', size: '45m²', capacity: '2 位', price: 8500, amenities: ['專屬管家', '大理石浴室', '枕頭清單'], image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                restaurants: [
+                    { name: '柏麗廳 Brasserie', type: 'Buffet', hours: '06:30 - 21:30', location: '1F', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '極上鮮魚生魚片', restaurant: '柏麗廳', price: 1200, spicy: '不辣', image: 'https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '晶華牛肉麵禮盒', price: 280, tag: '人氣', desc: '飯店主廚秘製風味。', image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1ccd63?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            }
+        ];
+
+        const els = {
+            modal: document.getElementById('detailWrapper'),
+            modalOverlay: document.getElementById('modalOverlay'),
+            btnCloseModal: document.getElementById('btnCloseModal'),
+            q: document.getElementById('q'),
+            city: document.getElementById('city'),
+            btnSearch: document.getElementById('btnSearch'),
+            btnReset: document.getElementById('btnReset'),
+            hotelListGrid: document.getElementById('hotelListGrid'),
+            listHint: document.getElementById('listHint'),
+            
+            hotelDetailSection: document.getElementById('hotelDetailSection'),
+            tabsSection: document.getElementById('tabsSection'),
+            contentSection: document.getElementById('contentSection'),
+            hotelSelect: document.getElementById('hotelSelect'),
+            hotelImage: document.getElementById('hotelImage'),
+            hotelName: document.getElementById('hotelName'),
+            hotelTag: document.getElementById('hotelTag'),
+            hotelMeta: document.getElementById('hotelMeta'),
+            hotelRating: document.getElementById('hotelRating'),
+            hotelDesc: document.getElementById('hotelDesc'),
+            countRooms: document.getElementById('countRooms'),
+            countRestaurants: document.getElementById('countRestaurants'),
+            countDishes: document.getElementById('countDishes'),
+            countProducts: document.getElementById('countProducts'),
+            emptyState: document.getElementById('emptyState'),
+            
+            roomsGrid: document.getElementById('roomsGrid'),
+            restaurantsGrid: document.getElementById('restaurantsGrid'),
+            dishesGrid: document.getElementById('dishesGrid'),
+            productsGrid: document.getElementById('productsGrid'),
+            
+            roomsHint: document.getElementById('roomsHint'),
+            restaurantsHint: document.getElementById('restaurantsHint'),
+            dishesHint: document.getElementById('dishesHint'),
+            productsHint: document.getElementById('productsHint')
+        };
+
+        let currentHotelId = '';
+
+        function money(n) {
+            return new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 }).format(n);
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function renderHotelOptions(list) {
+            const v = currentHotelId;
+            els.hotelSelect.innerHTML = '<option value="">快速切換飯店</option>' + list
+                .map(h => `<option value="${h.id}">${escapeHtml(h.name)}（${escapeHtml(h.city)}）</option>`)
+                .join('');
+            if (v) els.hotelSelect.value = v;
+        }
+
+        function openModal() {
+            if (els.modal) els.modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            if (els.modal) els.modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            // 取消卡片 active 樣式
+            document.querySelectorAll('.hotel-card').forEach(card => card.classList.remove('active'));
+        }
+
+        function bindModalEventsOnce() {
+            if (window.__hotelModalBound) return;
+            window.__hotelModalBound = true;
+
+            if (els.btnCloseModal) {
+                els.btnCloseModal.addEventListener('click', closeModal);
+            }
+
+            if (els.modalOverlay) {
+                els.modalOverlay.addEventListener('click', closeModal);
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+        }
+
+        function selectHotel(id) {
+            currentHotelId = id;
+            const h = hotels.find(x => x.id === id);
+            if (!h) return;
+
+            // 開啟 Modal
+            bindModalEventsOnce();
+            openModal();
+
+            // 渲染資料
+            renderHotel(h);
+
+            // 更新列表卡片選取狀態
+            const cards = Array.from(document.querySelectorAll('.hotel-card'));
+            cards.forEach(card => {
+                const isActive = card.getAttribute('onclick').includes(`'${id}'`);
+                card.classList.toggle('active', Boolean(isActive));
+            });
+
+            // 同步下拉選單
+            if (els.hotelSelect) els.hotelSelect.value = id;
+        }
+
+        function renderHotelList(list) {
+            els.hotelListGrid.innerHTML = list.map(h => `
+                <div onclick="selectHotel('${h.id}')" class="hotel-card group bg-white rounded-2xl overflow-hidden card-shadow border-2 border-transparent hover:border-[var(--tiffany)] transition-all cursor-pointer ${currentHotelId === h.id ? 'active' : ''}">
+                    <div class="h-40 overflow-hidden relative">
+                        <img src="${h.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="${h.name}">
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-[var(--tiffany)]">${h.tag}</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="font-bold text-gray-800 line-clamp-1">${h.name}</h4>
+                            <span class="text-[var(--tiffany)] font-bold text-sm">${h.rating}</span>
+                        </div>
+                        <p class="text-gray-500 text-xs flex items-center">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                            ${h.city} ${h.area}
+                        </p>
+                    </div>
+                </div>
+            `).join('');
+
+            els.listHint.textContent = `共 ${list.length} 家飯店符合您的需求`;
+        }
+
+        function setEmpty(isEmpty) {
+            els.emptyState.classList.toggle('hidden', !isEmpty);
+            document.querySelectorAll('.tab-panel').forEach(p => {
+                p.classList.toggle('hidden', isEmpty || p.id !== `panel-${getActiveTab()}`);
+            });
+        }
+
+        function getActiveTab() {
+            const active = document.querySelector('.tab-btn.bg-[var(--tiffany)]');
+            return active ? active.getAttribute('data-tab') : 'rooms';
+        }
+
+        function setActiveTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                const isActive = btn.getAttribute('data-tab') === tab;
+                btn.classList.toggle('bg-[var(--tiffany)]', isActive);
+                btn.classList.toggle('text-white', isActive);
+                btn.classList.toggle('bg-white', !isActive);
+                btn.classList.toggle('border-gray-200', !isActive);
+                btn.classList.toggle('shadow-lg', isActive);
+                btn.classList.toggle('shadow-tiffany/20', isActive);
+            });
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.toggle('hidden', panel.id !== `panel-${tab}`);
+            });
+        }
+
+        function cardBase({ image, badge, title, subtitle, metaLines, footerRight }) {
+            const badgeHtml = badge ? `<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-[var(--tiffany)]">${escapeHtml(badge)}</div>` : '';
+            const metaHtml = (metaLines || []).map(line => `<p class="text-gray-500 text-sm mb-1">${line}</p>`).join('');
+            const footerHtml = footerRight ? `<div class="mt-4 flex items-center justify-between"><span class="text-[var(--tiffany-dark)] font-bold">${footerRight}</span></div>` : '';
+
+            return `
+                <div class="bg-white rounded-2xl overflow-hidden card-shadow group border border-transparent hover:border-[var(--tiffany)] transition">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${escapeHtml(image)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="${escapeHtml(title)}" />
+                        ${badgeHtml}
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1">${escapeHtml(title)}</h3>
+                        ${subtitle ? `<p class="text-gray-600 text-xs mb-3">${escapeHtml(subtitle)}</p>` : ''}
+                        <div class="space-y-1">${metaHtml}</div>
+                        ${footerHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderHotel(hotel) {
+            if (!hotel) {
+                els.hotelName.textContent = '請從上方列表選擇飯店';
+                els.hotelMeta.textContent = '';
+                els.hotelRating.textContent = '-';
+                els.hotelDesc.textContent = '';
+                els.hotelTag.classList.add('hidden');
+                els.countRooms.textContent = '-';
+                els.countRestaurants.textContent = '-';
+                els.countDishes.textContent = '-';
+                els.countProducts.textContent = '-';
+                els.roomsGrid.innerHTML = '';
+                els.restaurantsGrid.innerHTML = '';
+                els.dishesGrid.innerHTML = '';
+                els.productsGrid.innerHTML = '';
+                setEmpty(true);
+                return;
+            }
+
+            els.hotelImage.src = hotel.image;
+            els.hotelName.textContent = hotel.name;
+            els.hotelMeta.textContent = `${hotel.city}・${hotel.area}｜${hotel.tag}`;
+            els.hotelRating.textContent = hotel.rating.toFixed(1);
+            els.hotelDesc.textContent = hotel.desc;
+            const detailBtn = document.getElementById('btnHotelDetail');
+            if (detailBtn) detailBtn.href = `HotelDetail.html?hotel=${encodeURIComponent(hotel.id)}`;
+            els.hotelTag.textContent = '推薦';
+            els.hotelTag.classList.remove('hidden');
+
+            els.countRooms.textContent = hotel.rooms ? hotel.rooms.length : 0;
+            els.countRestaurants.textContent = hotel.restaurants ? hotel.restaurants.length : 0;
+            els.countDishes.textContent = hotel.dishes ? hotel.dishes.length : 0;
+            els.countProducts.textContent = hotel.products ? hotel.products.length : 0;
+
+            if (hotel.rooms) {
+                els.roomsGrid.innerHTML = hotel.rooms.map(r => cardBase({
+                    image: r.image,
+                    title: r.name,
+                    subtitle: `${r.size}｜容納 ${r.capacity}`,
+                    metaLines: r.amenities.map(a => `<span class="inline-block text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded mr-1 mb-1">${a}</span>`),
+                    footerRight: `${money(r.price)} / 晚`
+                })).join('');
+            }
+
+            if (hotel.restaurants) {
+                els.restaurantsGrid.innerHTML = hotel.restaurants.map(x => cardBase({
+                    image: x.image,
+                    badge: x.type,
+                    title: x.name,
+                    subtitle: `${x.location}｜${x.hours}`,
+                    metaLines: [`餐廳類型：${x.type}`]
+                })).join('');
+            }
+
+            if (hotel.dishes) {
+                els.dishesGrid.innerHTML = hotel.dishes.map(d => cardBase({
+                    image: d.image,
+                    title: d.name,
+                    subtitle: d.restaurant,
+                    metaLines: [`辣度：${d.spicy}`],
+                    footerRight: money(d.price)
+                })).join('');
+            }
+
+            if (hotel.products) {
+                els.productsGrid.innerHTML = hotel.products.map(p => `
+                    <div class="bg-white rounded-2xl overflow-hidden card-shadow group border border-transparent hover:border-[var(--tiffany)] transition">
+                        <div class="h-40 overflow-hidden relative">
+                            <img src="${escapeHtml(p.image)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="${escapeHtml(p.name)}" />
+                            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-[var(--tiffany)]">${escapeHtml(p.tag)}</div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-start justify-between gap-3">
+                                <h3 class="font-bold text-lg mb-1">${escapeHtml(p.name)}</h3>
+                                <span class="text-[var(--tiffany-dark)] font-bold">${money(p.price)}</span>
+                            </div>
+                            <p class="text-gray-600 text-sm mt-2 line-clamp-2">${escapeHtml(p.desc)}</p>
+                            
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            setEmpty(false);
+        }
+
+        function searchAndRender() {
+            const q = (els.q.value || '').trim().toLowerCase();
+            const city = els.city.value;
+
+            const filtered = hotels.filter(h => {
+                const matchCity = !city || h.city === city;
+                const matchQ = !q || [h.name, h.city, h.area, h.tag, h.desc].join(' ').toLowerCase().includes(q);
+                return matchCity && matchQ;
+            });
+
+            renderHotelList(filtered);
+            renderHotelOptions(filtered);
+
+            if (filtered.length > 0 && !currentHotelId) {
+                // 不自動選擇，讓使用者點擊
+            } else if (currentHotelId) {
+                const stillExists = filtered.find(x => x.id === currentHotelId);
+                if (!stillExists) {
+                    currentHotelId = '';
+                    renderHotel(null);
+                }
+            }
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setActiveTab(btn.getAttribute('data-tab'));
+            });
+        });
+
+        els.btnSearch.addEventListener('click', searchAndRender);
+        els.q.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') searchAndRender();
+        });
+        els.city.addEventListener('change', searchAndRender);
+
+        els.btnReset.addEventListener('click', () => {
+            els.q.value = '';
+            els.city.value = '';
+            currentHotelId = '';
+            renderHotelList(hotels);
+            renderHotelOptions(hotels);
+            renderHotel(null);
+            setActiveTab('rooms');
+        });
+
+        els.hotelSelect.addEventListener('change', () => {
+            if (els.hotelSelect.value) selectHotel(els.hotelSelect.value);
+        });
+
+        // init
+        renderHotelList(hotels);
+        renderHotelOptions(hotels);
+        renderHotel(null);
+        // 初始關閉 Modal
+        closeModal();
+        setActiveTab('rooms');
+    </script>
+
+</body>
+</html>

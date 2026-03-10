@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅宿人才 - 專業旅宿人才平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tiffany: #0ABAB5;
+            --tiffany-dark: #089B97;
+            --tiffany-light: #B2E7E4;
+            --tiffany-pale: #E6F7F6;
+        }
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 導覽列 -->
+    <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold text-[var(--tiffany)]">HotelHR-1111</span>
+                    <span class="hidden md:block text-gray-400 font-light">| 旅宿業徵才首選</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="HotelHR-search.html" class="text-[var(--tiffany)]">找工作</a>
+                    <a href="#" class="hover:text-[var(--tiffany)] transition">探索飯店</a>
+                    <a href="#" class="hover:text-[var(--tiffany)] transition">薪資查詢</a>
+                    <a href="#" class="hover:text-[var(--tiffany)] transition">職場攻略</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-600 hover:text-[var(--tiffany)] font-medium">登入</button>
+                    <button class="bg-[var(--tiffany)] text-white px-5 py-2 rounded-full font-medium hover:bg-[var(--tiffany-dark)] transition">企業徵才</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄區塊與搜尋欄 -->
+    <header class="hero-bg h-[350px] flex items-center justify-center text-white px-4">
+        <div class="text-center w-full max-w-4xl">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">開啟您的款待之夢</h1>
+            <p class="text-lg md:text-xl mb-8 opacity-90">從星級飯店到特色民宿，為您媒合最合適的舞台</p>
+            
+            <div class="bg-white p-2 rounded-xl md:rounded-full shadow-2xl flex flex-col md:flex-row space-y-2 md:space-y-0 text-gray-800">
+                <div class="flex-1 flex items-center px-4 border-r border-gray-100">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="text" placeholder="職位名稱、關鍵字或飯店名稱" class="w-full p-3 outline-none">
+                </div>
+                <div class="flex-1 flex items-center px-4 border-r border-gray-100">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <select class="w-full p-3 outline-none bg-transparent">
+                        <option>全台灣</option>
+                        <option>台北/新北</option>
+                        <option>台中</option>
+                        <option>宜蘭/花蓮</option>
+                        <option>台南/高雄</option>
+                    </select>
+                </div>
+                <button class="bg-[var(--tiffany)] hover:bg-[var(--tiffany-dark)] text-white px-10 py-3 rounded-xl md:rounded-full font-bold transition">搜尋職缺</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <!-- 快速職缺分類 -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold mb-6 flex items-center">
+                <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                快速職缺分類
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <a href="#" class="flex flex-col items-center p-5 bg-white rounded-xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="w-12 h-12 rounded-full bg-[var(--tiffany-pale)] flex items-center justify-center text-[var(--tiffany)] mb-3 group-hover:bg-[var(--tiffany-light)] transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </span>
+                    <span class="font-medium text-gray-800 group-hover:text-[var(--tiffany-dark)]">客房部</span>
+                    <span class="text-xs text-gray-500 mt-0.5">128 筆職缺</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-5 bg-white rounded-xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="w-12 h-12 rounded-full bg-[var(--tiffany-pale)] flex items-center justify-center text-[var(--tiffany)] mb-3 group-hover:bg-[var(--tiffany-light)] transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </span>
+                    <span class="font-medium text-gray-800 group-hover:text-[var(--tiffany-dark)]">餐飲部</span>
+                    <span class="text-xs text-gray-500 mt-0.5">96 筆職缺</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-5 bg-white rounded-xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="w-12 h-12 rounded-full bg-[var(--tiffany-pale)] flex items-center justify-center text-[var(--tiffany)] mb-3 group-hover:bg-[var(--tiffany-light)] transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </span>
+                    <span class="font-medium text-gray-800 group-hover:text-[var(--tiffany-dark)]">前台櫃檯</span>
+                    <span class="text-xs text-gray-500 mt-0.5">64 筆職缺</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-5 bg-white rounded-xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="w-12 h-12 rounded-full bg-[var(--tiffany-pale)] flex items-center justify-center text-[var(--tiffany)] mb-3 group-hover:bg-[var(--tiffany-light)] transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    </span>
+                    <span class="font-medium text-gray-800 group-hover:text-[var(--tiffany-dark)]">房務清潔</span>
+                    <span class="text-xs text-gray-500 mt-0.5">82 筆職缺</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-5 bg-white rounded-xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="w-12 h-12 rounded-full bg-[var(--tiffany-pale)] flex items-center justify-center text-[var(--tiffany)] mb-3 group-hover:bg-[var(--tiffany-light)] transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </span>
+                    <span class="font-medium text-gray-800 group-hover:text-[var(--tiffany-dark)]">管理職</span>
+                    <span class="text-xs text-gray-500 mt-0.5">45 筆職缺</span>
+                </a>
+                <a href="#" class="flex flex-col items-center p-5 bg-white rounded-xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="w-12 h-12 rounded-full bg-[var(--tiffany-pale)] flex items-center justify-center text-[var(--tiffany)] mb-3 group-hover:bg-[var(--tiffany-light)] transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8v-3a2 2 0 00-2-2h-4.586a2 2 0 00-1.414.586L7 14l-2 2-2-2 2-2 2-2 2-2 2-2 2 2-2 2-2 2 2-2 2-2 2 2-2 2"></path></svg>
+                    </span>
+                    <span class="font-medium text-gray-800 group-hover:text-[var(--tiffany-dark)]">行銷企劃</span>
+                    <span class="text-xs text-gray-500 mt-0.5">28 筆職缺</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 優化篩選條件 -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold flex items-center">
+                    <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                    精準篩選
+                </h2>
+                <button class="text-[var(--tiffany)] text-sm hover:underline">重設條件</button>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <div class="group relative">
+                    <button class="px-4 py-2 bg-white border rounded-lg hover:border-[var(--tiffany)] transition flex items-center space-x-2">
+                        <span>產業類型</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                </div>
+                <button class="px-4 py-2 bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)] border border-[var(--tiffany-light)] rounded-lg hover:bg-[var(--tiffany-light)] transition">五星級飯店</button>
+                <button class="px-4 py-2 bg-white border rounded-lg hover:border-[var(--tiffany)] transition">連鎖旅館</button>
+                <button class="px-4 py-2 bg-white border rounded-lg hover:border-[var(--tiffany)] transition">特色民宿</button>
+                <button class="px-4 py-2 bg-white border rounded-lg hover:border-[var(--tiffany)] transition">客房部</button>
+                <button class="px-4 py-2 bg-white border rounded-lg hover:border-[var(--tiffany)] transition">餐飲部</button>
+                <button class="px-4 py-2 bg-white border rounded-lg hover:border-[var(--tiffany)] transition">管理職</button>
+                <button class="px-4 py-2 bg-white border rounded-lg hover:border-[var(--tiffany)] transition">提供員工宿舍</button>
+            </div>
+        </section>
+
+        <!-- 熱門推薦飯店 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-8">推薦住宿品牌</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 飯店卡片 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden card-shadow group">
+                    <div class="h-40 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-[var(--tiffany)]">
+                            五星級
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1">寒沐酒店集團</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                            台北市信義區
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[var(--tiffany-dark)] font-medium text-sm">12 個開放職缺</span>
+                            <button class="text-gray-400 hover:text-red-500 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 飯店卡片 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden card-shadow group">
+                    <div class="h-40 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-green-600">
+                            溫泉旅館
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1">雲山水和風會館</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                            宜蘭縣礁溪鄉
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[var(--tiffany-dark)] font-medium text-sm">5 個開放職缺</span>
+                            <button class="text-gray-400 hover:text-red-500 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 飯店卡片 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden card-shadow group">
+                    <div class="h-40 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-purple-600">
+                            文創旅店
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1">承億文旅</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                            嘉義市
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[var(--tiffany-dark)] font-medium text-sm">8 個開放職缺</span>
+                            <button class="text-gray-400 hover:text-red-500 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 飯店卡片 4 -->
+                <div class="bg-white rounded-2xl overflow-hidden card-shadow group">
+                    <div class="h-40 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-indigo-600">
+                            國際連鎖
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1">希爾頓逸林酒店</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                            台北市中山區
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[var(--tiffany-dark)] font-medium text-sm">20+ 個開放職缺</span>
+                            <button class="text-gray-400 hover:text-red-500 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 精選職缺列表 -->
+        <section>
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold">精選推薦職缺</h2>
+                <div class="flex space-x-2">
+                    <button class="bg-gray-200 p-2 rounded-full hover:bg-gray-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button class="bg-gray-200 p-2 rounded-full hover:bg-gray-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <!-- 職缺列表 1 -->
+                <div class="bg-white p-6 rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] transition cursor-pointer flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                        <div class="w-16 h-16 bg-[var(--tiffany-pale)] rounded-xl flex items-center justify-center text-[var(--tiffany)] font-bold text-xl">
+                            H
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg hover:text-[var(--tiffany)] transition">大廳接待經理 (Front Office Manager)</h4>
+                            <p class="text-gray-500">台北寒舍艾美酒店</p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">正職</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">月薪 45K-60K</span>
+                                <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)] px-2 py-0.5 rounded text-xs">急徵</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-gray-400 text-sm mb-2">2 小時前更新</span>
+                        <button class="bg-[var(--tiffany)] text-white px-6 py-2 rounded-lg font-medium hover:bg-[var(--tiffany-dark)] transition">立即應徵</button>
+                    </div>
+                </div>
+
+                <!-- 職缺列表 2 -->
+                <div class="bg-white p-6 rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] transition cursor-pointer flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                        <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center text-green-600 font-bold text-xl">
+                            S
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg hover:text-[var(--tiffany)] transition">房務督導 (Housekeeping Supervisor)</h4>
+                            <p class="text-gray-500">日月潭涵碧樓酒店</p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">正職</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">月薪 38K-45K</span>
+                                <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany)] px-2 py-0.5 rounded text-xs">供膳宿</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-gray-400 text-sm mb-2">5 小時前更新</span>
+                        <button class="bg-[var(--tiffany)] text-white px-6 py-2 rounded-lg font-medium hover:bg-[var(--tiffany-dark)] transition">立即應徵</button>
+                    </div>
+                </div>
+
+                <!-- 職缺列表 3 -->
+                <div class="bg-white p-6 rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] transition cursor-pointer flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                        <div class="w-16 h-16 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 font-bold text-xl">
+                            C
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg hover:text-[var(--tiffany)] transition">中餐主廚 (Chinese Chef)</h4>
+                            <p class="text-gray-500">晶華酒店</p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">正職</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">月薪 55K-75K</span>
+                                <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)] px-2 py-0.5 rounded text-xs">急徵</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-gray-400 text-sm mb-2">1 天前更新</span>
+                        <button class="bg-[var(--tiffany)] text-white px-6 py-2 rounded-lg font-medium hover:bg-[var(--tiffany-dark)] transition">立即應徵</button>
+                    </div>
+                </div>
+
+                <!-- 職缺列表 4 -->
+                <div class="bg-white p-6 rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] transition cursor-pointer flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                        <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 font-bold text-xl">
+                            W
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg hover:text-[var(--tiffany)] transition">櫃檯接待專員 (Front Desk Agent)</h4>
+                            <p class="text-gray-500">希爾頓逸林酒店</p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">正職</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">月薪 32K-38K</span>
+                                <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany)] px-2 py-0.5 rounded text-xs">供膳宿</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-gray-400 text-sm mb-2">1 天前更新</span>
+                        <button class="bg-[var(--tiffany)] text-white px-6 py-2 rounded-lg font-medium hover:bg-[var(--tiffany-dark)] transition">立即應徵</button>
+                    </div>
+                </div>
+
+                <!-- 職缺列表 5 -->
+                <div class="bg-white p-6 rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] transition cursor-pointer flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                        <div class="w-16 h-16 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 font-bold text-xl">
+                            M
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg hover:text-[var(--tiffany)] transition">營運副理 (Operations Manager)</h4>
+                            <p class="text-gray-500">承億文旅</p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">正職</span>
+                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs">月薪 50K-70K</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-gray-400 text-sm mb-2">2 天前更新</span>
+                        <button class="bg-[var(--tiffany)] text-white px-6 py-2 rounded-lg font-medium hover:bg-[var(--tiffany-dark)] transition">立即應徵</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分頁 -->
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-gray-500 text-sm">顯示第 1-5 筆，共 128 筆職缺</p>
+                <nav class="flex items-center gap-1" aria-label="分頁">
+                    <a href="#" class="px-3 py-2 rounded-lg text-gray-500 bg-gray-100 hover:bg-gray-200 transition text-sm font-medium">上一頁</a>
+                    <a href="#" class="px-3 py-2 rounded-lg bg-[var(--tiffany)] text-white font-medium text-sm">1</a>
+                    <a href="#" class="px-3 py-2 rounded-lg text-gray-600 hover:bg-[var(--tiffany-pale)] hover:text-[var(--tiffany-dark)] transition font-medium text-sm">2</a>
+                    <a href="#" class="px-3 py-2 rounded-lg text-gray-600 hover:bg-[var(--tiffany-pale)] hover:text-[var(--tiffany-dark)] transition font-medium text-sm">3</a>
+                    <span class="px-2 text-gray-400">...</span>
+                    <a href="#" class="px-3 py-2 rounded-lg text-gray-600 hover:bg-[var(--tiffany-pale)] hover:text-[var(--tiffany-dark)] transition font-medium text-sm">26</a>
+                    <a href="#" class="px-3 py-2 rounded-lg text-gray-600 bg-gray-100 hover:bg-gray-200 transition text-sm font-medium">下一頁</a>
+                </nav>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <button class="border-2 border-[var(--tiffany)] text-[var(--tiffany)] px-8 py-3 rounded-full font-bold hover:bg-[var(--tiffany-pale)] transition">查看更多職缺</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-gray-900 text-white py-16 mt-12">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-1">
+                <span class="text-3xl font-bold text-[var(--tiffany-light)]">HostMatch</span>
+                <p class="mt-4 text-gray-400 text-sm leading-relaxed">我們致力於為旅宿業者與優秀人才建立最短的距離，讓每一次款待都更有價值。</p>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6">尋找人才</h5>
+                <ul class="space-y-4 text-gray-400 text-sm">
+                    <li><a href="#" class="hover:text-white transition">發布職缺</a></li>
+                    <li><a href="#" class="hover:text-white transition">人才庫搜尋</a></li>
+                    <li><a href="#" class="hover:text-white transition">雇主品牌經營</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6">關於我們</h5>
+                <ul class="space-y-4 text-gray-400 text-sm">
+                    <li><a href="#" class="hover:text-white transition">服務條款</a></li>
+                    <li><a href="#" class="hover:text-white transition">隱私權政策</a></li>
+                    <li><a href="#" class="hover:text-white transition">聯繫客服</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6">訂閱電子報</h5>
+                <div class="flex">
+                    <input type="email" placeholder="您的電子郵件" class="bg-gray-800 border-none p-3 rounded-l-lg w-full focus:ring-1 focus:ring-[var(--tiffany)]">
+                    <button class="bg-[var(--tiffany)] px-4 rounded-r-lg hover:bg-[var(--tiffany-dark)]">訂閱</button>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-xs">
+            © 2026  HotelHR-1111 旅宿人才網 版權所有
+        </div>
+    </footer>
+
+</body>
+</html>

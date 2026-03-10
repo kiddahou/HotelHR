@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>旅宿新聞 - 最新活動與推薦行程 | HotelHR-1111</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --tiffany: #0ABAB5;
+            --tiffany-dark: #089B97;
+            --tiffany-light: #B2E7E4;
+            --tiffany-pale: #E6F7F6;
+        }
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 導覽列 -->
+        <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative flex items-center h-16">
+                <!-- Left: Brand -->
+                <a href="../index.html" class="flex items-center space-x-2 shrink-0">
+                    <span class="text-2xl font-bold text-[var(--tiffany)]">HotelHR-1111</span>
+                    <span class="hidden md:block text-gray-400 font-light">| 旅宿業徵才首選</span>
+                </a>
+
+                <!-- Center: Tabs (visually centered) -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium absolute left-1/2 -translate-x-1/2">
+                    <a href="hotel-hr-search.html" class="hover:text-[var(--tiffany)] transition">找工作</a>
+                    <a href="explore-hotel.html" class="hover:text-[var(--tiffany)] transition">探索飯店</a>
+                    <a href="shop-all.html" class="hover:text-[var(--tiffany)] transition">旅宿市集</a>
+                    <a href="career-guide.html" class="hover:text-[var(--tiffany)] transition">職場攻略</a>
+                    <a href="hotel-news.html" class="text-[var(--tiffany)] font-bold">旅宿新聞</a>
+                </div>
+
+                <!-- Right: Search + Actions -->
+                <div class="ml-auto flex items-center gap-4 shrink-0">
+                    <div class="hidden lg:block" id="navSearch">
+                        <div class="relative">
+                            <button id="navSearchToggle" type="button" class="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition" aria-label="搜尋其他飯店" aria-expanded="false">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </button>
+
+                            <div id="navSearchPanel" class="hidden absolute right-0 top-12 w-72 xl:w-80">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </div>
+                                    <input type="text" id="hotelSearchInput" placeholder="搜尋其他飯店..." class="block w-full pl-10 pr-10 py-2 border border-gray-200 rounded-full leading-5 bg-white shadow-lg placeholder-gray-500 focus:outline-none focus:border-[var(--tiffany)] focus:ring-1 focus:ring-[var(--tiffany)] sm:text-sm transition" />
+                                    <button id="navSearchClose" type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600" aria-label="關閉搜尋">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div id="searchDropdown" class="hidden mt-2 w-full bg-white rounded-2xl shadow-xl border border-gray-100 z-[60] overflow-hidden">
+                                    <div id="searchResults" class="max-h-60 overflow-y-auto py-2">
+                                        <!-- 結果將由 JS 動態產生 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-600 hover:text-[var(--tiffany)] font-medium">登入</button>
+                        <button class="bg-[var(--tiffany)] text-white px-5 py-2 rounded-full font-medium hover:bg-[var(--tiffany-dark)] transition">企業徵才</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 py-14">
+            <div class="max-w-3xl">
+                <p class="text-sm tracking-[0.2em] uppercase text-white/80 mb-2">HOTEL NEWS & EVENTS</p>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">旅宿脈動：<br/>掌握產業趨勢與精彩行程</h1>
+                <p class="text-sm md:text-base text-white/85 mb-6">為您蒐羅最即時的旅宿業新聞、季節限定活動，以及由在地職人推薦的深度旅遊行程。</p>
+                <div class="bg-white/10 border border-white/20 rounded-2xl p-3 backdrop-blur">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <div class="flex-1">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-4 w-4 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </div>
+                                <input id="newsSearchInput" type="text" placeholder="搜尋：新聞 / 活動 / 行程（例如：永續、櫻花祭、北投）" class="w-full pl-10 pr-3 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 outline-none focus:border-white/40 focus:ring-1 focus:ring-white/30 transition" />
+                            </div>
+                        </div>
+                        <button id="btnNewsSearch" class="px-6 py-3 rounded-xl bg-[var(--tiffany)] text-white font-bold hover:bg-[var(--tiffany-dark)] transition whitespace-nowrap">搜尋</button>
+                        <button id="btnNewsClear" class="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white/90 font-bold hover:bg-white/15 transition whitespace-nowrap">清除</button>
+                    </div>
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20">產業動態</span>
+                        <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20">節慶活動</span>
+                        <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20">在地行程</span>
+                        <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20">最新開幕</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-10 space-y-12">
+
+        <!-- 最新產業新聞 -->
+        <section>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold flex items-center">
+                    <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                    即時旅宿新聞
+                </h2>
+                <a href="#" class="text-sm text-[var(--tiffany)] hover:underline">查看更多</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="hotel-news-detail.html" class="news-item block bg-white rounded-2xl card-shadow overflow-hidden border border-transparent hover:border-[var(--tiffany)] transition group" data-search="2026 旅宿業數位轉型白皮書發佈 AI 技術導入 智慧房務管理 產業動態">
+                    <div class="h-40 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="新聞圖片" />
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs text-[var(--tiffany)] font-bold mb-1">產業動態 · 2026/02/10</p>
+                        <h3 class="font-bold mb-2">2026 旅宿業數位轉型白皮書發佈</h3>
+                        <p class="text-gray-600 text-sm line-clamp-2">隨著 AI 技術導入，各大星級飯店開始推廣無人化櫃檯與智慧房務管理系統，預計將提升 30% 營運效率。</p>
+                    </div>
+                </a>
+                <article class="news-item bg-white rounded-2xl card-shadow overflow-hidden border border-transparent hover:border-[var(--tiffany)] transition group" data-search="國際精品酒店進駐台北信義區 頂級奢華酒店 米其林星級餐飲 最新開幕">
+                    <div class="h-40 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="新聞圖片" />
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs text-[var(--tiffany)] font-bold mb-1">最新開幕 · 2026/02/05</p>
+                        <h3 class="font-bold mb-2">國際精品酒店進駐台北信義區</h3>
+                        <p class="text-gray-600 text-sm line-clamp-2">頂級奢華酒店品牌正式揭幕，融合在地美學與米其林星級餐飲，打造城市度假新地標。</p>
+                    </div>
+                </article>
+                <article class="news-item bg-white rounded-2xl card-shadow overflow-hidden border border-transparent hover:border-[var(--tiffany)] transition group" data-search="永續旅遊補貼計畫正式開跑 環境友善旅館 綠色能源 政策訊息">
+                    <div class="h-40 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="新聞圖片" />
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs text-[var(--tiffany)] font-bold mb-1">政策訊息 · 2026/01/28</p>
+                        <h3 class="font-bold mb-2">永續旅遊補貼計畫正式開跑</h3>
+                        <p class="text-gray-600 text-sm line-clamp-2">政府推出針對環境友善旅館的補助方案，鼓勵業者減少一次性備品，並導入綠色能源設備。</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 最新限定活動 -->
+        <section>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold flex items-center">
+                    <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                    季節限定活動
+                </h2>
+                <a href="#" class="text-sm text-[var(--tiffany)] hover:underline">看更多</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="news-item flex bg-white rounded-2xl card-shadow overflow-hidden border border-transparent hover:border-[var(--tiffany)] transition group" data-search="宜蘭 櫻花祭 春日野餐會 礁溪 星級飯店 茶道體驗 季節限定活動">
+                    <div class="w-1/3 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="活動" />
+                    </div>
+                    <div class="w-2/3 p-5">
+                        <span class="bg-red-100 text-red-600 text-[10px] font-bold px-2 py-0.5 rounded">熱門進行中</span>
+                        <h3 class="font-bold mt-2">宜蘭櫻花祭：春日野餐會</h3>
+                        <p class="text-gray-500 text-xs mt-1">地點：礁溪多家星級飯店 | 日期：2/15 - 3/15</p>
+                        <p class="text-gray-600 text-sm mt-3 line-clamp-2">配合櫻花季，各飯店推出專屬櫻花便當與茶道體驗，讓您在浪漫櫻花下享受春日氣息。</p>
+                    </div>
+                </div>
+                <div class="news-item flex bg-white rounded-2xl card-shadow overflow-hidden border border-transparent hover:border-[var(--tiffany)] transition group" data-search="微醺之夜 雲端酒吧 聯名祭 台灣茶 創意調酒 台北 季節限定活動">
+                    <div class="w-1/3 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="活動" />
+                    </div>
+                    <div class="w-2/3 p-5">
+                        <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany)] text-[10px] font-bold px-2 py-0.5 rounded">即將開始</span>
+                        <h3 class="font-bold mt-2">微醺之夜：雲端酒吧聯名祭</h3>
+                        <p class="text-gray-500 text-xs mt-1">地點：台北各大飯店頂樓 | 日期：3/01 - 3/31</p>
+                        <p class="text-gray-600 text-sm mt-3 line-clamp-2">邀請國際調酒師駐店，推出以「台灣茶」為主題的創意調酒，盡覽城市星空美景。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 推薦行程 -->
+        <section>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold flex items-center">
+                    <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                    職人推薦行程
+                </h2>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs text-gray-500">深入在地，體驗不一樣的旅宿時光</span>
+                    <a href="#" class="text-sm text-[var(--tiffany)] hover:underline">看更多</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="news-item bg-white rounded-2xl card-shadow p-5 border border-transparent hover:border-[var(--tiffany)] transition group cursor-pointer" data-search="北投 療癒溫泉 百年古蹟之旅 二日遊 職人推薦行程 在地行程">
+                    <div class="aspect-square rounded-xl overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="行程" />
+                    </div>
+                    <p class="text-xs text-[var(--tiffany)] font-bold mb-1">北投 · 二日遊</p>
+                    <h3 class="font-bold mb-2">療癒溫泉與百年古蹟之旅</h3>
+                    <p class="text-gray-500 text-xs">職人：溫泉飯店經理推薦</p>
+                </div>
+                <div class="news-item bg-white rounded-2xl card-shadow p-5 border border-transparent hover:border-[var(--tiffany)] transition group cursor-pointer" data-search="台南 府城巷弄美學 古早味食旅 三日遊 職人推薦行程 在地行程">
+                    <div class="aspect-square rounded-xl overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="行程" />
+                    </div>
+                    <p class="text-xs text-[var(--tiffany)] font-bold mb-1">台南 · 三日遊</p>
+                    <h3 class="font-bold mb-2">府城巷弄美學與古早味食旅</h3>
+                    <p class="text-gray-500 text-xs">職人：精品民宿主人推薦</p>
+                </div>
+                <div class="news-item bg-white rounded-2xl card-shadow p-5 border border-transparent hover:border-[var(--tiffany)] transition group cursor-pointer" data-search="花蓮 東海岸日出 原民風味餐 二日遊 職人推薦行程 在地行程">
+                    <div class="aspect-square rounded-xl overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="行程" />
+                    </div>
+                    <p class="text-xs text-[var(--tiffany)] font-bold mb-1">花蓮 · 二日遊</p>
+                    <h3 class="font-bold mb-2">東海岸日出與原民風味餐</h3>
+                    <p class="text-gray-500 text-xs">職人：度假村活動指導推薦</p>
+                </div>
+                <div class="news-item bg-white rounded-2xl card-shadow p-5 border border-transparent hover:border-[var(--tiffany)] transition group cursor-pointer" data-search="嘉義 阿里山林鐵 檜木職人體驗 二日遊 職人推薦行程 在地行程">
+                    <div class="aspect-square rounded-xl overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="行程" />
+                    </div>
+                    <p class="text-xs text-[var(--tiffany)] font-bold mb-1">嘉義 · 二日遊</p>
+                    <h3 class="font-bold mb-2">阿里山林鐵與檜木職人體驗</h3>
+                    <p class="text-gray-500 text-xs">職人：文創飯店策展人推薦</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA 區 -->
+        <section class="bg-white rounded-3xl card-shadow p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+                <h2 class="text-lg font-bold mb-1">想獲得更多第一手旅宿消息？</h2>
+                <p class="text-gray-600 text-sm">訂閱我們的電子報，每週為您送上最新產業新聞與獨家優惠活動。</p>
+            </div>
+            <div class="flex w-full md:w-auto gap-2">
+                <input type="email" placeholder="您的電子郵件" class="flex-1 md:w-64 px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-[var(--tiffany)] transition">
+                <button class="px-6 py-3 rounded-xl bg-[var(--tiffany)] text-white font-bold hover:bg-[var(--tiffany-dark)] transition whitespace-nowrap">訂閱</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-xs">
+            © 2026 HotelHR-1111 旅宿人才網 版權所有
+        </div>
+    </footer>
+
+    <script>
+        const newsSearchInput = document.getElementById('newsSearchInput');
+        const btnNewsSearch = document.getElementById('btnNewsSearch');
+        const btnNewsClear = document.getElementById('btnNewsClear');
+        const newsItems = Array.from(document.querySelectorAll('.news-item'));
+
+        function setNoResultHint(show) {
+            let hint = document.getElementById('newsNoResult');
+            if (!hint) {
+                hint = document.createElement('div');
+                hint.id = 'newsNoResult';
+                hint.className = 'hidden bg-white rounded-2xl card-shadow p-8 text-center text-gray-600';
+                hint.textContent = '找不到符合的內容，請嘗試其他關鍵字。';
+                const main = document.querySelector('main');
+                if (main) main.insertBefore(hint, main.firstChild);
+            }
+            hint.classList.toggle('hidden', !show);
+        }
+
+        function applySearch() {
+            const q = (newsSearchInput?.value || '').trim().toLowerCase();
+
+            if (!q) {
+                newsItems.forEach(el => (el.style.display = ''));
+                setNoResultHint(false);
+                return;
+            }
+
+            let any = false;
+            newsItems.forEach(el => {
+                const hay = String(el.getAttribute('data-search') || '').toLowerCase();
+                const ok = hay.includes(q);
+                el.style.display = ok ? '' : 'none';
+                if (ok) any = true;
+            });
+
+            setNoResultHint(!any);
+
+            const firstVisible = newsItems.find(el => el.style.display !== 'none');
+            if (firstVisible) {
+                firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        btnNewsSearch?.addEventListener('click', applySearch);
+        newsSearchInput?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') applySearch();
+        });
+        btnNewsClear?.addEventListener('click', () => {
+            if (newsSearchInput) newsSearchInput.value = '';
+            newsItems.forEach(el => (el.style.display = ''));
+            setNoResultHint(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+</body>
+</html>

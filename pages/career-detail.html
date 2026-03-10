@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>從夜班櫃檯到值班經理：旅館前台的一天 - 職場攻略 | HotelHR-1111</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --tiffany: #0ABAB5;
+            --tiffany-dark: #089B97;
+            --tiffany-light: #B2E7E4;
+            --tiffany-pale: #E6F7F6;
+        }
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .progress-bar {
+            height: 4px;
+            background: var(--tiffany);
+            position: fixed;
+            top: 64px; /* 導覽列高度 */
+            left: 0;
+            width: 0%;
+            z-index: 60;
+            transition: width 0.1s;
+        }
+        .article-content p { margin-bottom: 1.5rem; line-height: 1.8; color: #374151; }
+        .article-content h2 { 
+            font-size: 1.5rem; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; 
+            color: #111827; border-left: 4px solid var(--tiffany); padding-left: 1rem;
+        }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div id="readingProgress" class="progress-bar"></div>
+
+    <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative flex items-center h-16">
+                <!-- Left: Brand -->
+                <a href="../index.html" class="flex items-center space-x-2 shrink-0">
+                    <span class="text-2xl font-bold text-[var(--tiffany)]">HotelHR-1111</span>
+                    <span class="hidden md:block text-gray-400 font-light">| 旅宿業徵才首選</span>
+                </a>
+
+                <!-- Center: Tabs (visually centered) -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium absolute left-1/2 -translate-x-1/2">
+                    <a href="hotel-hr-search.html" class="hover:text-[var(--tiffany)] transition">找工作</a>
+                    <a href="explore-hotel.html" class="hover:text-[var(--tiffany)] transition">探索飯店</a>
+                    <a href="shop-all.html" class="hover:text-[var(--tiffany)] transition">旅宿市集</a>
+                    <a href="career-guide.html" class="text-[var(--tiffany)] font-bold">職場攻略</a>
+                    <a href="hotel-news.html" class="hover:text-[var(--tiffany)] transition">旅宿新聞</a>
+                </div>
+
+                <!-- Right: Search + Actions -->
+                <div class="ml-auto flex items-center gap-4 shrink-0">
+                    <div class="hidden lg:block" id="navSearch">
+                        <div class="relative">
+                            <button id="navSearchToggle" type="button" class="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition" aria-label="搜尋其他飯店" aria-expanded="false">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </button>
+
+                            <div id="navSearchPanel" class="hidden absolute right-0 top-12 w-72 xl:w-80">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </div>
+                                    <input type="text" id="hotelSearchInput" placeholder="搜尋其他飯店..." class="block w-full pl-10 pr-10 py-2 border border-gray-200 rounded-full leading-5 bg-white shadow-lg placeholder-gray-500 focus:outline-none focus:border-[var(--tiffany)] focus:ring-1 focus:ring-[var(--tiffany)] sm:text-sm transition" />
+                                    <button id="navSearchClose" type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600" aria-label="關閉搜尋">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div id="searchDropdown" class="hidden mt-2 w-full bg-white rounded-2xl shadow-xl border border-gray-100 z-[60] overflow-hidden">
+                                    <div id="searchResults" class="max-h-60 overflow-y-auto py-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-600 hover:text-[var(--tiffany)] font-medium">登入</button>
+                        <button class="bg-[var(--tiffany)] text-white px-5 py-2 rounded-full font-medium hover:bg-[var(--tiffany-dark)] transition">企業徵才</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-white border-b">
+        <div class="max-w-4xl mx-auto px-4 py-10 md:py-16 text-center">
+            <nav class="flex justify-center space-x-2 text-sm text-gray-500 mb-4">
+                <a href="career-guide.html" class="hover:text-[var(--tiffany)]">職場攻略</a>
+                <span>/</span>
+                <span class="text-[var(--tiffany)]">前台櫃檯</span>
+            </nav>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">從夜班櫃檯到值班經理：旅館前台的一天</h1>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500">
+                <span class="flex items-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> 5 分鐘閱讀</span>
+                <span>•</span>
+                <span>更新日期：2026/02/20</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-10">
+        <div class="flex flex-col lg:flex-row gap-12">
+            
+            <article class="lg:w-2/3 bg-white rounded-3xl p-6 md:p-10 card-shadow">
+                <img src="https://images.unsplash.com/photo-1543968996-ee822b8176ba?auto=format&fit=crop&w=1200&q=80" alt="前台工作示意圖" class="w-full h-auto rounded-2xl mb-8" />
+                
+                <div class="article-content">
+                    <p class="text-lg font-medium text-gray-700 italic border-l-4 border-gray-200 pl-4 mb-8">
+                        許多人對飯店前台的印象是穿著筆挺制服、優雅地遞上房卡。但實際走入櫃檯後，你會發現這裡更像是飯店的大腦樞紐。
+                    </p>
+
+                    <h2>早班：與時間賽跑的退房潮</h2>
+                    <p>早班通常從早上 7 點開始。你的主要任務是處理大量的退房（Check-out）。這不僅僅是收回房卡，更要確認客人的消費明細、處理發票，並在客人抱怨時給予即時的安撫。</p>
+                    
+                    <h2>中班：迎接期待的入住時刻</h2>
+                    <p>下午 3 點是 Check-in 的高峰。身為前台人員，你必須在最短的時間內完成登記，同時觀察客人的需求（例如是否需要嬰兒床或旅遊建議）。</p>
+                    
+                    <div class="bg-[var(--tiffany-pale)] p-6 rounded-2xl my-8">
+                        <h4 class="font-bold text-[var(--tiffany-dark)] mb-2">💡 專家筆記</h4>
+                        <p class="text-sm m-0">「眼神交流」與「微笑」是前台的基本功，但「聽出弦外之音」才是晉升主管的關鍵。例如客人提到今天是結婚紀念日，你能否主動提供一個小驚喜？</p>
+                    </div>
+
+                    <h2>夜班：守護飯店的寂靜英雄</h2>
+                    <p>當整座飯店安靜下來，夜班櫃檯（Night Auditor）的工作才剛開始。除了要處理凌晨入駐的散客，更重要的是進行當日的帳務結算與系統過帳，這需要極高的細心度。</p>
+                </div>
+
+                <div class="mt-12 pt-8 border-t flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">#前台櫃檯</span>
+                    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">#職涯發展</span>
+                    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">#服務業實錄</span>
+                </div>
+            </article>
+
+            <aside class="lg:w-1/3 space-y-8">
+                <div class="bg-white rounded-3xl p-6 card-shadow text-center">
+                    <img src="https://i.pravatar.cc/100?img=32" class="w-20 h-20 rounded-full mx-auto mb-4 border-2 border-[var(--tiffany-light)]" alt="作者頭像" />
+                    <h3 class="font-bold text-lg">HotelHR 職涯小編</h3>
+                    <p class="text-gray-500 text-sm mb-4">專注於挖掘旅宿業前線故事，為求職者與飯店搭建溝通橋樑。</p>
+                    <button class="w-full py-2 rounded-xl border border-[var(--tiffany)] text-[var(--tiffany)] font-bold hover:bg-[var(--tiffany-pale)] transition">追蹤作者</button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-6 card-shadow">
+                    <h3 class="font-bold mb-4 flex items-center">
+                        <span class="w-1 h-5 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                        推薦前台職缺
+                    </h3>
+                    <div class="space-y-4">
+                        <a href="#" class="block group">
+                            <p class="text-sm font-bold group-hover:text-[var(--tiffany)] transition">台北 W 飯店 - 前台接待人員</p>
+                            <p class="text-xs text-gray-400">月薪 35,000 - 42,000</p>
+                        </a>
+                        <a href="#" class="block group border-t pt-4">
+                            <p class="text-sm font-bold group-hover:text-[var(--tiffany)] transition">宜蘭礁溪老爺 - 櫃檯值班經理</p>
+                            <p class="text-xs text-gray-400">月薪 45,000 - 55,000</p>
+                        </a>
+                        <a href="#" class="block group border-t pt-4">
+                            <p class="text-sm font-bold group-hover:text-[var(--tiffany)] transition">台中金典酒店 - 客務專員</p>
+                            <p class="text-xs text-gray-400">月薪 33,000 - 40,000</p>
+                        </a>
+                        <a href="#" class="block group border-t pt-4">
+                            <p class="text-sm font-bold group-hover:text-[var(--tiffany)] transition">高雄洲際酒店 - 前台主任</p>
+                            <p class="text-xs text-gray-400">月薪 40,000 - 50,000</p>
+                        </a>
+                        <a href="#" class="block group border-t pt-4">
+                            <p class="text-sm font-bold group-hover:text-[var(--tiffany)] transition">花蓮遠雄悅來 - 夜班櫃檯人員</p>
+                            <p class="text-xs text-gray-400">月薪 36,000 - 44,000</p>
+                        </a>
+                        <a href="#" class="block group border-t pt-4">
+                            <p class="text-sm font-bold group-hover:text-[var(--tiffany)] transition">台南晶英酒店 - 賓客服務櫃檯</p>
+                            <p class="text-xs text-gray-400">月薪 34,000 - 41,000</p>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t p-4 flex justify-around items-center z-50">
+        <button class="flex flex-col items-center text-gray-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg><span class="text-[10px]">收藏</span></button>
+        <button class="bg-[var(--tiffany)] text-white px-8 py-2 rounded-full font-bold">查看相關職缺</button>
+        <button class="flex flex-col items-center text-gray-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg><span class="text-[10px]">分享</span></button>
+    </div>
+
+    <footer class="bg-gray-900 text-white py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-xs">
+            © 2026 HotelHR-1111 旅宿人才網 版權所有
+        </div>
+    </footer>
+
+    <script>
+        // 閱讀進度條邏輯
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("readingProgress").style.width = scrolled + "%";
+        };
+    </script>
+</body>
+</html>

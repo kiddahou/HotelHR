@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>旅宿徵才專區 · 1111</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--t:#0ABAB5;--td:#089b97;--tl:#dff7f6;--tm:#b2eeec;--night:#091225;--gold:#c9a84c;--gl:#f5edd8;}
+    *{box-sizing:border-box;}html{scroll-behavior:smooth;}
+    body{font-family:'Noto Sans TC',sans-serif;overflow-x:hidden;background:#f2faf9;}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:var(--tm);border-radius:3px;}
+
+    /* Hero */
+    .hero-overlay{background:linear-gradient(150deg,rgba(9,18,37,.93) 0%,rgba(9,18,37,.5) 55%,rgba(5,42,40,.7) 100%);}
+
+    /* Cards */
+    .card{box-shadow:0 4px 22px rgba(9,18,37,.07);transition:box-shadow .25s,transform .25s;background:white;}
+    .card:hover{box-shadow:0 12px 38px rgba(9,18,37,.13);transform:translateY(-2px);}
+
+    /* Pills */
+    .pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.70rem;font-weight:600;letter-spacing:.04em;}
+    .p-loc{background:#e8f8f7;color:#0ABAB5;}.p-sal{background:#fff4e8;color:#d97706;}
+    .p-typ{background:#f0f4ff;color:#4f6ef7;}.p-hot{background:#fef2f2;color:#e45858;}
+    .p-bed{background:#fff7ed;color:#ea580c;}.p-lng{background:#eff6ff;color:#3b82f6;}
+    .p-go{background:#f0fdf4;color:#16a34a;}
+
+    /* Section eyebrow */
+    .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--td);display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+    .eyebrow::before{content:'';display:block;width:24px;height:2.5px;background:var(--t);border-radius:2px;}
+
+    /* ── MODE TABS ── */
+    .mode-wrap{background:#eef5ff;border:1px solid #d9e6fb;border-radius:16px 16px 0 0;display:flex;padding:6px;gap:6px;box-shadow:0 8px 20px rgba(9,18,37,.08);}
+    .mode-btn{flex:1;padding:12px 0;font-size:.95rem;font-weight:900;border:none;background:transparent;cursor:pointer;color:#64748b;border-radius:10px;transition:all .2s;letter-spacing:.02em;}
+    .mode-btn:hover{background:#ffffff;color:#0f172a;}
+    .mode-btn.on{background:linear-gradient(135deg,var(--t),var(--td));color:white;box-shadow:0 8px 18px rgba(10,186,181,.35);}
+
+    /* ── CHIPS ── */
+    .chip-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+    .chip-lbl{font-size:.63rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#94a3b8;white-space:nowrap;}
+    .chip{padding:5px 12px;border-radius:6px;font-size:.74rem;font-weight:600;border:1.5px solid #e2e8f0;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s;white-space:nowrap;user-select:none;}
+    .chip:hover{border-color:var(--t);color:var(--td);background:var(--tl);}
+    .chip.on{background:var(--t);border-color:var(--t);color:white;}
+    .chip.gold:hover{border-color:var(--gold);color:#92680e;background:var(--gl);}
+    .chip.gold.on{background:linear-gradient(135deg,#d4a84b,#b8902e);border-color:transparent;color:white;}
+
+    /* ── SELECT / INPUT ── */
+    .si{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid #e2e8f0;font-size:.86rem;outline:none;font-family:'Noto Sans TC',sans-serif;transition:border-color .2s,box-shadow .2s;background:white;}
+    .si:focus{border-color:var(--t);box-shadow:0 0 0 3px rgba(10,186,181,.14);}
+
+    /* ── JOB ROW ── */
+    .jrow{border-left:3px solid transparent;transition:border-color .2s,background .2s;border-radius:14px;cursor:pointer;}
+    .jrow:hover{border-left-color:var(--t);background:#f7fffe;}
+    .jthumb{width:108px;height:82px;flex-shrink:0;border-radius:10px;object-fit:cover;}
+    @media(max-width:600px){.jthumb{width:100%;height:130px;}}
+
+    /* ── COMPANY CARD ── */
+    .co-card{border-radius:18px;overflow:hidden;cursor:pointer;}
+    .co-card:hover .co-img{transform:scale(1.05);}
+    .co-img-wrap{overflow:hidden;height:168px;}
+    .co-img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+
+    /* ── OVERLAYS ── */
+    .overlay{position:fixed;inset:0;z-index:1000;background:rgba(9,18,37,.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:16px;}
+    .overlay.open{display:flex;animation:fadeIn .2s ease;}
+    .mbox{background:white;border-radius:24px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;animation:scaleIn .28s ease;box-shadow:0 32px 80px rgba(9,18,37,.28);}
+    .mbox::-webkit-scrollbar{width:5px;}
+    .abox{background:white;border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:slideUp .32s ease;box-shadow:0 32px 80px rgba(9,18,37,.3);}
+    .stat-bar{border-left:3px solid var(--t);padding-left:14px;}
+    .dtab{transition:all .2s;border-bottom:2px solid transparent;cursor:pointer;}
+    .dtab.on{border-bottom-color:var(--t);color:var(--td);font-weight:700;}
+    .form-input{width:100%;padding:11px 15px;border-radius:12px;border:1.5px solid #e2e8f0;font-size:.9rem;transition:border-color .2s,box-shadow .2s;outline:none;font-family:'Noto Sans TC',sans-serif;}
+    .form-input:focus{border-color:var(--t);box-shadow:0 0 0 3px rgba(10,186,181,.15);}
+    .form-label{font-size:.82rem;font-weight:700;color:#374151;margin-bottom:6px;display:block;}
+    .file-drop{border:2px dashed #d1d5db;border-radius:14px;padding:28px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;}
+    .file-drop:hover,.file-drop.drag{border-color:var(--t);background:var(--tl);}
+    .pbar{height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden;}
+    .pfill{height:100%;background:var(--t);border-radius:2px;transition:width .3s;}
+    .btag{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;font-size:.75rem;font-weight:600;background:#f1f5f9;color:#475569;}
+
+    /* ── KNOWLEDGE ── */
+    .ktab{padding:6px 15px;border-radius:999px;font-size:.77rem;font-weight:700;border:1.5px solid #e2e8f0;background:white;color:#64748b;cursor:pointer;transition:all .15s;}
+    .ktab:hover{border-color:var(--t);color:var(--td);background:var(--tl);}
+    .ktab.on{background:var(--t);border-color:var(--t);color:white;}
+    .kcard{background:white;border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(9,18,37,.07);transition:box-shadow .25s,transform .25s;cursor:pointer;display:flex;flex-direction:column;}
+    .kcard:hover{box-shadow:0 12px 36px rgba(9,18,37,.13);transform:translateY(-3px);}
+    .kimg{width:100%;height:150px;object-fit:cover;display:block;}
+    .kbody{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;}
+    .kcpill{display:inline-block;padding:2px 10px;border-radius:6px;font-size:.63rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:9px;}
+    .cc{background:#eff6ff;color:#3b82f6;}.cs{background:#f0fdf4;color:#16a34a;}
+    .csal{background:#fff7ed;color:#ea580c;}.ct{background:#fdf4ff;color:#a855f7;}
+    .ktitle{font-weight:800;font-size:.93rem;line-height:1.4;margin-bottom:6px;color:#1e293b;}
+    .kexc{font-size:.77rem;color:#64748b;line-height:1.6;flex:1;}
+    .kfoot{margin-top:11px;padding-top:10px;border-top:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;}
+    .kmeta{font-size:.7rem;color:#94a3b8;}
+    .krbtn{font-size:.74rem;font-weight:700;color:var(--td);background:none;border:none;cursor:pointer;padding:0;}
+    .krbtn:hover{text-decoration:underline;}
+
+    /* ── COUNTDOWN ── */
+    .cdcard{background:linear-gradient(135deg,var(--night) 0%,#0d2030 100%);border:1px solid rgba(10,186,181,.25);border-radius:18px;box-shadow:0 12px 40px rgba(9,18,37,.18);}
+    .tick{min-width:60px;text-align:center;background:rgba(10,186,181,.1);border:1px solid rgba(10,186,181,.2);border-radius:12px;padding:11px 8px;}
+    .tnum{font-size:1.9rem;font-weight:900;color:white;letter-spacing:-1px;font-family:'DM Serif Display',serif;font-variant-numeric:tabular-nums;}
+    .tlbl{font-size:.57rem;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.4);margin-top:4px;text-transform:uppercase;}
+
+    /* ── TOAST / FLOAT ── */
+    #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--night);color:white;padding:13px 26px;border-radius:50px;font-size:.87rem;font-weight:600;box-shadow:0 12px 36px rgba(9,18,37,.32);transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;z-index:2000;white-space:nowrap;border:1px solid rgba(255,255,255,.1);}
+    #toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+    #fcta{position:fixed;bottom:24px;right:24px;z-index:800;display:none;}
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes scaleIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+    @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+    .fu{animation:fadeUp .6s ease both;}.fu1{animation:fadeUp .6s .1s ease both;}
+    .fu2{animation:fadeUp .6s .22s ease both;}.fu3{animation:fadeUp .6s .38s ease both;}
+    .pulse{animation:pulse 2s ease-in-out infinite;}
+
+    .empty-state{padding:48px 24px;text-align:center;background:white;border-radius:18px;border:2px dashed #e2e8f0;}
+  </style>
+</head>
+<body>
+
+<!-- ═══ MODAL: 職缺詳情 ═══ -->
+<div id="jmodal" class="overlay" onclick="closeJModal(event)">
+  <div class="mbox">
+    <div style="height:210px;position:relative;border-radius:24px 24px 0 0;overflow:hidden;">
+      <img id="jm-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;"/>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(9,18,37,.72) 0%,transparent 60%);"></div>
+      <button onclick="closeJModalBtn()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:none;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+        <svg width="14" height="14" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div style="position:absolute;bottom:16px;left:20px;">
+        <span id="jm-hot" class="pill p-hot mb-1" style="display:none;">🔥 熱門職缺</span>
+        <h2 id="jm-title" class="text-white font-black text-xl leading-tight"></h2>
+        <p id="jm-co" class="text-white/75 text-sm mt-0.5"></p>
+      </div>
+    </div>
+    <div class="p-6 md:p-7">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div class="stat-bar"><div class="text-xs text-slate-400 mb-0.5">地點</div><div id="jm-loc" class="font-bold text-sm"></div></div>
+        <div class="stat-bar"><div class="text-xs text-slate-400 mb-0.5">月薪</div><div id="jm-sal" class="font-bold text-sm" style="color:var(--td);"></div></div>
+        <div class="stat-bar"><div class="text-xs text-slate-400 mb-0.5">職務類型</div><div id="jm-type" class="font-bold text-sm"></div></div>
+        <div class="stat-bar"><div class="text-xs text-slate-400 mb-0.5">開缺數</div><div id="jm-cnt" class="font-bold text-sm"></div></div>
+      </div>
+      <div class="flex gap-6 border-b border-slate-100 mb-5">
+        <button class="dtab on pb-3 text-sm" onclick="switchDTab('desc')">職缺說明</button>
+        <button class="dtab pb-3 text-sm text-slate-500" onclick="switchDTab('req')">資格條件</button>
+        <button class="dtab pb-3 text-sm text-slate-500" onclick="switchDTab('ben')">薪酬福利</button>
+      </div>
+      <div id="dt-desc">
+        <p class="text-sm text-slate-600 leading-relaxed mb-4" id="jm-desc"></p>
+        <h4 class="font-bold text-sm mb-2 text-slate-700">工作內容</h4>
+        <ul id="jm-duties" class="space-y-1.5 text-sm text-slate-600"></ul>
+      </div>
+      <div id="dt-req" class="hidden">
+        <h4 class="font-bold text-sm mb-3 text-slate-700">基本要求</h4>
+        <ul id="jm-reqs" class="space-y-1.5 text-sm text-slate-600 mb-5"></ul>
+        <h4 class="font-bold text-sm mb-3 text-slate-700">加分條件</h4>
+        <ul id="jm-plus" class="space-y-1.5 text-sm text-slate-600"></ul>
+      </div>
+      <div id="dt-ben" class="hidden">
+        <div id="jm-bens" class="flex flex-wrap gap-2 mb-4"></div>
+        <div id="jm-bno" class="p-4 text-sm text-slate-600 leading-relaxed" style="background:var(--tl);border-radius:12px;border:1px solid rgba(10,186,181,.2);"></div>
+      </div>
+      <div class="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <p class="text-xs text-slate-400">截止日：<strong id="jm-dl"></strong></p>
+        <div class="flex gap-3">
+          <button onclick="closeJModalBtn()" class="px-5 py-2.5 rounded-full border-2 text-sm font-bold border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors">繼續瀏覽</button>
+          <button onclick="openApply()" class="px-7 py-2.5 rounded-full text-white text-sm font-bold hover:opacity-88 transition-opacity" style="background:var(--t);">立即投遞</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: 投遞 ═══ -->
+<div id="amodal" class="overlay" style="z-index:1100;" onclick="if(event.target===this)closeApply()">
+  <div class="abox">
+    <div class="p-6 pb-4 border-b border-slate-100">
+      <div class="flex items-center justify-between mb-1">
+        <h3 class="font-black text-xl">線上投遞履歷</h3>
+        <button onclick="closeApply()" style="background:none;border:none;cursor:pointer;"><svg width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>
+      <p class="text-sm text-slate-500">投遞職位：<strong id="a-jname" style="color:var(--td);"></strong></p>
+      <div class="pbar mt-3"><div class="pfill" id="a-prog" style="width:33%;"></div></div>
+      <span class="text-xs text-slate-400" id="a-step-lbl">步驟 1 / 3：基本資料</span>
+    </div>
+    <div class="p-6">
+      <div id="a-s1">
+        <div class="space-y-4">
+          <div><label class="form-label">姓名 <span style="color:#ef4444;">*</span></label><input type="text" id="a-name" class="form-input" placeholder="請輸入您的真實姓名"/></div>
+          <div><label class="form-label">聯絡電話</label><input type="tel" id="a-phone" class="form-input" placeholder="0912-345-678"/></div>
+          <div><label class="form-label">電子信箱 <span style="color:#ef4444;">*</span></label><input type="email" id="a-email" class="form-input" placeholder="your@email.com"/></div>
+        </div>
+        <button onclick="applyNext(2)" class="mt-6 w-full py-3.5 rounded-xl text-white font-bold text-sm hover:opacity-88" style="background:var(--t);">下一步：學歷與經歷 →</button>
+      </div>
+      <div id="a-s2" class="hidden">
+        <div class="space-y-4">
+          <div><label class="form-label">最高學歷</label><select id="a-edu" class="form-input" style="cursor:pointer;"><option value="">請選擇</option><option>高中／高職</option><option>專科</option><option>大學</option><option>碩士以上</option></select></div>
+          <div><label class="form-label">相關工作年資</label><select id="a-exp" class="form-input" style="cursor:pointer;"><option value="">請選擇</option><option>應屆畢業／無經驗</option><option>1年以下</option><option>1–3年</option><option>3–5年</option><option>5年以上</option></select></div>
+          <div><label class="form-label">自我介紹（選填）</label><textarea id="a-intro" class="form-input" rows="3" placeholder="簡短介紹您的特質與應徵動機…" style="resize:vertical;"></textarea></div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button onclick="applyNext(1)" class="py-3.5 px-5 rounded-xl font-bold text-sm border-2 border-slate-200 text-slate-500 hover:bg-slate-50">← 上一步</button>
+          <button onclick="applyNext(3)" class="flex-1 py-3.5 rounded-xl text-white font-bold text-sm hover:opacity-88" style="background:var(--t);">下一步：上傳履歷 →</button>
+        </div>
+      </div>
+      <div id="a-s3" class="hidden">
+        <div class="file-drop" id="fdrop" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)" onclick="document.getElementById('finput').click()">
+          <div class="text-4xl mb-2">📄</div>
+          <p class="font-bold text-sm text-slate-700">點擊或拖曳上傳履歷</p>
+          <p class="text-xs text-slate-400 mt-1">支援 PDF、Word，最大 10MB</p>
+          <input type="file" id="finput" class="hidden" accept=".pdf,.doc,.docx" onchange="handleFileSelect(event)"/>
+        </div>
+        <div id="fsel" class="hidden mt-3 p-3 flex items-center gap-3" style="background:#f0fdf4;border-radius:12px;border:1px solid #bbf7d0;">
+          <span>✅</span>
+          <div class="flex-1 min-w-0"><p id="fname" class="font-bold text-sm text-green-800 truncate"></p><p id="fsize" class="text-xs text-green-600"></p></div>
+          <button onclick="removeFile()" style="background:none;border:none;cursor:pointer;color:#6b7280;">✕</button>
+        </div>
+        <div class="mt-4 p-3 text-xs text-slate-500" style="background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">🔒 個人資料依個資法保管，僅供本次徵才用途。</div>
+        <div class="flex gap-3 mt-5">
+          <button onclick="applyNext(2)" class="py-3.5 px-5 rounded-xl font-bold text-sm border-2 border-slate-200 text-slate-500 hover:bg-slate-50">← 上一步</button>
+          <button onclick="submitApply()" class="flex-1 py-3.5 rounded-xl text-white font-bold text-sm hover:opacity-88" style="background:linear-gradient(135deg,var(--t),var(--td));">🚀 確認送出投遞</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: 知識文章 ═══ -->
+<div id="kmodal" class="overlay" onclick="closeKModal(event)" style="z-index:1050;">
+  <div class="mbox" style="max-width:660px;">
+    <div style="position:relative;">
+      <img id="km-img" src="" alt="" style="width:100%;height:190px;object-fit:cover;border-radius:24px 24px 0 0;"/>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(9,18,37,.55) 0%,transparent 55%);border-radius:24px 24px 0 0;"></div>
+      <button onclick="closeKModalBtn()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:none;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+        <svg width="14" height="14" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div style="position:absolute;bottom:14px;left:18px;"><span id="km-badge" class="pill p-typ" style="font-size:.63rem;"></span></div>
+    </div>
+    <div class="p-6 md:p-7">
+      <h3 id="km-title" class="font-black text-xl leading-snug mb-2"></h3>
+      <p id="km-meta" class="text-xs text-slate-400 mb-5"></p>
+      <div id="km-body" class="text-sm text-slate-600 leading-relaxed space-y-4"></div>
+      <div class="mt-7 pt-5 border-t border-slate-100 flex justify-end">
+        <button onclick="closeKModalBtn()" class="px-6 py-2.5 rounded-full text-white text-sm font-bold hover:opacity-88" style="background:var(--t);">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div id="fcta">
+  <button onclick="document.getElementById('search-panel').scrollIntoView({behavior:'smooth'})" class="flex items-center gap-2 text-white text-sm font-bold px-5 py-3 rounded-full" style="background:var(--t);box-shadow:0 8px 28px rgba(10,186,181,.42);">立即找工作</button>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<header class="relative overflow-hidden" style="min-height:460px;">
+  <img id="heroBg" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80" class="absolute inset-0 w-full h-full object-cover" style="transform:scale(1.04);transition:transform 9s ease;" alt=""/>
+  <div class="hero-overlay absolute inset-0"></div>
+  <!-- NAV -->
+  <nav id="nav" class="relative z-20 border-b border-white/10 transition-all duration-300" style="background:rgba(9,18,37,.28);backdrop-filter:blur(8px);">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex justify-between items-center text-white">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--t);">
+          <svg width="15" height="15" fill="none" stroke="white" stroke-width="2.2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="text-xl font-black">旅宿徵才專區<span style="color:var(--t);">·1111</span></span>
+      </div>
+      <div class="hidden md:flex items-center gap-7 text-sm font-medium">
+        <a href="#search-panel" class="text-white/70 hover:text-white transition-colors">找工作</a>
+        <a href="#search-panel" onclick="setMode('co')" class="text-white/70 hover:text-white transition-colors">找公司</a>
+        <a href="#knowledge" class="text-white/70 hover:text-white transition-colors">產業知識</a>
+      </div>
+      <button onclick="document.getElementById('search-panel').scrollIntoView({behavior:'smooth'})" class="text-white text-sm font-bold px-5 py-2 rounded-full hover:opacity-85" style="background:var(--t);">立即投遞 →</button>
+    </div>
+  </nav>
+  <!-- Hero content -->
+  <div class="relative z-20 max-w-6xl mx-auto px-5 pt-10 pb-14 text-white">
+    <span class="fu inline-flex items-center gap-2 text-xs font-bold px-4 py-1.5 rounded-full mb-5" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px);">🏨 2026 旅宿聯合徵才季 · 限時開放</span>
+    <h1 class="fu1 font-black leading-tight mb-3" style="font-size:clamp(2rem,5vw,3.6rem);font-family:'DM Serif Display','Noto Sans TC',serif;max-width:600px;">旅宿徵才<span style="color:var(--t);">專區</span></h1>
+    <p class="fu2 text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-md">10 家指標飯店 × 全台 12 縣市 × 248 個職缺，一站找到你的旅宿舞台。</p>
+    <div class="fu3 flex gap-7 mb-9">
+      <div><div class="text-3xl font-black" style="color:var(--t);">10+</div><div class="text-xs text-white/45 mt-0.5 uppercase tracking-widest">品牌飯店</div></div>
+      <div class="w-px bg-white/10"></div>
+      <div><div class="text-3xl font-black" style="color:var(--t);">248</div><div class="text-xs text-white/45 mt-0.5 uppercase tracking-widest">開放職缺</div></div>
+      <div class="w-px bg-white/10"></div>
+      <div><div class="text-3xl font-black" style="color:var(--t);">12</div><div class="text-xs text-white/45 mt-0.5 uppercase tracking-widest">縣市地區</div></div>
+    </div>
+    <!-- Countdown -->
+    <div class="cdcard inline-flex items-center gap-5 px-6 py-4">
+      <div>
+        <div class="flex items-center gap-1.5 mb-1"><span class="w-1.5 h-1.5 rounded-full pulse" style="background:var(--t);display:inline-block;"></span><span class="text-xs font-bold uppercase tracking-widest" style="color:var(--t);">活動截止倒數</span></div>
+        <p class="text-white/45 text-xs">2026 年 4 月 30 日</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="tick"><div class="tnum" id="cd-d">00</div><div class="tlbl">天</div></div>
+        <span class="text-white/25 font-bold">:</span>
+        <div class="tick"><div class="tnum" id="cd-h">00</div><div class="tlbl">時</div></div>
+        <span class="text-white/25 font-bold">:</span>
+        <div class="tick"><div class="tnum" id="cd-m">00</div><div class="tlbl">分</div></div>
+        <span class="text-white/25 font-bold">:</span>
+        <div class="tick"><div class="tnum" id="cd-s">00</div><div class="tlbl">秒</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<main class="max-w-6xl mx-auto px-5 py-10 space-y-10">
+
+  <!-- ── 搜尋頁籤主體 ── -->
+  <div id="search-panel">
+    <!-- Tab bar -->
+    <div class="mode-wrap">
+      <button class="mode-btn" id="btn-job" onclick="setMode('job')">找工作</button>
+      <button class="mode-btn on" id="btn-co"  onclick="setMode('co')">找旅宿公司</button>
+    </div>
+
+    <!-- ────────────────────────────────────────
+         PANEL A: 找工作
+    ──────────────────────────────────────── -->
+    <div id="panel-job" class="card rounded-b-2xl p-5">
+      <!-- 搜尋列 -->
+      <div class="grid md:grid-cols-5 gap-3 mb-4">
+        <input id="j-kw" type="text" class="si md:col-span-2" placeholder="職稱、飯店名稱、關鍵字…" oninput="renderJobs()"/>
+        <select id="j-reg" class="si" onchange="renderJobs()">
+          <option value="">全部地區</option>
+          <option>台北</option><option>高雄</option><option>台中</option>
+          <option>台南</option><option>宜蘭</option><option>屏東</option>
+          <option>新竹</option><option>嘉義</option>
+        </select>
+        <select id="j-dept" class="si" onchange="renderJobs()">
+          <option value="">全部職類</option>
+          <option value="前台">前台／櫃台</option><option value="餐飲">餐飲</option>
+          <option value="房務">房務</option><option value="活動">活動／企劃</option>
+          <option value="管理">主管／管理</option><option value="訂房">訂房／客服</option>
+        </select>
+        <button onclick="clearJob()" class="si font-bold cursor-pointer text-sm hover:opacity-80" style="background:var(--t);color:white;border-color:var(--t);">清除條件</button>
+      </div>
+      <!-- 快篩標籤列 -->
+      <div class="space-y-2.5 mb-5 p-4 rounded-xl" style="background:#f8fafc;border:1px solid #e8f0fe;">
+        <div class="chip-row">
+          <span class="chip-lbl">職務</span>
+          <button class="chip" data-jc="前台" onclick="toggleJC(this)">前台／櫃台</button>
+          <button class="chip" data-jc="餐飲" onclick="toggleJC(this)">餐飲</button>
+          <button class="chip" data-jc="房務" onclick="toggleJC(this)">房務</button>
+          <button class="chip" data-jc="活動" onclick="toggleJC(this)">活動／企劃</button>
+          <button class="chip" data-jc="管理" onclick="toggleJC(this)">管理／儲備</button>
+          <button class="chip" data-jc="訂房" onclick="toggleJC(this)">訂房／客服</button>
+        </div>
+        <div class="chip-row">
+          <span class="chip-lbl">條件</span>
+          <button class="chip" data-jc="含住宿" onclick="toggleJC(this)">含住宿</button>
+          <button class="chip" data-jc="高薪" onclick="toggleJC(this)">高薪 45K+</button>
+          <button class="chip" data-jc="主管職" onclick="toggleJC(this)">主管職</button>
+          <button class="chip" data-jc="立即可上" onclick="toggleJC(this)">立即可上</button>
+          <button class="chip" data-jc="需英語" onclick="toggleJC(this)">需外語</button>
+          <button class="chip gold" data-jc="五星級" onclick="toggleJC(this)">五星級</button>
+          <button class="chip gold" data-jc="四星級" onclick="toggleJC(this)">四星級</button>
+          <button class="chip gold" data-jc="精品" onclick="toggleJC(this)">精品旅宿</button>
+          <button class="chip" data-jc="熱門" onclick="toggleJC(this)">熱門職缺</button>
+        </div>
+      </div>
+      <!-- 結果列 -->
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-sm font-bold text-slate-600">共 <span id="j-cnt" style="color:var(--td);">0</span> 筆職缺</p>
+      </div>
+      <div id="j-list" class="space-y-3"></div>
+      <div id="j-empty" class="empty-state hidden">
+        <p class="text-4xl mb-3">🔍</p>
+        <p class="font-bold text-slate-500">查無符合條件的職缺</p>
+        <button onclick="clearJob()" class="mt-3 text-sm font-bold underline" style="color:var(--t);">清除條件</button>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────
+         PANEL B: 找公司
+    ──────────────────────────────────────── -->
+    <div id="panel-co" class="card rounded-b-2xl p-5 hidden">
+      <!-- 搜尋列 -->
+      <div class="grid md:grid-cols-4 gap-3 mb-4">
+        <input id="c-kw" type="text" class="si md:col-span-2" placeholder="飯店名稱、特色關鍵字…" oninput="renderCos()"/>
+        <select id="c-reg" class="si" onchange="renderCos()">
+          <option value="">全部地區</option>
+          <option>台北</option><option>高雄</option><option>台中</option>
+          <option>台南</option><option>宜蘭</option><option>屏東</option>
+          <option>新竹</option><option>嘉義</option>
+        </select>
+        <button onclick="clearCo()" class="si font-bold cursor-pointer text-sm hover:opacity-80" style="background:var(--t);color:white;border-color:var(--t);">清除條件</button>
+      </div>
+      <!-- 快篩：旅館類型 -->
+      <div class="p-4 rounded-xl mb-5 space-y-2.5" style="background:#f8fafc;border:1px solid #e8f0fe;">
+        <div class="chip-row">
+          <span class="chip-lbl">星等</span>
+          <button class="chip gold" data-cc="五星級" onclick="toggleCC(this)">五星級</button>
+          <button class="chip gold" data-cc="四星級" onclick="toggleCC(this)">四星級</button>
+          <button class="chip gold" data-cc="三星級" onclick="toggleCC(this)">三星級</button>
+          <button class="chip gold" data-cc="精品旅宿" onclick="toggleCC(this)">精品旅宿</button>
+          <button class="chip gold" data-cc="設計旅店" onclick="toggleCC(this)">設計旅店</button>
+        </div>
+        <div class="chip-row">
+          <span class="chip-lbl">類型</span>
+          <button class="chip" data-cc="國際大飯店" onclick="toggleCC(this)">國際大飯店</button>
+          <button class="chip" data-cc="渡假村" onclick="toggleCC(this)">渡假村</button>
+          <button class="chip" data-cc="溫泉飯店" onclick="toggleCC(this)">溫泉飯店</button>
+          <button class="chip" data-cc="商務旅館" onclick="toggleCC(this)">商務旅館</button>
+          <button class="chip" data-cc="公寓酒店" onclick="toggleCC(this)">公寓酒店</button>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-sm font-bold text-slate-600">共 <span id="c-cnt" style="color:var(--td);">0</span> 家旅宿品牌</p>
+      </div>
+      <div id="c-grid" class="grid md:grid-cols-3 gap-5"></div>
+      <div id="c-empty" class="empty-state hidden">
+        <p class="text-4xl mb-3">🏨</p>
+        <p class="font-bold text-slate-500">查無符合條件的旅宿品牌</p>
+        <button onclick="clearCo()" class="mt-3 text-sm font-bold underline" style="color:var(--t);">清除條件</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 產業知識 ── -->
+  <section id="knowledge">
+    <div class="flex flex-col md:flex-row justify-between md:items-end gap-3 mb-6">
+      <div>
+        <div class="eyebrow">Industry Insights</div>
+        <h2 class="text-3xl font-black">旅宿產業知識</h2>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <button class="ktab on" onclick="filterK('all',this)">全部</button>
+        <button class="ktab" onclick="filterK('career',this)">職涯規劃</button>
+        <button class="ktab" onclick="filterK('skill',this)">技能提升</button>
+        <button class="ktab" onclick="filterK('salary',this)">薪資福利</button>
+        <button class="ktab" onclick="filterK('trend',this)">產業趨勢</button>
+      </div>
+    </div>
+    <div id="k-grid" class="grid md:grid-cols-3 gap-5"></div>
+  </section>
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer style="background:var(--night);" class="text-white mt-4">
+  <div class="max-w-6xl mx-auto px-5 pt-10 pb-6">
+    <div class="grid md:grid-cols-3 gap-8 pb-8 border-b" style="border-color:rgba(255,255,255,.08);">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:var(--t);"><svg width="15" height="15" fill="none" stroke="white" stroke-width="2.2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <span class="text-lg font-black">旅宿徵才專區<span style="color:var(--t);">·1111</span></span>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed">為旅宿品牌與求職者打造高效率媒合體驗，讓每位旅宿人找到屬於自己的舞台。</p>
+      </div>
+      <div>
+        <h6 class="font-bold mb-3 text-xs uppercase tracking-widest text-slate-500">快速導覽</h6>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li><a href="#search-panel" class="hover:text-white transition-colors">找工作</a></li>
+          <li><a href="#search-panel" onclick="setMode('co')" class="hover:text-white transition-colors">找旅宿公司</a></li>
+          <li><a href="#knowledge" class="hover:text-white transition-colors">產業知識</a></li>
+        </ul>
+      </div>
+      <div>
+        <h6 class="font-bold mb-3 text-xs uppercase tracking-widest text-slate-500">合作洽詢</h6>
+        <p class="text-slate-400 text-sm mb-2">旅宿業者如需刊登職缺，歡迎來信洽詢。</p>
+        <a href="mailto:hr@hotel1111.tw" style="color:var(--t);" class="text-sm hover:underline">hr@hotel1111.tw</a>
+        <p class="text-slate-500 text-xs mt-1">週一至週五 09:00–18:00</p>
+      </div>
+    </div>
+    <div class="pt-5 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-slate-500">
+      <span>© 2026 旅宿徵才專區·1111 · All Rights Reserved.</span>
+      <span>Powered by 1111人力銀行旅宿事業群</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ════════════════════════════════════
+//  DATA
+// ════════════════════════════════════
+const JOBS=[
+  {id:1,title:'櫃檯接待專員',co:'雲岳國際大飯店',loc:'台北・信義區',sal:'35K–42K',typ:'全職',cnt:'2名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=600&q=80',
+   tags:['台北','前台','立即可上','五星級','國際大飯店'],
+   pills:[{c:'p-loc',t:'台北信義'},{c:'p-sal',t:'35K–42K'},{c:'p-typ',t:'全職'},{c:'p-go',t:'立即可上'}],
+   desc:'負責旅客報到、退房接待及前台日常運作，是旅客入住第一印象的守門人。',
+   duties:['辦理旅客 Check-in / Check-out','接聽訂房諮詢及處理旅客投訴','協調各部門提升旅客滿意度','維護前台帳務及日常報表'],
+   reqs:['高中職以上學歷','具良好親和力與溝通能力','有飯店前台經驗者優先','具基礎英語溝通能力'],
+   plus:['具第二外語能力（日語、韓語）','有 PMS 系統操作經驗'],
+   bens:['月薪 35K–42K','年終獎金 1–2 個月','績效獎金','勞健保','員工餐補','制服提供'],
+   bnote:'每年提供 3 天帶薪進修假，通過語言檢定可享語言津貼加給每月最高 3,000 元。'},
+
+  {id:2,title:'餐飲服務人員',co:'海悅濱港度假酒店',loc:'高雄・前鎮區',sal:'33K–40K',typ:'全職',cnt:'3名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=80',
+   tags:['高雄','餐飲','含住宿','四星級','渡假村'],
+   pills:[{c:'p-loc',t:'高雄前鎮'},{c:'p-sal',t:'33K–40K'},{c:'p-typ',t:'全職'},{c:'p-bed',t:'含住宿'}],
+   desc:'負責海景餐廳的席間服務，打造令旅客難忘的南台灣海港用餐體驗。',
+   duties:['桌邊服務及餐點介紹','協助餐廳備料擺設及清潔','配合宴會活動備餐工作','落實食品安全與衛生標準'],
+   reqs:['對餐飲服務有熱情','具基本英語服務能力','願意配合輪班與假日班'],
+   plus:['有五星飯店餐廳服務經驗','熟悉葡萄酒或飲品知識'],
+   bens:['月薪 33K–40K','季節性獎金','員工宿舍（免費）','勞健保','員工餐'],
+   bnote:'提供免費員工宿舍，適合外縣市求職者。宿舍環境整潔，提供冷氣與 Wi-Fi。'},
+
+  {id:3,title:'客務主任',co:'漫旅設計酒店',loc:'台中・西屯區',sal:'42K–50K',typ:'主管職',cnt:'1名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=600&q=80',
+   tags:['台中','管理','主管職','設計旅店','四星級'],
+   pills:[{c:'p-loc',t:'台中西屯'},{c:'p-sal',t:'42K–50K'},{c:'p-typ',t:'主管職'}],
+   desc:'統籌前台與客務運作，確保旅客接待流程順暢，帶領前台團隊落實品牌服務標準。',
+   duties:['管理前台日常營運及排班','制定並追蹤部門服務品質指標','處理旅客投訴及特殊狀況','協助新進人員培訓'],
+   reqs:['具3年以上飯店前台工作經驗','1年以上主管或領班經驗','具備英語溝通能力'],
+   plus:['具設計或品牌相關背景','具日語或其他外語能力'],
+   bens:['月薪 42K–50K','年終2個月','管理職加給','完整五險','健身房會員'],
+   bnote:'擔任主任職位享有額外績效加給，每季依部門滿意度達標情況發放，最高可達月薪 15%。'},
+
+  {id:4,title:'房務員',co:'晴川溫泉會館',loc:'宜蘭・礁溪鄉',sal:'32K–38K',typ:'全職',cnt:'4名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1631049552240-59c37f38802b?auto=format&fit=crop&w=600&q=80',
+   tags:['宜蘭','房務','含住宿','溫泉飯店','三星級'],
+   pills:[{c:'p-loc',t:'宜蘭礁溪'},{c:'p-sal',t:'32K–38K'},{c:'p-typ',t:'全職'},{c:'p-bed',t:'含住宿'}],
+   desc:'負責客房整備與湯屋維護，確保每位旅客享有最舒適的溫泉體驗。',
+   duties:['客房清潔、備品補充及床鋪整理','湯屋清潔與消毒維護','旅客需求接受與回應'],
+   reqs:['具細心負責的工作態度','體能良好，可長時間站立工作'],
+   plus:['具溫泉相關知識','有五星旅館房務經驗'],
+   bens:['月薪 32K–38K','員工宿舍（含餐）','完整勞健保','員工使用湯屋福利'],
+   bnote:'員工宿舍含三餐，每月宿舍費用僅 2,000 元。另享員工使用溫泉湯屋每週一次的福利。'},
+
+  {id:5,title:'夜班櫃台人員',co:'星河商旅',loc:'台南・中西區',sal:'38K–45K',typ:'全職',cnt:'2名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80',
+   tags:['台南','前台','商務旅館','三星級'],
+   pills:[{c:'p-loc',t:'台南中西'},{c:'p-sal',t:'38K–45K'},{c:'p-typ',t:'全職'},{c:'p-go',t:'夜間加給'}],
+   desc:'負責夜間時段前台接待與安全巡查，享有夜間加給與彈性排班優勢。',
+   duties:['夜間 Check-in / Check-out','夜間帳務結算及報表製作','旅客緊急狀況第一線處理','夜間安全巡視'],
+   reqs:['適應夜班工作時段','具責任感與獨立工作能力'],
+   plus:['有夜班前台工作經驗','熟悉飯店管理系統'],
+   bens:['月薪 38K–45K（含夜班加給）','夜班津貼每日加給','彈性休假制度','勞健保'],
+   bnote:'夜班時段 PM 11:00 – AM 07:00，月入整體高於日班同職約 15–20%。'},
+
+  {id:6,title:'旅宿活動企劃',co:'森泊假期酒店',loc:'花蓮・壽豐鄉',sal:'36K–44K',typ:'全職',cnt:'1名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1468824357306-a439d58ccb1c?auto=format&fit=crop&w=600&q=80',
+   tags:['宜蘭','活動','含住宿','渡假村','三星級'],
+   pills:[{c:'p-loc',t:'花蓮壽豐'},{c:'p-sal',t:'36K–44K'},{c:'p-typ',t:'全職'},{c:'p-bed',t:'含住宿'}],
+   desc:'規劃與執行旅宿戶外體驗活動，打造花東地區獨一無二的自然慢旅品牌體驗。',
+   duties:['規劃戶外生態導覽與體驗活動','協調外部講師與活動場地','帶領旅客參與各項主題活動'],
+   reqs:['具活動規劃與執行經驗','喜愛戶外活動與自然生態'],
+   plus:['具導遊或解說員證照','熟悉攝影或社群媒體操作'],
+   bens:['月薪 36K–44K','員工住宿福利','年度員工旅遊','創意活動提案獎金'],
+   bnote:'通過執行並獲旅客好評的活動，享有每季最高 8,000 元創意提案獎金。'},
+
+  {id:7,title:'訂房客服專員',co:'御城國際酒店',loc:'新竹・東區',sal:'34K–41K',typ:'全職',cnt:'2名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=600&q=80',
+   tags:['新竹','訂房','需英語','國際大飯店','四星級'],
+   pills:[{c:'p-loc',t:'新竹東區'},{c:'p-sal',t:'34K–41K'},{c:'p-typ',t:'全職'},{c:'p-lng',t:'需英語'}],
+   desc:'透過電話、EMAIL 及 OTA 平台處理訂房業務，服務大量國際商務旅客。',
+   duties:['接聽電話及回覆訂房詢問','管理各訂房平台房態及價格','處理旅客特殊需求與客訴'],
+   reqs:['具英語聽說讀寫能力（多益600以上）','熟悉 OTA 訂房系統優先'],
+   plus:['具日語溝通能力','有 GDS 訂位系統操作經驗'],
+   bens:['月薪 34K–41K','語言津貼每月最高 3,000 元','勞健保','在職語言課程補助'],
+   bnote:'英語達到流利溝通水準可申請語言加給；另提供每月補助最高 2,000 元的日語課程費用。'},
+
+  {id:8,title:'餐廳領班',co:'悅境精品旅宿',loc:'嘉義・西區',sal:'40K–48K',typ:'主管職',cnt:'1名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80',
+   tags:['嘉義','餐飲','主管職','精品旅宿'],
+   pills:[{c:'p-loc',t:'嘉義西區'},{c:'p-sal',t:'40K–48K'},{c:'p-typ',t:'主管職'}],
+   desc:'帶領餐廳服務團隊，在精品旅宿氛圍中落實嘉義在地飲食文化。',
+   duties:['帶領餐廳服務人員班次管理','確保服務流程與品質標準','配合旅宿特殊餐飲活動籌辦'],
+   reqs:['具3年以上餐廳服務經驗','1年以上領班或主管職經驗'],
+   plus:['具侍酒師或飲品專業知識','外語溝通能力'],
+   bens:['月薪 40K–48K','主管職加給','績效獎金','完整五險','晉升培訓計畫'],
+   bnote:'擔任領班職位可參與主管培訓計畫，2年內可晉升餐廳副理。'},
+
+  {id:9,title:'休閒部專員',co:'南灣渡假大飯店',loc:'屏東・恆春鎮',sal:'35K–43K',typ:'全職',cnt:'3名',dl:'2026/04/30',hot:false,
+   img:'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=600&q=80',
+   tags:['屏東','活動','含住宿','渡假村','四星級'],
+   pills:[{c:'p-loc',t:'屏東恆春'},{c:'p-sal',t:'35K–43K'},{c:'p-typ',t:'全職'},{c:'p-bed',t:'含住宿'}],
+   desc:'負責水上活動、海灘活動及戶外娛樂規劃，讓旅客在墾丁享有最活力的渡假體驗。',
+   duties:['帶領旅客參與水上及戶外活動','確保活動安全規範執行','設計季節性旅客體驗活動'],
+   reqs:['熱愛戶外運動與海洋活動','具良好溝通及帶領能力'],
+   plus:['具水上活動教練資格','具外語溝通能力'],
+   bens:['月薪 35K–43K','旺季績效獎金','員工宿舍（含餐）','水上活動教練訓練補助'],
+   bnote:'旺季（5月至9月）月收入可較基本薪資高出 20–30%，加上員工住宿含餐。'},
+
+  {id:10,title:'營運儲備幹部',co:'琉光行政公寓酒店',loc:'台北・中山區',sal:'45K–55K',typ:'主管培訓',cnt:'2名',dl:'2026/04/30',hot:true,
+   img:'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=600&q=80',
+   tags:['台北','管理','主管職','高薪','五星級','公寓酒店','熱門'],
+   pills:[{c:'p-loc',t:'台北中山'},{c:'p-sal',t:'45K–55K'},{c:'p-typ',t:'主管培訓'},{c:'p-hot',t:'🔥 熱門'}],
+   desc:'針對有志管理職的旅宿人才設計，透過12個月跨部門輪調計畫打造核心主管人才。',
+   duties:['參與12個月跨部門輪調','配合主管制定營運優化方案','定期參與主管會議與決策流程'],
+   reqs:['大學以上學歷（觀光旅遊、管理相關優先）','具1年以上旅宿業工作經驗'],
+   plus:['具第二外語能力','具數據分析基礎能力'],
+   bens:['月薪 45K–55K','完整跨部門培訓計畫','結訓晉升主管保障','績效股份制獎金'],
+   bnote:'結訓後接任部門主管職，薪資可調升至 60K–80K。名額極為有限，每年僅錄取 2 名。'}
+];
+
+const COS=[
+  {id:1,name:'雲岳國際大飯店',loc:'台北・信義區',reg:'台北',typ:'國際商務',tags:['五星級','國際大飯店','台北'],jobs:3,
+   img:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=700&q=80',
+   desc:'提供儲備主管培訓、語言津貼與跨部門輪調機制，是累積國際飯店經驗的優質平台。'},
+  {id:2,name:'海悅濱港度假酒店',loc:'高雄・前鎮區',reg:'高雄',typ:'海港渡假',tags:['四星級','渡假村','高雄'],jobs:2,
+   img:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=700&q=80',
+   desc:'主打親子度假客群，員工宿舍與季獎金制度齊備，南部最具規模的濱港度假品牌。'},
+  {id:3,name:'漫旅設計酒店',loc:'台中・西屯區',reg:'台中',typ:'設計美學',tags:['四星級','設計旅店','台中'],jobs:1,
+   img:'https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=700&q=80',
+   desc:'重視服務美學，適合喜歡品牌企劃與創意接待的設計旅宿人才。'},
+  {id:4,name:'晴川溫泉會館',loc:'宜蘭・礁溪鄉',reg:'宜蘭',typ:'溫泉療癒',tags:['三星級','溫泉飯店','宜蘭'],jobs:2,
+   img:'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=700&q=80',
+   desc:'客房與湯屋服務並重，適合具細膩服務特質的人才，提供完整溫泉接待訓練。'},
+  {id:5,name:'星河商旅',loc:'台南・中西區',reg:'台南',typ:'城市商務',tags:['三星級','商務旅館','台南'],jobs:1,
+   img:'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=700&q=80',
+   desc:'交通便利、彈性排班，適合想累積前線接待經驗者，台南古都氛圍的商務旅宿。'},
+  {id:6,name:'森泊假期酒店',loc:'花蓮・壽豐鄉',reg:'宜蘭',typ:'自然體驗',tags:['三星級','渡假村','宜蘭'],jobs:1,
+   img:'https://images.unsplash.com/photo-1468824357306-a439d58ccb1c?auto=format&fit=crop&w=700&q=80',
+   desc:'主打戶外活動與慢旅，歡迎休閒活動規劃人才加入，提供員工旅遊與住宿福利。'},
+  {id:7,name:'御城國際酒店',loc:'新竹・東區',reg:'新竹',typ:'科技商務',tags:['四星級','國際大飯店','新竹'],jobs:1,
+   img:'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=700&q=80',
+   desc:'接待國際客戶比例高，重視英日語溝通能力，竹科周邊最具規模的商務飯店。'},
+  {id:8,name:'悅境精品旅宿',loc:'嘉義・西區',reg:'嘉義',typ:'在地文化',tags:['精品旅宿','嘉義'],jobs:1,
+   img:'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=700&q=80',
+   desc:'精品服務標準與在地導覽融合，重視溫度型接待，嘉義文化旅遊的重要夥伴。'},
+  {id:9,name:'南灣渡假大飯店',loc:'屏東・恆春鎮',reg:'屏東',typ:'海島渡假',tags:['四星級','渡假村','屏東'],jobs:1,
+   img:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=700&q=80',
+   desc:'旺季職缺多，適合喜歡戶外活動與旅客互動的人才，墾丁最具規模的渡假飯店。'},
+  {id:10,name:'琉光行政公寓酒店',loc:'台北・中山區',reg:'台北',typ:'長住高端',tags:['五星級','公寓酒店','台北'],jobs:1,
+   img:'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=700&q=80',
+   desc:'服務高端長住客群，重視客戶關係與精緻運營細節，提供業界頂尖的薪酬福利。'}
+];
+
+const KS=[
+  {cat:'career',cl:'cc',lbl:'職涯規劃',title:'從前台到總經理：旅宿業的晉升地圖',exc:'了解各職級的能力要求，規劃 5 年、10 年的職涯藍圖。',img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=600&q=80',read:'6分鐘',date:'2026/02/18',body:['旅宿業的晉升路徑比許多產業更為清晰透明。從基層員工到部門主管，平均需要 3–5 年的積累；從部門主管到副總或總經理，則需要 8–12 年的跨部門歷練。','前台接待是最多人的起點，也是最快累積綜合能力的位置。優秀的前台人員通常在 2 年內有機會晉升領班，再經 1–2 年可進入主任或副理職位。','關鍵的跨部門輪調是加速晉升的核心策略。曾任職客務、餐飲、業務三部門的主管，競爭力遠高於只專注單一部門的候選人。','語言能力是旅宿業晉升最重要的加分項。英語流利可讓薪資水準提升 15–25%。']},
+  {cat:'skill',cl:'cs',lbl:'技能提升',title:'五星服務的秘訣：預期式接待的核心思維',exc:'頂級飯店的差異不在「回應需求」，而在「預先創造驚喜」。',img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80',read:'5分鐘',date:'2026/02/10',body:['「預期式接待」是五星飯店服務文化的核心哲學。它的本質是透過細心觀察與資訊積累，主動創造讓旅客驚喜的服務時機。','具體做法包括：在 Check-in 前確認旅客此行目的，在備品擺設上做細微呼應；記住常客的習慣偏好；在旅客提出困難之前主動提供解決方案。','服務的溫度來自真誠，而不是流程。一句發自內心的問候遠比照本宣科更令旅客印象深刻。']},
+  {cat:'salary',cl:'csal',lbl:'薪資福利',title:'2026 台灣旅宿業薪資全解析',exc:'各職級薪資行情、加給結構與談薪技巧一次整理。',img:'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80',read:'7分鐘',date:'2026/01/28',body:['2026 年各職級平均薪資：基層服務人員 30K–38K；前台接待 32K–42K；領班主任 38K–52K；副理副總監 50K–70K；部門總監以上 70K–120K+。','影響薪資的三大關鍵：飯店星等（五星 vs 三星差距達 20–30%）、所在縣市（台北高雄偏高）、語言與專業證照（加給每月最高 5,000 元）。','談薪時最容易被忽略的是「隱性福利」。含住宿（省去 5,000–12,000 元租金）、含餐（省去 3,000–6,000 元餐費），都應換算成月均值比較整體待遇。']},
+  {cat:'trend',cl:'ct',lbl:'產業趨勢',title:'AI 如何改變旅宿業：你需要準備什麼',exc:'ChatBot、智能 Check-in……了解趨勢，找到你的不可替代性。',img:'https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=600&q=80',read:'8分鐘',date:'2026/01/15',body:['AI 技術在旅宿業的導入速度比預期快。AI 客服機器人已降低客服人力需求約 30%，智能訂價系統也取代了部分收益管理的人工作業。','然而 AI 無法複製服務的「溫度」。旅客在投訴、慶祝特殊時刻或提出非標準需求時，依然高度仰賴真人的判斷力與同理心。','未來 5 年最搶手的人才，將是兼具傳統接待溫度、數位工具操作能力與數據判讀思維的複合型人才。']},
+  {cat:'career',cl:'cc',lbl:'職涯規劃',title:'跨產業轉職旅宿業：哪些背景最吃香？',exc:'航空、零售、金融轉入旅宿業的成功案例越來越多。',img:'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',read:'5分鐘',date:'2025/12/20',body:['旅宿業對跨產業人才的接受度在近年明顯提升，尤其在中高階職位，跨業背景應徵者往往受到更高度的重視。','最受歡迎的跨業背景：航空業（服務禮儀、應變與多語能力）、零售業（顧客關係管理與銷售技能）、餐飲業（服務流程管理）。','轉職時需補強的核心知識包括：飯店 PMS 系統操作、旅宿業常用術語與 SOP。']},
+  {cat:'skill',cl:'cs',lbl:'技能提升',title:'旅宿從業者必備的外語實戰會話',exc:'不需要滿分，但關鍵句子要說得流暢，英日語情境整理。',img:'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80',read:'4分鐘',date:'2025/12/05',body:['旅宿業的外語需求是「在正確時機說出正確句子的服務英語」。80% 的互動場景可以用 200 個核心句型涵蓋。','Check-in 三大必備句：「May I have your reservation name?」「Here is your key card.」「Breakfast is served from 7 to 10 AM.」這三句流暢說出已能處理七成以上場景。','建議自學方法：每週選一個工作情境，收集 5–10 個常用句型，用手機錄音練習。3 個月持續練習足以從「勉強應付」升級到「信心自如」。']}
+];
+
+// ════════════════════════════════════
+//  STATE
+// ════════════════════════════════════
+let mode='co', jChips=new Set(), cChips=new Set(), curJob='';
+
+// ════════════════════════════════════
+//  MODE
+// ════════════════════════════════════
+function setMode(m){
+  mode=m;
+  document.getElementById('panel-job').classList.toggle('hidden',m!=='job');
+  document.getElementById('panel-co').classList.toggle('hidden',m!=='co');
+  document.getElementById('btn-job').classList.toggle('on',m==='job');
+  document.getElementById('btn-co').classList.toggle('on',m==='co');
+}
+
+// ════════════════════════════════════
+//  JOBS
+// ════════════════════════════════════
+function toggleJC(btn){const f=btn.dataset.jc;if(jChips.has(f)){jChips.delete(f);btn.classList.remove('on');}else{jChips.add(f);btn.classList.add('on');}renderJobs();}
+function clearJob(){document.getElementById('j-kw').value='';document.getElementById('j-reg').value='';document.getElementById('j-dept').value='';jChips.clear();document.querySelectorAll('[data-jc]').forEach(b=>b.classList.remove('on'));renderJobs();}
+function renderJobs(){
+  const kw=document.getElementById('j-kw').value.trim().toLowerCase();
+  const reg=document.getElementById('j-reg').value;
+  const dept=document.getElementById('j-dept').value;
+  const r=JOBS.filter(j=>{
+    const s=(j.title+j.co+j.tags.join(' ')).toLowerCase();
+    const kwOk=!kw||s.includes(kw);
+    const rOk=!reg||j.tags.some(t=>t.includes(reg));
+    const dOk=!dept||j.tags.some(t=>t.includes(dept));
+    const cOk=jChips.size===0||[...jChips].some(c=>j.tags.some(t=>t.includes(c)));
+    return kwOk&&rOk&&dOk&&cOk;
+  });
+  document.getElementById('j-cnt').textContent=r.length;
+  document.getElementById('j-empty').classList.toggle('hidden',r.length>0);
+  document.getElementById('j-list').innerHTML=r.map(j=>`
+    <article class="jrow card p-4" onclick="openJob(${j.id})">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+        <img src="${j.img}" class="jthumb" alt=""/>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <h4 class="font-bold text-base leading-snug mb-0.5">${j.title}</h4>
+              <p class="text-sm text-slate-400 mb-2">${j.co}</p>
+            </div>
+            ${j.hot?'<span class="pill p-hot shrink-0 text-xs">🔥 熱門</span>':''}
+          </div>
+          <div class="flex flex-wrap gap-1.5">${j.pills.map(p=>`<span class="pill ${p.c}">${p.t}</span>`).join('')}</div>
+        </div>
+        <button class="shrink-0 text-white text-sm font-bold px-5 py-2.5 rounded-full hover:opacity-88 transition-opacity" style="background:var(--t);">查看詳情</button>
+      </div>
+    </article>
+  `).join('');
+}
+
+// ════════════════════════════════════
+//  COMPANIES
+// ════════════════════════════════════
+function toggleCC(btn){const f=btn.dataset.cc;if(cChips.has(f)){cChips.delete(f);btn.classList.remove('on');}else{cChips.add(f);btn.classList.add('on');}renderCos();}
+function clearCo(){document.getElementById('c-kw').value='';document.getElementById('c-reg').value='';cChips.clear();document.querySelectorAll('[data-cc]').forEach(b=>b.classList.remove('on'));renderCos();}
+function renderCos(){
+  const kw=document.getElementById('c-kw').value.trim().toLowerCase();
+  const reg=document.getElementById('c-reg').value;
+  const r=COS.filter(c=>{
+    const s=(c.name+c.typ+c.tags.join(' ')).toLowerCase();
+    const kwOk=!kw||s.includes(kw);
+    const rOk=!reg||c.reg.includes(reg)||c.tags.some(t=>t.includes(reg));
+    const cOk=cChips.size===0||[...cChips].some(f=>c.tags.some(t=>t.includes(f)));
+    return kwOk&&rOk&&cOk;
+  });
+  document.getElementById('c-cnt').textContent=r.length;
+  document.getElementById('c-empty').classList.toggle('hidden',r.length>0);
+  document.getElementById('c-grid').innerHTML=r.map(c=>`
+    <div class="co-card card card-shadow" onclick="goCoJobs('${c.name.slice(0,2)}')">
+      <div class="co-img-wrap"><img class="co-img" src="${c.img}" alt=""/></div>
+      <div class="p-4">
+        <div class="flex items-start justify-between gap-2 mb-1">
+          <h3 class="font-black text-base">${c.name}</h3>
+          <span class="pill p-typ shrink-0" style="font-size:.63rem;">${c.typ}</span>
+        </div>
+        <p class="text-xs font-semibold mb-2" style="color:var(--td);">📍 ${c.loc}</p>
+        <p class="text-sm text-slate-500 leading-relaxed mb-3">${c.desc}</p>
+        <div class="flex items-center justify-between border-t border-slate-100 pt-3">
+          <span class="text-xs text-slate-400">現有 <strong>${c.jobs}</strong> 筆職缺</span>
+          <button class="text-sm font-bold hover:underline" style="color:var(--td);background:none;border:none;cursor:pointer;">查看職缺 →</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+function goCoJobs(prefix){
+  setMode('job');
+  document.getElementById('j-kw').value=prefix;
+  renderJobs();
+  document.getElementById('search-panel').scrollIntoView({behavior:'smooth'});
+}
+
+// ════════════════════════════════════
+//  JOB MODAL
+// ════════════════════════════════════
+function openJob(id){
+  const j=JOBS.find(x=>x.id===id);
+  curJob=j.title+'（'+j.co+'）';
+  document.getElementById('jm-img').src=j.img;
+  document.getElementById('jm-title').textContent=j.title;
+  document.getElementById('jm-co').textContent=j.co;
+  document.getElementById('jm-loc').textContent=j.loc;
+  document.getElementById('jm-sal').textContent=j.sal;
+  document.getElementById('jm-type').textContent=j.typ;
+  document.getElementById('jm-cnt').textContent=j.cnt;
+  document.getElementById('jm-dl').textContent=j.dl;
+  document.getElementById('jm-desc').textContent=j.desc;
+  document.getElementById('jm-hot').style.display=j.hot?'inline-block':'none';
+  document.getElementById('jm-duties').innerHTML=j.duties.map(d=>`<li class="flex gap-2"><span style="color:var(--t);">✓</span><span>${d}</span></li>`).join('');
+  document.getElementById('jm-reqs').innerHTML=j.reqs.map(r=>`<li class="flex gap-2"><span>•</span><span>${r}</span></li>`).join('');
+  document.getElementById('jm-plus').innerHTML=j.plus.map(p=>`<li class="flex gap-2"><span style="color:#d97706;">★</span><span>${p}</span></li>`).join('');
+  document.getElementById('jm-bens').innerHTML=j.bens.map(b=>`<span class="btag">✦ ${b}</span>`).join('');
+  document.getElementById('jm-bno').textContent=j.bnote;
+  switchDTab('desc');
+  document.getElementById('jmodal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeJModal(e){if(e.target===document.getElementById('jmodal'))closeJModalBtn();}
+function closeJModalBtn(){document.getElementById('jmodal').classList.remove('open');document.body.style.overflow='';}
+function switchDTab(t){
+  ['desc','req','ben'].forEach(x=>document.getElementById('dt-'+x).classList.toggle('hidden',x!==t));
+  document.querySelectorAll('.dtab').forEach((b,i)=>{const ts=['desc','req','ben'];b.classList.toggle('on',ts[i]===t);b.classList.toggle('text-slate-500',ts[i]!==t);});
+}
+
+// ════════════════════════════════════
+//  APPLY
+// ════════════════════════════════════
+function openApply(){document.getElementById('a-jname').textContent=curJob;document.getElementById('amodal').classList.add('open');applyNext(1);}
+function closeApply(){document.getElementById('amodal').classList.remove('open');}
+function applyNext(s){
+  [1,2,3].forEach(i=>document.getElementById('a-s'+i).classList.toggle('hidden',i!==s));
+  document.getElementById('a-step-lbl').textContent=['步驟 1 / 3：基本資料','步驟 2 / 3：學歷與經歷','步驟 3 / 3：上傳履歷'][s-1];
+  document.getElementById('a-prog').style.width=(s*33.33)+'%';
+}
+let selFile=null;
+function handleFileSelect(e){const f=e.target.files[0];if(f)setFile(f);}
+function handleDrop(e){e.preventDefault();document.getElementById('fdrop').classList.remove('drag');const f=e.dataTransfer.files[0];if(f)setFile(f);}
+function setFile(f){selFile=f;document.getElementById('fdrop').classList.add('hidden');document.getElementById('fsel').classList.remove('hidden');document.getElementById('fname').textContent=f.name;document.getElementById('fsize').textContent=(f.size/1024/1024).toFixed(2)+' MB';}
+function removeFile(){selFile=null;document.getElementById('fdrop').classList.remove('hidden');document.getElementById('fsel').classList.add('hidden');document.getElementById('finput').value='';}
+function submitApply(){
+  if(!document.getElementById('a-name').value.trim()||!document.getElementById('a-email').value.trim()){showToast('⚠️ 請填寫姓名與電子信箱');return;}
+  closeApply();closeJModalBtn();
+  setTimeout(()=>showToast('✅ 投遞成功！人資將盡快與您聯繫 🎉'),200);
+  ['a-name','a-phone','a-email','a-intro'].forEach(id=>document.getElementById(id).value='');removeFile();
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+
+// ════════════════════════════════════
+//  KNOWLEDGE
+// ════════════════════════════════════
+function filterK(cat,btn){document.querySelectorAll('.ktab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderK(cat);}
+function renderK(cat){
+  const arr=cat==='all'?KS:KS.filter(k=>k.cat===cat);
+  document.getElementById('k-grid').innerHTML=arr.map((k,i)=>`
+    <div class="kcard" onclick="openK(${KS.indexOf(k)})">
+      <img class="kimg" src="${k.img}" alt=""/>
+      <div class="kbody">
+        <span class="kcpill ${k.cl}">${k.lbl}</span>
+        <div class="ktitle">${k.title}</div>
+        <div class="kexc">${k.exc}</div>
+        <div class="kfoot"><span class="kmeta">${k.read}・${k.date}</span><button class="krbtn">閱讀全文 →</button></div>
+      </div>
+    </div>
+  `).join('');
+}
+function openK(i){
+  const k=KS[i];
+  document.getElementById('km-img').src=k.img;
+  document.getElementById('km-title').textContent=k.title;
+  document.getElementById('km-meta').textContent=k.lbl+'・'+k.read+'・'+k.date;
+  document.getElementById('km-badge').textContent=k.lbl;
+  const pm={career:'p-typ',skill:'p-go',salary:'p-bed',trend:'p-hot'};
+  document.getElementById('km-badge').className='pill '+(pm[k.cat]||'p-typ');
+  document.getElementById('km-body').innerHTML=k.body.map(p=>'<p>'+p+'</p>').join('');
+  document.getElementById('kmodal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeKModal(e){if(e.target===document.getElementById('kmodal'))closeKModalBtn();}
+function closeKModalBtn(){document.getElementById('kmodal').classList.remove('open');document.body.style.overflow='';}
+
+// ════════════════════════════════════
+//  COUNTDOWN
+// ════════════════════════════════════
+function tick(){
+  const d=new Date('2026-04-30T23:59:59')-new Date();
+  if(d<=0)return;
+  const pad=n=>String(Math.floor(n)).padStart(2,'0');
+  document.getElementById('cd-d').textContent=pad(d/86400000);
+  document.getElementById('cd-h').textContent=pad((d%86400000)/3600000);
+  document.getElementById('cd-m').textContent=pad((d%3600000)/60000);
+  document.getElementById('cd-s').textContent=pad((d%60000)/1000);
+}
+tick();setInterval(tick,1000);
+
+// ════════════════════════════════════
+//  MISC
+// ════════════════════════════════════
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.style.background=window.scrollY>50?'rgba(9,18,37,.97)':'rgba(9,18,37,.28)';
+  document.getElementById('fcta').style.display=window.scrollY>400?'block':'none';
+});
+setTimeout(()=>document.getElementById('heroBg').style.transform='scale(1)',80);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeJModalBtn();closeApply();closeKModalBtn();}});
+
+// ════════════════════════════════════
+//  INIT
+// ════════════════════════════════════
+renderJobs();
+renderCos();
+renderK('all');
+setMode(mode);
+</script>
+</body>
+</html>

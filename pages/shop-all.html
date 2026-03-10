@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>旅宿市集 - HotelHR-1111</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --tiffany: #0ABAB5;
+            --tiffany-dark: #089B97;
+            --tiffany-light: #B2E7E4;
+            --tiffany-pale: #E6F7F6;
+        }
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 導覽列 -->
+        <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative flex items-center h-16">
+                <!-- Left: Brand -->
+                <a href="../index.html" class="flex items-center space-x-2 shrink-0">
+                    <span class="text-2xl font-bold text-[var(--tiffany)]">HotelHR-1111</span>
+                    <span class="hidden md:block text-gray-400 font-light">| 旅宿業徵才首選</span>
+                </a>
+
+                <!-- Center: Tabs (visually centered) -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium absolute left-1/2 -translate-x-1/2">
+                    <a href="hotel-hr-search.html" class="hover:text-[var(--tiffany)] transition">找工作</a>
+                    <a href="explore-hotel.html" class="hover:text-[var(--tiffany)] transition">探索飯店</a>
+                    <a href="shop-all.html" class="text-[var(--tiffany)] font-bold">旅宿市集</a>
+                    <a href="career-guide.html" class="hover:text-[var(--tiffany)] transition">職場攻略</a>
+                    <a href="hotel-news.html" class="hover:text-[var(--tiffany)] transition">旅宿新聞</a>
+                </div>
+
+                <!-- Right: Search + Actions -->
+                <div class="ml-auto flex items-center gap-4 shrink-0">
+                    <div class="hidden lg:block" id="navSearch">
+                        <div class="relative">
+                            <button id="navSearchToggle" type="button" class="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition" aria-label="搜尋其他飯店" aria-expanded="false">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </button>
+
+                            <div id="navSearchPanel" class="hidden absolute right-0 top-12 w-72 xl:w-80">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </div>
+                                    <input type="text" id="hotelSearchInput" placeholder="搜尋其他飯店..." class="block w-full pl-10 pr-10 py-2 border border-gray-200 rounded-full leading-5 bg-white shadow-lg placeholder-gray-500 focus:outline-none focus:border-[var(--tiffany)] focus:ring-1 focus:ring-[var(--tiffany)] sm:text-sm transition" />
+                                    <button id="navSearchClose" type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600" aria-label="關閉搜尋">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+
+                                <div id="searchDropdown" class="hidden mt-2 w-full bg-white rounded-2xl shadow-xl border border-gray-100 z-[60] overflow-hidden">
+                                    <div id="searchResults" class="max-h-60 overflow-y-auto py-2">
+                                        <!-- 結果將由 JS 動態產生 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <button class="text-gray-600 hover:text-[var(--tiffany)] font-medium">登入</button>
+                        <button class="bg-[var(--tiffany)] text-white px-5 py-2 rounded-full font-medium hover:bg-[var(--tiffany-dark)] transition">企業徵才</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄區塊 -->
+    <header class="hero-bg h-[280px] flex items-center justify-center text-white px-4">
+       <div class="text-center w-full max-w-4xl">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3">旅宿市集</h1>
+            <p class="text-lg md:text-xl mb-7 opacity-90">全部商品、全部菜色、全部房型與最新優惠</p>
+
+            <div class="bg-white p-1.5 rounded-xl md:rounded-full shadow-2xl flex flex-col md:flex-row space-y-1.5 md:space-y-0 text-gray-800">
+                <div class="flex-1 flex items-center px-4 border-r border-gray-100">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input id="q" type="text" placeholder="搜尋：商品 / 菜色 / 房型 / 飯店" class="w-full py-2.5 outline-none" />
+                </div>
+                <div class="flex-1 flex items-center px-4 border-r border-gray-100">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <select id="city" class="w-full py-2.5 outline-none bg-transparent">
+                        <option value="">全台灣</option>
+                        <option value="台北">台北</option>
+                        <option value="新北">新北</option>
+                        <option value="台中">台中</option>
+                        <option value="台南">台南</option>
+                        <option value="高雄">高雄</option>
+                        <option value="宜蘭">宜蘭</option>
+                        <option value="花蓮">花蓮</option>
+                    </select>
+                </div>
+                <button id="btnSearch" class="bg-[var(--tiffany)] hover:bg-[var(--tiffany-dark)] text-white px-10 py-3 rounded-xl md:rounded-full font-bold transition">搜尋</button>
+            </div>
+
+            <!-- 熱門搜尋標籤 -->
+            <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
+                <span class="opacity-80">熱門搜尋：</span>
+                <button onclick="setSearch('鳳梨酥')" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur transition">鳳梨酥</button>
+                <button onclick="setSearch('牛排')" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur transition">牛排</button>
+                <button onclick="setSearch('湯屋')" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur transition">湯屋</button>
+                <button onclick="setSearch('叻沙')" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur transition">叻沙</button>
+                <button onclick="setSearch('套房')" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur transition">套房</button>
+            </div>
+
+           
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-10">
+
+        <!-- 區塊導覽 -->
+        <section class="mb-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="#sec-products" class="h-24 md:h-28 flex flex-col items-center justify-center px-4 py-3 bg-white rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="text-2xl mb-2 group-hover:scale-110 transition">🛍️</span>
+                    <span class="font-bold text-gray-800">全部商品</span>
+                    <span class="text-xs text-gray-500 mt-1">精選伴手禮</span>
+                </a>
+                <a href="#sec-dishes" class="h-24 md:h-28 flex flex-col items-center justify-center px-4 py-3 bg-white rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="text-2xl mb-2 group-hover:scale-110 transition">🍲</span>
+                    <span class="font-bold text-gray-800">全部菜色</span>
+                    <span class="text-xs text-gray-500 mt-1">招牌料理</span>
+                </a>
+                <a href="#sec-rooms" class="h-24 md:h-28 flex flex-col items-center justify-center px-4 py-3 bg-white rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="text-2xl mb-2 group-hover:scale-110 transition">🛌</span>
+                    <span class="font-bold text-gray-800">全部房型</span>
+                    <span class="text-xs text-gray-500 mt-1">舒適住宿</span>
+                </a>
+                <a href="#sec-deals" class="h-24 md:h-28 flex flex-col items-center justify-center px-4 py-3 bg-white rounded-2xl card-shadow border border-transparent hover:border-[var(--tiffany)] hover:bg-[var(--tiffany-pale)] transition group">
+                    <span class="text-2xl mb-2 group-hover:scale-110 transition">🎁</span>
+                    <span class="font-bold text-gray-800">最新優惠</span>
+                    <span class="text-xs text-gray-500 mt-1">限時促銷</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 全站提示列 -->
+        <section class="mb-8">
+            <div class="bg-white rounded-2xl card-shadow p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div>
+                    <h2 class="text-lg font-bold">全部集合</h2>
+                    <p id="resultHint" class="text-sm text-gray-500 mt-1">-</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <select id="sort" class="bg-white border rounded-xl px-4 py-3">
+                        <option value="popular">排序：推薦</option>
+                        <option value="priceAsc">價格：低到高</option>
+                        <option value="priceDesc">價格：高到低</option>
+                        <option value="nameAsc">名稱：A-Z</option>
+                    </select>
+                    <button id="btnReset" class="px-5 py-3 rounded-xl border bg-white hover:border-[var(--tiffany)] transition">重設</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 全部商品 -->
+        <section id="sec-products" class="mb-12 scroll-mt-24">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-xl font-bold flex items-center">
+                    <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                    全部商品
+                </h3>
+                <p id="hintProducts" class="text-sm text-gray-500"></p>
+            </div>
+            <div id="gridProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            <div id="emptyProducts" class="hidden bg-white rounded-2xl card-shadow p-8 text-center text-gray-600">找不到符合條件的商品</div>
+            <div class="mt-8 text-center">
+                <button onclick="window.location.hash='sec-products'" class="inline-flex items-center text-[var(--tiffany)] font-bold hover:underline">
+                    查看更多全部商品
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- 全部菜色 -->
+        <section id="sec-dishes" class="mb-12 scroll-mt-24">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-xl font-bold flex items-center">
+                    <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                    全部菜色
+                </h3>
+                <p id="hintDishes" class="text-sm text-gray-500"></p>
+            </div>
+            <div id="gridDishes" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            <div id="emptyDishes" class="hidden bg-white rounded-2xl card-shadow p-8 text-center text-gray-600">找不到符合條件的菜色</div>
+            <div class="mt-8 text-center">
+                <button onclick="window.location.hash='sec-dishes'" class="inline-flex items-center text-[var(--tiffany)] font-bold hover:underline">
+                    查看更多全部菜色
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- 全部房型 -->
+        <section id="sec-rooms" class="mb-12 scroll-mt-24">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-xl font-bold flex items-center">
+                    <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                    全部房型
+                </h3>
+                <p id="hintRooms" class="text-sm text-gray-500"></p>
+            </div>
+            <div id="gridRooms" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="emptyRooms" class="hidden bg-white rounded-2xl card-shadow p-8 text-center text-gray-600">找不到符合條件的房型</div>
+            <div class="mt-8 text-center">
+                <button onclick="window.location.hash='sec-rooms'" class="inline-flex items-center text-[var(--tiffany)] font-bold hover:underline">
+                    查看更多全部房型
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- 最新優惠 -->
+        <section id="sec-deals" class="mb-12 scroll-mt-24">
+            <div class="flex items-center justify-between mb-5">
+                <h3 class="text-xl font-bold flex items-center">
+                    <span class="w-1.5 h-6 bg-[var(--tiffany)] mr-2 rounded-full"></span>
+                    最新優惠
+                </h3>
+                <p id="hintDeals" class="text-sm text-gray-500"></p>
+            </div>
+            <div id="gridDeals" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="emptyDeals" class="hidden bg-white rounded-2xl card-shadow p-8 text-center text-gray-600">找不到符合條件的優惠</div>
+            <div class="mt-8 text-center">
+                <button onclick="window.location.hash='sec-deals'" class="inline-flex items-center text-[var(--tiffany)] font-bold hover:underline">
+                    查看更多最新優惠
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-gray-900 text-white py-16 mt-12">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-1">
+                <span class="text-3xl font-bold text-[var(--tiffany-light)]">HostMatch</span>
+                <p class="mt-4 text-gray-400 text-sm leading-relaxed">用旅宿的美好，豐富你的日常。</p>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6">探索</h5>
+                <ul class="space-y-4 text-gray-400 text-sm">
+                    <li><a href="explore-hotel.html" class="hover:text-white transition">探索飯店</a></li>
+                    <li><a href="shop-all.html" class="hover:text-white transition">旅宿市集</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6">關於我們</h5>
+                <ul class="space-y-4 text-gray-400 text-sm">
+                    <li><a href="#" class="hover:text-white transition">服務條款</a></li>
+                    <li><a href="#" class="hover:text-white transition">隱私權政策</a></li>
+                    <li><a href="#" class="hover:text-white transition">聯繫客服</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6">訂閱電子報</h5>
+                <div class="flex">
+                    <input type="email" placeholder="您的電子郵件" class="bg-gray-800 border-none p-3 rounded-l-lg w-full focus:ring-1 focus:ring-[var(--tiffany)]" />
+                    <button class="bg-[var(--tiffany)] px-4 rounded-r-lg hover:bg-[var(--tiffany-dark)]">訂閱</button>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-xs">
+            © 2026 HotelHR-1111 旅宿人才網 版權所有
+        </div>
+    </footer>
+
+    <script>
+        function setSearch(val) {
+            const input = document.getElementById('q');
+            if (input) input.value = val;
+            render();
+        }
+
+        const hotels = [
+            {
+                id: 'h1',
+                name: '寒沐酒店集團',
+                city: '台北',
+                area: '信義區',
+                tag: '五星級',
+                rating: 4.7,
+                rooms: [
+                    { name: '豪華客房', size: '33m²', capacity: '2 位', price: 5200, amenities: ['浴缸', '高速 Wi‑Fi', '城市景'], image: 'https://images.unsplash.com/photo-1505692952047-1a78307da8f2?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '行政套房', size: '55m²', capacity: '2-3 位', price: 9800, amenities: ['行政酒廊', '大客廳', '膠囊咖啡機'], image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '家庭四人房', size: '46m²', capacity: '4 位', price: 7600, amenities: ['雙床', '親子備品', '大收納'], image: 'https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '爐烤牛排拼盤', restaurant: '翡翠全日餐廳', price: 980, spicy: '不辣', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '海鮮叻沙', restaurant: '翡翠全日餐廳', price: 420, spicy: '小辣', image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '特調琴酒氣泡', restaurant: '雲端酒吧', price: 360, spicy: '-', image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '手工鳳梨酥禮盒', price: 520, tag: '人氣', desc: '酸甜平衡、奶香酥皮，適合送禮。', image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '香氛擴香組', price: 690, tag: '質感', desc: '以旅宿香氣延伸回家，放鬆每一天。', image: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '咖啡濾掛禮盒', price: 320, tag: '伴手禮', desc: '中焙堅果香，隨時沖泡都好喝。', image: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&fit=crop&w=1200&q=80' },
+        
+                ],
+                deals: [
+                    { title: '週末住房 88 折', subtitle: '週五、週六入住享折扣', badge: '限時', start: '2026-02-01', end: '2026-03-31', image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80' },
+                    { title: '餐飲抵用券加碼', subtitle: '連住兩晚送 NT$500 餐飲券', badge: '加碼', start: '2026-02-10', end: '2026-02-29', image: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h2',
+                name: '雲山水和風會館',
+                city: '宜蘭',
+                area: '礁溪鄉',
+                tag: '溫泉旅館',
+                rating: 4.5,
+                rooms: [
+                    { name: '景觀湯屋房', size: '38m²', capacity: '2 位', price: 6400, amenities: ['景觀湯池', '山景', '榻榻米'], image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '和洋家庭房', size: '50m²', capacity: '4 位', price: 8800, amenities: ['雙空間', '親子友善', '浴衣'], image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '季節刺身盛合', restaurant: '森之旬味', price: 680, spicy: '不辣', image: 'https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '昆布高湯鍋物', restaurant: '森之旬味', price: 520, spicy: '不辣', image: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '礁溪溫泉鹽皂', price: 180, tag: '伴手禮', desc: '溫和清潔，洗後清爽不乾澀。', image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '手作抹茶餅乾', price: 240, tag: '甜點', desc: '抹茶香濃，搭配茶飲剛剛好。', image: 'https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '溫泉入浴鹽', price: 150, tag: '伴手禮', desc: '泡澡儀式感升級，放鬆助眠。', image: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '日式茶包禮盒', price: 280, tag: '人氣', desc: '清香回甘，適合送禮自用。', image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                deals: [
+                    { title: '泡湯雙人券', subtitle: '平日限定體驗價', badge: '平日限定', start: '2026-02-01', end: '2026-04-15', image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            },
+            {
+                id: 'h3',
+                name: '承億文旅',
+                city: '高雄',
+                area: '鹽埕區',
+                tag: '文創旅店',
+                rating: 4.3,
+                rooms: [
+                    { name: '文青標準房', size: '28m²', capacity: '2 位', price: 3600, amenities: ['策展選書', '在地選物', '乾濕分離'], image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '港景套房', size: '48m²', capacity: '2-3 位', price: 7200, amenities: ['港景', '小客廳', '藍牙音響'], image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                dishes: [
+                    { name: '鹽埕小卷米粉', restaurant: '黑潮小館', price: 260, spicy: '小辣', image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '黑糖拿鐵', restaurant: '屋頂咖啡', price: 160, spicy: '-', image: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=1200&q=80' },
+                    { name: '柚香油封鴨胸', restaurant: '黑潮小館', price: 420, spicy: '不辣', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80' }
+                ],
+                products: [
+                    { name: '文創筆記本', price: 250, tag: '收藏', desc: '質感封面，紀錄你的旅程。', image: 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&w=1200&q=80' },
+            
+        
+                ],
+                deals: [
+                    { title: '文創聯名禮贈', subtitle: '入住即送限定明信片', badge: '入住禮', start: '2026-02-12', end: '2026-03-20', image: 'https://images.unsplash.com/photo-1473181488821-2d23949a045a?auto=format&fit=crop&w=1200&q=80' }
+                ]
+            }
+        ];
+        
+
+        const els = {
+            q: document.getElementById('q'),
+            city: document.getElementById('city'),
+            sort: document.getElementById('sort'),
+            btnSearch: document.getElementById('btnSearch'),
+            btnReset: document.getElementById('btnReset'),
+            resultHint: document.getElementById('resultHint'),
+
+            gridProducts: document.getElementById('gridProducts'),
+            gridDishes: document.getElementById('gridDishes'),
+            gridRooms: document.getElementById('gridRooms'),
+            gridDeals: document.getElementById('gridDeals'),
+
+            hintProducts: document.getElementById('hintProducts'),
+            hintDishes: document.getElementById('hintDishes'),
+            hintRooms: document.getElementById('hintRooms'),
+            hintDeals: document.getElementById('hintDeals'),
+
+            emptyProducts: document.getElementById('emptyProducts'),
+            emptyDishes: document.getElementById('emptyDishes'),
+            emptyRooms: document.getElementById('emptyRooms'),
+            emptyDeals: document.getElementById('emptyDeals')
+        };
+
+        function money(n) {
+            return new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', maximumFractionDigits: 0 }).format(n);
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        const allProducts = hotels.flatMap(h => (h.products || []).map(p => ({
+            ...p,
+            type: 'product',
+            hotelId: h.id,
+            hotelName: h.name,
+            hotelCity: h.city,
+            hotelArea: h.area,
+            hotelTag: h.tag,
+            score: ['人氣','聯名','收藏','伴手禮','質感','甜點'].indexOf(p.tag) === -1 ? 999 : ['人氣','聯名','收藏','伴手禮','質感','甜點'].indexOf(p.tag)
+        })));
+
+        const allDishes = hotels.flatMap(h => (h.dishes || []).map(d => ({
+            ...d,
+            type: 'dish',
+            hotelId: h.id,
+            hotelName: h.name,
+            hotelCity: h.city,
+            hotelArea: h.area,
+            hotelTag: h.tag,
+            score: 50
+        })));
+
+        const allRooms = hotels.flatMap(h => (h.rooms || []).map(r => ({
+            ...r,
+            type: 'room',
+            hotelId: h.id,
+            hotelName: h.name,
+            hotelCity: h.city,
+            hotelArea: h.area,
+            hotelTag: h.tag,
+            score: 50
+        })));
+
+        const allDeals = hotels.flatMap(h => (h.deals || []).map(d => ({
+            ...d,
+            type: 'deal',
+            hotelId: h.id,
+            hotelName: h.name,
+            hotelCity: h.city,
+            hotelArea: h.area,
+            hotelTag: h.tag,
+            score: 0
+        })));
+
+        function card({ image, badge, title, subtitle, meta, right }) {
+            const badgeHtml = badge && !badge.includes('$') && !badge.includes('晚') ? `<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-[var(--tiffany)]">${escapeHtml(badge)}</div>` : '';
+            const metaHtml = meta ? `<p class="text-gray-600 text-sm mt-2 line-clamp-2">${meta}</p>` : '';
+            const rightHtml = right ? `<span class="text-[var(--tiffany-dark)] font-bold">${right}</span>` : '';
+
+            return `
+                <div class="bg-white rounded-2xl overflow-hidden card-shadow group border border-transparent hover:border-[var(--tiffany)] transition">
+                    <div class="h-44 overflow-hidden relative">
+                        <img src="${escapeHtml(image)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="${escapeHtml(title)}" />
+                        ${badgeHtml}
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-start justify-between gap-3">
+                            <h4 class="font-bold text-lg mb-1">${escapeHtml(title)}</h4>
+                            ${rightHtml}
+                        </div>
+                        ${subtitle ? `<p class="text-gray-500 text-sm">${subtitle}</p>` : ''}
+                        ${metaHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function sortList(list) {
+            const mode = els.sort.value;
+
+            if (mode === 'priceAsc') {
+                return [...list].sort((a,b) => (a.price ?? 0) - (b.price ?? 0));
+            }
+            if (mode === 'priceDesc') {
+                return [...list].sort((a,b) => (b.price ?? 0) - (a.price ?? 0));
+            }
+            if (mode === 'nameAsc') {
+                return [...list].sort((a,b) => (a.name ?? a.title ?? '').localeCompare((b.name ?? b.title ?? ''), 'zh-Hant'));
+            }
+            return [...list].sort((a,b) => (a.score ?? 999) - (b.score ?? 999) || (a.price ?? 0) - (b.price ?? 0));
+        }
+
+        function filterByQueryAndCity(list) {
+            const q = (els.q.value || '').trim().toLowerCase();
+            const city = els.city.value;
+
+            return list.filter(x => {
+                const matchCity = !city || x.hotelCity === city;
+                const matchQ = !q || [
+                    x.name, x.title, x.tag, x.restaurant, x.spicy, x.desc, x.subtitle,
+                    x.hotelName, x.hotelCity, x.hotelArea, x.hotelTag
+                ].join(' ').toLowerCase().includes(q);
+                return matchCity && matchQ;
+            });
+        }
+
+        function render() {
+            const pList = sortList(filterByQueryAndCity(allProducts));
+            const dList = sortList(filterByQueryAndCity(allDishes));
+            const rList = sortList(filterByQueryAndCity(allRooms));
+            const dealList = filterByQueryAndCity(allDeals)
+                .sort((a,b) => String(b.start || '').localeCompare(String(a.start || '')));
+
+            els.hintProducts.textContent = `顯示 ${pList.length} / ${allProducts.length}`;
+            els.hintDishes.textContent = `顯示 ${dList.length} / ${allDishes.length}`;
+            els.hintRooms.textContent = `顯示 ${rList.length} / ${allRooms.length}`;
+            els.hintDeals.textContent = `顯示 ${dealList.length} / ${allDeals.length}`;
+
+            els.resultHint.textContent = `商品 ${pList.length}｜菜色 ${dList.length}｜房型 ${rList.length}｜優惠 ${dealList.length}`;
+
+            els.gridProducts.innerHTML = pList.map(p => card({
+                image: p.image,
+                badge: p.tag,
+                title: p.name,
+                subtitle: `${escapeHtml(p.hotelName)}（${escapeHtml(p.hotelCity)}）`,
+                meta: escapeHtml(p.desc || ''),
+                right: money(p.price)
+            })).join('');
+            els.emptyProducts.classList.toggle('hidden', pList.length !== 0);
+
+            els.gridDishes.innerHTML = dList.map(d => card({
+                image: d.image,
+                badge: '',
+                right: money(d.price),
+                title: d.name,
+                subtitle: `${escapeHtml(d.restaurant)}｜${escapeHtml(d.hotelName)}（${escapeHtml(d.hotelCity)}）`,
+                meta: `辣度：${escapeHtml(d.spicy)}`
+            })).join('');
+            els.emptyDishes.classList.toggle('hidden', dList.length !== 0);
+
+            els.gridRooms.innerHTML = rList.map(r => card({
+                image: r.image,
+                badge: '',
+                right: `${money(r.price)} / 晚`,
+                title: r.name,
+                subtitle: `${escapeHtml(r.size)}｜容納 ${escapeHtml(r.capacity)}｜${escapeHtml(r.hotelName)}（${escapeHtml(r.hotelCity)}）`,
+                meta: escapeHtml((r.amenities || []).join('｜'))
+            })).join('');
+            els.emptyRooms.classList.toggle('hidden', rList.length !== 0);
+
+            els.gridDeals.innerHTML = dealList.map(d => card({
+                image: d.image,
+                badge: d.badge,
+                title: d.title,
+                subtitle: `${escapeHtml(d.hotelName)}（${escapeHtml(d.hotelCity)}）｜${escapeHtml(d.start)} ~ ${escapeHtml(d.end)}`,
+                meta: escapeHtml(d.subtitle || '')
+            })).join('');
+            els.emptyDeals.classList.toggle('hidden', dealList.length !== 0);
+        }
+
+        els.btnSearch.addEventListener('click', render);
+        els.q.addEventListener('keydown', (e) => { if (e.key === 'Enter') render(); });
+        els.city.addEventListener('change', render);
+        els.sort.addEventListener('change', render);
+
+        els.btnReset.addEventListener('click', () => {
+            els.q.value = '';
+            els.city.value = '';
+            els.sort.value = 'popular';
+            render();
+        });
+
+        render();
+    </script>
+
+</body>
+</html>
