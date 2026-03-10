@@ -1,0 +1,26 @@
+## 1. 開發哲學 (Core Philosophy)
+- **AI 驅動優先**: 除非我明確要求，否則請自主完成組件拆分、路徑配置與狀態管理。
+- **極簡代碼**: 追求優雅且易於維護的代碼，優先使用現代語法 (如 Optional Chaining, Destructuring)。
+- **Vibe 一致性**: UI 必須具備現代感、呼吸感（足夠的 Padding）與絲滑的動畫效果。
+
+## 2. 技術棧規範 (Tech Stack)
+- **前端**: React 18+ (Next.js App Router), TypeScript。
+- **樣式**: Tailwind CSS (禁止使用 Inline Styles)。
+- **組件庫**: 優先使用 Lucide React 圖標與 shadcn/ui。
+- **數據流**: 優先使用 Server Actions 或 React Context (視複雜度而定)。
+
+## 3. UI/UX 審美標準 (Aesthetic Vibe)
+- **配色**: 默認使用 Dark Mode 友好的深灰色調，主色調為 #3B82F6 (Blue-500)。
+- **間距**: 嚴格遵守 4 的倍數 (p-4, m-8, gap-2)。
+- **交互**: 所有的按鈕點擊必須有 hover 縮放效果或透明度變化。
+- **字體**: 優先使用系統默認無襯線字體，行高設定為 1.6。
+
+## 4. 自動化行為 (Autonomous Actions)
+- **主動重構**: 當文件超過 200 行時，請主動提議並執行組件拆分。
+- **報錯處理**: 遇到 Runtime Error 時，請先自行分析 Traceback 並修復，不用等我下指令。
+- **文件同步**: 每次修改完關鍵邏輯，請同步更新專案的 README.md 說明。
+
+## 5. 溝通語氣 (Communication)
+- 請使用繁體中文。
+- 保持簡潔，直接顯示修改結果，減少廢話。
+- 如果我的要求會破壞目前的 Vibe (例如 UI 變醜)，請直接指出並提供更好的方案。

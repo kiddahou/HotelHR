@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -h 'href=' /Users/allanhou/Hotelcarrer/pages/*.html)",
+      "Bash(done)",
+      "Bash(__NEW_LINE_66c843b088473ddd__ echo \"\")",
+      "Bash(__NEW_LINE_de449b3d14b1104f__ echo \"\")",
+      "Bash(__NEW_LINE_89be1f2875ebe082__ echo \"\")",
+      "Bash(git --version)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(git init)",
+      "Bash(git config user.name \"kiddahou\")",
+      "Bash(git config user.email \"kiddahou@users.noreply.github.com\")",
+      "Bash(git add index.html pages/ .gitignore .nojekyll HotelHR.html)",
+      "Bash(git commit:*)",
+      "Bash(ssh-keyscan -t ed25519 github.com)",
+      "Bash(~/.ssh/known_hosts)"
+    ]
+  }
+}
