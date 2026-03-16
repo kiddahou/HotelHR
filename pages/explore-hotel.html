@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>探索飯店 - HotelHR-1111</title>
+    <title>探索飯店 - HotelHR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <style>
@@ -40,7 +40,7 @@
             <div class="relative flex items-center h-16">
                 <!-- Left: Brand -->
                 <a href="../index.html" class="flex items-center space-x-2 shrink-0">
-                    <span class="text-2xl font-bold text-[var(--tiffany)]">HotelHR-1111</span>
+                    <span class="text-2xl font-bold text-[var(--tiffany)]">HotelHR</span>
                     <span class="hidden md:block text-gray-400 font-light">| 旅宿業徵才首選</span>
                 </a>
 
@@ -136,129 +136,6 @@
             </div>
         </section>
 
-        <!-- 置中彈窗 Modal -->
-        <div id="detailWrapper" class="hidden fixed inset-0 z-50">
-            <div id="modalOverlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-            <div class="relative w-full h-full flex items-center justify-center p-4">
-                <div class="bg-white w-full max-w-5xl max-h-[90vh] rounded-3xl overflow-hidden card-shadow border border-gray-200 flex flex-col">
-                    <div class="flex items-center justify-between px-6 py-4 border-b bg-white">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-[var(--tiffany)]"></span>
-                            <h2 class="text-lg font-bold">飯店資訊：</h2>
-                        </div>
-                        <button id="btnCloseModal" class="p-2 rounded-full hover:bg-gray-100 transition" aria-label="關閉">
-                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
-                    </div>
-                    <div class="p-6 overflow-y-auto">
-            <!-- 飯店詳細摘要 -->
-            <section id="hotelDetailSection" class="mb-10 scroll-mt-24">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-bold">飯店詳細資訊</h2>
-                        <div class="flex items-center gap-4">
-                            <a href="hotel-hr-search.html" class="text-[var(--tiffany)] text-sm font-medium hover:underline">看更多職缺</a>
-                            <div id="hotelSelectWrapper" class="hidden sm:block">
-                                <select id="hotelSelect" class="bg-white border rounded-xl px-4 py-2 text-sm w-[240px]">
-                                    <option value="">快速切換飯店</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                <div id="hotelHero" class="bg-white rounded-3xl overflow-hidden card-shadow border-2 border-[var(--tiffany)]">
-                    <div class="grid grid-cols-1 md:grid-cols-5">
-                        <div class="md:col-span-2 h-64 md:h-full overflow-hidden">
-                            <img id="hotelImage" src="" class="w-full h-full object-cover" alt="飯店圖片" />
-                        </div>
-                        <div class="md:col-span-3 p-8">
-                            <div class="flex items-start justify-between gap-4">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <h3 id="hotelName" class="text-2xl font-bold">飯店名稱</h3>
-                                        <span id="hotelTag" class="hidden text-xs font-bold px-2 py-1 rounded bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)]">推薦</span>
-                                    </div>
-                                    <p id="hotelMeta" class="text-gray-500"></p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-gray-400 text-xs">滿意度</p>
-                                    <p id="hotelRating" class="text-2xl font-bold text-[var(--tiffany-dark)]">-</p>
-                                </div>
-                            </div>
-                            <p id="hotelDesc" class="text-gray-600 mt-4 leading-relaxed text-sm md:text-base"></p>
-                            <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-3">
-                                <a id="btnHotelDetail" href="#" class="inline-flex items-center justify-center bg-[var(--tiffany)] text-white px-6 py-3 rounded-xl font-bold hover:bg-[var(--tiffany-dark)] transition">
-                                    查看詳細資訊
-                                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </a>
-                                <p class="text-xs text-gray-500">後續可導向獨立頁面（目前先用參數連回探索頁）</p>
-                            </div>
-                            <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                <div class="bg-gray-50 rounded-2xl p-4 text-center">
-                                    <p class="text-xs text-gray-400 mb-1">房型數量</p>
-                                    <p id="countRooms" class="text-xl font-bold text-gray-800">-</p>
-                                </div>
-                                <div class="bg-gray-50 rounded-2xl p-4 text-center">
-                                    <p class="text-xs text-gray-400 mb-1">餐飲空間</p>
-                                    <p id="countRestaurants" class="text-xl font-bold text-gray-800">-</p>
-                                </div>
-                                <div class="bg-gray-50 rounded-2xl p-4 text-center">
-                                    <p class="text-xs text-gray-400 mb-1">特色菜色</p>
-                                    <p id="countDishes" class="text-xl font-bold text-gray-800">-</p>
-                                </div>
-                                <div class="bg-gray-50 rounded-2xl p-4 text-center">
-                                    <p class="text-xs text-gray-400 mb-1">精選商品</p>
-                                    <p id="countProducts" class="text-xl font-bold text-gray-800">-</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 分類 Tabs -->
-            <section id="tabsSection" class="mb-8">
-                <div class="flex flex-wrap items-center justify-between gap-3">
-                    <div class="flex flex-wrap gap-3">
-                        <button data-tab="rooms" class="tab-btn px-6 py-3 rounded-full bg-[var(--tiffany)] text-white font-bold shadow-lg shadow-tiffany/20 transition-all">房型介紹</button>
-                        <button data-tab="restaurants" class="tab-btn px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-[var(--tiffany)] transition-all font-bold">餐廳資訊</button>
-                        <button data-tab="dishes" class="tab-btn px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-[var(--tiffany)] transition-all font-bold">必吃菜色</button>
-                        <button data-tab="products" class="tab-btn px-6 py-3 rounded-full bg-white border border-gray-200 hover:border-[var(--tiffany)] transition-all font-bold">嚴選商品</button>
-                    </div>
-                    <a id="tabMoreLink" href="shop-all.html" class="text-[var(--tiffany)] text-sm font-bold hover:underline">看更多</a>
-                </div>
-            </section>
-
-            <!-- 內容區 -->
-            <section id="contentSection">
-                <div id="panel-rooms" class="tab-panel hidden">
-                    <div id="roomsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-                </div>
-
-                <div id="panel-restaurants" class="tab-panel hidden">
-                    <div id="restaurantsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-                </div>
-
-                <div id="panel-dishes" class="tab-panel hidden">
-                    <div id="dishesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-                </div>
-
-                <div id="panel-products" class="tab-panel hidden">
-                    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-                </div>
-            </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="emptyState" class="bg-white rounded-3xl card-shadow p-20 text-center mb-16">
-            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">尚未選擇飯店</h3>
-            <p class="text-gray-500">請點擊上方列表中的飯店卡片，查看詳細的設施與商品資訊。</p>
-        </div>
-
     </main>
 
     <!-- 頁尾 -->
@@ -294,7 +171,7 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 border-t border-gray-800 mt-16 pt-8 text-center text-gray-500 text-xs">
-            © 2026 HotelHR-1111 旅宿人才網 版權所有
+            © 2026 HotelHR 旅宿人才網 版權所有
         </div>
     </footer>
 
@@ -493,41 +370,12 @@
         ];
 
         const els = {
-            modal: document.getElementById('detailWrapper'),
-            modalOverlay: document.getElementById('modalOverlay'),
-            btnCloseModal: document.getElementById('btnCloseModal'),
             q: document.getElementById('q'),
             city: document.getElementById('city'),
             btnSearch: document.getElementById('btnSearch'),
             btnReset: document.getElementById('btnReset'),
             hotelListGrid: document.getElementById('hotelListGrid'),
-            listHint: document.getElementById('listHint'),
-            
-            hotelDetailSection: document.getElementById('hotelDetailSection'),
-            tabsSection: document.getElementById('tabsSection'),
-            contentSection: document.getElementById('contentSection'),
-            hotelSelect: document.getElementById('hotelSelect'),
-            hotelImage: document.getElementById('hotelImage'),
-            hotelName: document.getElementById('hotelName'),
-            hotelTag: document.getElementById('hotelTag'),
-            hotelMeta: document.getElementById('hotelMeta'),
-            hotelRating: document.getElementById('hotelRating'),
-            hotelDesc: document.getElementById('hotelDesc'),
-            countRooms: document.getElementById('countRooms'),
-            countRestaurants: document.getElementById('countRestaurants'),
-            countDishes: document.getElementById('countDishes'),
-            countProducts: document.getElementById('countProducts'),
-            emptyState: document.getElementById('emptyState'),
-            
-            roomsGrid: document.getElementById('roomsGrid'),
-            restaurantsGrid: document.getElementById('restaurantsGrid'),
-            dishesGrid: document.getElementById('dishesGrid'),
-            productsGrid: document.getElementById('productsGrid'),
-            
-            roomsHint: document.getElementById('roomsHint'),
-            restaurantsHint: document.getElementById('restaurantsHint'),
-            dishesHint: document.getElementById('dishesHint'),
-            productsHint: document.getElementById('productsHint')
+            listHint: document.getElementById('listHint')
         };
 
         let currentHotelId = '';
@@ -545,74 +393,46 @@
                 .replaceAll("'", '&#039;');
         }
 
-        function renderHotelOptions(list) {
-            const v = currentHotelId;
-            els.hotelSelect.innerHTML = '<option value="">快速切換飯店</option>' + list
-                .map(h => `<option value="${h.id}">${escapeHtml(h.name)}（${escapeHtml(h.city)}）</option>`)
-                .join('');
-            if (v) els.hotelSelect.value = v;
-        }
-
-        function openModal() {
-            if (els.modal) els.modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            if (els.modal) els.modal.classList.add('hidden');
-            document.body.style.overflow = '';
-            // 取消卡片 active 樣式
-            document.querySelectorAll('.hotel-card').forEach(card => card.classList.remove('active'));
-        }
-
-        function bindModalEventsOnce() {
-            if (window.__hotelModalBound) return;
-            window.__hotelModalBound = true;
-
-            if (els.btnCloseModal) {
-                els.btnCloseModal.addEventListener('click', closeModal);
-            }
-
-            if (els.modalOverlay) {
-                els.modalOverlay.addEventListener('click', closeModal);
-            }
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeModal();
-            });
-        }
-
-        function selectHotel(id) {
-            currentHotelId = id;
-            const h = hotels.find(x => x.id === id);
-            if (!h) return;
-
-            // 開啟 Modal
-            bindModalEventsOnce();
-            openModal();
-
-            // 渲染資料
-            renderHotel(h);
-
-            // 更新列表卡片選取狀態
-            const cards = Array.from(document.querySelectorAll('.hotel-card'));
-            cards.forEach(card => {
-                const isActive = card.getAttribute('onclick').includes(`'${id}'`);
-                card.classList.toggle('active', Boolean(isActive));
-            });
-
-            // 同步下拉選單
-            if (els.hotelSelect) els.hotelSelect.value = id;
+        function getHotelImages(h) {
+            return {
+                main: h.image,
+                sub1: h.rooms && h.rooms[0] ? h.rooms[0].image : h.image,
+                sub2: h.restaurants && h.restaurants[0] ? h.restaurants[0].image : h.image,
+                sub3: h.dishes && h.dishes[0] ? h.dishes[0].image : h.image,
+                sub4: h.products && h.products[0] ? h.products[0].image : h.image
+            };
         }
 
         function renderHotelList(list) {
-            els.hotelListGrid.innerHTML = list.map(h => `
-                <div onclick="selectHotel('${h.id}')" class="hotel-card group bg-white rounded-2xl overflow-hidden card-shadow border-2 border-transparent hover:border-[var(--tiffany)] transition-all cursor-pointer ${currentHotelId === h.id ? 'active' : ''}">
-                    <div class="h-40 overflow-hidden relative">
-                        <img src="${h.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="${h.name}">
-                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-[var(--tiffany)]">${h.tag}</div>
+            els.hotelListGrid.innerHTML = list.map(h => {
+                const images = getHotelImages(h);
+                return `
+                <a href="hotel-detail.html?hotel=${encodeURIComponent(h.id)}" class="hotel-card group bg-white rounded-2xl overflow-hidden card-shadow border-2 border-transparent hover:border-[var(--tiffany)] hover:shadow-lg transition-all cursor-pointer ${currentHotelId === h.id ? 'active' : ''}">
+                    <!-- 一大圖 + 四小圖 -->
+                    <div class="grid grid-cols-2 gap-1 p-2">
+                        <!-- 左側大圖 -->
+                        <div class="row-span-2 h-48 overflow-hidden rounded-xl relative">
+                            <img src="${images.main}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="${h.name}">
+                            <div class="absolute top-2 left-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-[var(--tiffany)]">${h.tag}</div>
+                        </div>
+                        <!-- 右側四小圖 -->
+                        <div class="h-23 overflow-hidden rounded-lg">
+                            <img src="${images.sub1}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="圖片1">
+                        </div>
+                        <div class="h-23 overflow-hidden rounded-lg">
+                            <img src="${images.sub2}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="圖片2">
+                        </div>
+                        <div class="h-23 overflow-hidden rounded-lg">
+                            <img src="${images.sub3}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="圖片3">
+                        </div>
+                        <div class="h-23 overflow-hidden rounded-lg relative">
+                            <img src="${images.sub4}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="圖片4">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="text-white text-xs font-medium">查看更多</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-4">
+                    <div class="p-4 pt-2">
                         <div class="flex items-center justify-between mb-1">
                             <h4 class="font-bold text-gray-800 line-clamp-1">${h.name}</h4>
                             <span class="text-[var(--tiffany)] font-bold text-sm">${h.rating}</span>
@@ -621,146 +441,14 @@
                             <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
                             ${h.city} ${h.area}
                         </p>
+                        <p class="text-gray-400 text-xs mt-2 line-clamp-1">${h.desc}</p>
                     </div>
-                </div>
-            `).join('');
+                </a>
+            `}).join('');
 
             els.listHint.textContent = `共 ${list.length} 家飯店符合您的需求`;
         }
 
-        function setEmpty(isEmpty) {
-            els.emptyState.classList.toggle('hidden', !isEmpty);
-            document.querySelectorAll('.tab-panel').forEach(p => {
-                p.classList.toggle('hidden', isEmpty || p.id !== `panel-${getActiveTab()}`);
-            });
-        }
-
-        function getActiveTab() {
-            const active = document.querySelector('.tab-btn.bg-[var(--tiffany)]');
-            return active ? active.getAttribute('data-tab') : 'rooms';
-        }
-
-        function setActiveTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                const isActive = btn.getAttribute('data-tab') === tab;
-                btn.classList.toggle('bg-[var(--tiffany)]', isActive);
-                btn.classList.toggle('text-white', isActive);
-                btn.classList.toggle('bg-white', !isActive);
-                btn.classList.toggle('border-gray-200', !isActive);
-                btn.classList.toggle('shadow-lg', isActive);
-                btn.classList.toggle('shadow-tiffany/20', isActive);
-            });
-            document.querySelectorAll('.tab-panel').forEach(panel => {
-                panel.classList.toggle('hidden', panel.id !== `panel-${tab}`);
-            });
-        }
-
-        function cardBase({ image, badge, title, subtitle, metaLines, footerRight }) {
-            const badgeHtml = badge ? `<div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-[var(--tiffany)]">${escapeHtml(badge)}</div>` : '';
-            const metaHtml = (metaLines || []).map(line => `<p class="text-gray-500 text-sm mb-1">${line}</p>`).join('');
-            const footerHtml = footerRight ? `<div class="mt-4 flex items-center justify-between"><span class="text-[var(--tiffany-dark)] font-bold">${footerRight}</span></div>` : '';
-
-            return `
-                <div class="bg-white rounded-2xl overflow-hidden card-shadow group border border-transparent hover:border-[var(--tiffany)] transition">
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="${escapeHtml(image)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="${escapeHtml(title)}" />
-                        ${badgeHtml}
-                    </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-lg mb-1">${escapeHtml(title)}</h3>
-                        ${subtitle ? `<p class="text-gray-600 text-xs mb-3">${escapeHtml(subtitle)}</p>` : ''}
-                        <div class="space-y-1">${metaHtml}</div>
-                        ${footerHtml}
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderHotel(hotel) {
-            if (!hotel) {
-                els.hotelName.textContent = '請從上方列表選擇飯店';
-                els.hotelMeta.textContent = '';
-                els.hotelRating.textContent = '-';
-                els.hotelDesc.textContent = '';
-                els.hotelTag.classList.add('hidden');
-                els.countRooms.textContent = '-';
-                els.countRestaurants.textContent = '-';
-                els.countDishes.textContent = '-';
-                els.countProducts.textContent = '-';
-                els.roomsGrid.innerHTML = '';
-                els.restaurantsGrid.innerHTML = '';
-                els.dishesGrid.innerHTML = '';
-                els.productsGrid.innerHTML = '';
-                setEmpty(true);
-                return;
-            }
-
-            els.hotelImage.src = hotel.image;
-            els.hotelName.textContent = hotel.name;
-            els.hotelMeta.textContent = `${hotel.city}・${hotel.area}｜${hotel.tag}`;
-            els.hotelRating.textContent = hotel.rating.toFixed(1);
-            els.hotelDesc.textContent = hotel.desc;
-            const detailBtn = document.getElementById('btnHotelDetail');
-            if (detailBtn) detailBtn.href = `HotelDetail.html?hotel=${encodeURIComponent(hotel.id)}`;
-            els.hotelTag.textContent = '推薦';
-            els.hotelTag.classList.remove('hidden');
-
-            els.countRooms.textContent = hotel.rooms ? hotel.rooms.length : 0;
-            els.countRestaurants.textContent = hotel.restaurants ? hotel.restaurants.length : 0;
-            els.countDishes.textContent = hotel.dishes ? hotel.dishes.length : 0;
-            els.countProducts.textContent = hotel.products ? hotel.products.length : 0;
-
-            if (hotel.rooms) {
-                els.roomsGrid.innerHTML = hotel.rooms.map(r => cardBase({
-                    image: r.image,
-                    title: r.name,
-                    subtitle: `${r.size}｜容納 ${r.capacity}`,
-                    metaLines: r.amenities.map(a => `<span class="inline-block text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded mr-1 mb-1">${a}</span>`),
-                    footerRight: `${money(r.price)} / 晚`
-                })).join('');
-            }
-
-            if (hotel.restaurants) {
-                els.restaurantsGrid.innerHTML = hotel.restaurants.map(x => cardBase({
-                    image: x.image,
-                    badge: x.type,
-                    title: x.name,
-                    subtitle: `${x.location}｜${x.hours}`,
-                    metaLines: [`餐廳類型：${x.type}`]
-                })).join('');
-            }
-
-            if (hotel.dishes) {
-                els.dishesGrid.innerHTML = hotel.dishes.map(d => cardBase({
-                    image: d.image,
-                    title: d.name,
-                    subtitle: d.restaurant,
-                    metaLines: [`辣度：${d.spicy}`],
-                    footerRight: money(d.price)
-                })).join('');
-            }
-
-            if (hotel.products) {
-                els.productsGrid.innerHTML = hotel.products.map(p => `
-                    <div class="bg-white rounded-2xl overflow-hidden card-shadow group border border-transparent hover:border-[var(--tiffany)] transition">
-                        <div class="h-40 overflow-hidden relative">
-                            <img src="${escapeHtml(p.image)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="${escapeHtml(p.name)}" />
-                            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-[var(--tiffany)]">${escapeHtml(p.tag)}</div>
-                        </div>
-                        <div class="p-5">
-                            <div class="flex items-start justify-between gap-3">
-                                <h3 class="font-bold text-lg mb-1">${escapeHtml(p.name)}</h3>
-                                <span class="text-[var(--tiffany-dark)] font-bold">${money(p.price)}</span>
-                            </div>
-                            <p class="text-gray-600 text-sm mt-2 line-clamp-2">${escapeHtml(p.desc)}</p>
-                            
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            setEmpty(false);
-        }
 
         function searchAndRender() {
             const q = (els.q.value || '').trim().toLowerCase();
@@ -777,12 +465,6 @@
 
             if (filtered.length > 0 && !currentHotelId) {
                 // 不自動選擇，讓使用者點擊
-            } else if (currentHotelId) {
-                const stillExists = filtered.find(x => x.id === currentHotelId);
-                if (!stillExists) {
-                    currentHotelId = '';
-                    renderHotel(null);
-                }
             }
         }
 
@@ -803,22 +485,29 @@
             els.city.value = '';
             currentHotelId = '';
             renderHotelList(hotels);
-            renderHotelOptions(hotels);
-            renderHotel(null);
-            setActiveTab('rooms');
         });
 
-        els.hotelSelect.addEventListener('change', () => {
-            if (els.hotelSelect.value) selectHotel(els.hotelSelect.value);
+        // 移除 Tabs 相關事件監聽（因為已經移除這些元素）
+        // 如果還有 tab 按鈕才綁定事件
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.getAttribute('data-tab');
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    const isActive = b.getAttribute('data-tab') === tab;
+                    b.classList.toggle('bg-[var(--tiffany)]', isActive);
+                    b.classList.toggle('text-white', isActive);
+                    b.classList.toggle('bg-white', !isActive);
+                    b.classList.toggle('border-gray-200', !isActive);
+                    b.classList.toggle('shadow-lg', isActive);
+                });
+                document.querySelectorAll('.tab-panel').forEach(p => {
+                    p.classList.toggle('hidden', p.id !== `panel-${tab}`);
+                });
+            });
         });
 
         // init
         renderHotelList(hotels);
-        renderHotelOptions(hotels);
-        renderHotel(null);
-        // 初始關閉 Modal
-        closeModal();
-        setActiveTab('rooms');
     </script>
 
 </body>

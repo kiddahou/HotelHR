@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>職缺詳情 - HotelHR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tiffany: #0ABAB5;
+            --tiffany-dark: #089B97;
+            --tiffany-light: #B2E7E4;
+            --tiffany-pale: #E6F7F6;
+        }
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+        .gradient-tiffany { background: linear-gradient(135deg, var(--tiffany) 0%, var(--tiffany-dark) 100%); }
+        .tag-shadow { box-shadow: 0 2px 8px rgba(10, 186, 181, 0.3); }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12); }
+        .section-title { position: relative; padding-left: 16px; }
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background: var(--tiffany);
+            border-radius: 2px;
+        }
+        .gallery-scroll::-webkit-scrollbar { height: 6px; }
+        .gallery-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+        .gallery-scroll::-webkit-scrollbar-thumb { background: var(--tiffany); border-radius: 3px; }
+        .hero-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(10, 186, 181, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(10, 186, 181, 0.08) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230abab5' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 導覽列 -->
+    <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative flex items-center h-16">
+                <a href="../index.html" class="flex items-center space-x-2 shrink-0">
+                    <span class="text-2xl font-bold text-[var(--tiffany)]">HotelHR</span>
+                    <span class="hidden md:block text-gray-400 font-light">| 旅宿業徵才首選</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium absolute left-1/2 -translate-x-1/2">
+                    <a href="hotel-hr-search.html" class="hover:text-[var(--tiffany)] transition">找工作</a>
+                    <a href="explore-hotel.html" class="hover:text-[var(--tiffany)] transition">探索飯店</a>
+                    <a href="shop-all.html" class="hover:text-[var(--tiffany)] transition">旅宿市集</a>
+                    <a href="career-guide.html" class="hover:text-[var(--tiffany)] transition">職場攻略</a>
+                    <a href="hotel-news.html" class="hover:text-[var(--tiffany)] transition">旅宿新聞</a>
+                </div>
+                <div class="ml-auto flex items-center gap-4 shrink-0">
+                    <button class="text-gray-600 hover:text-[var(--tiffany)] font-medium">登入</button>
+                    <button class="bg-[var(--tiffany)] text-white px-5 py-2 rounded-full font-medium hover:bg-[var(--tiffany-dark)] transition">企業徵才</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主視覺 Hero Section -->
+    <section class="hero-pattern bg-gradient-to-br from-white via-[var(--tiffany-pale)] to-white relative overflow-hidden">
+        <!-- 裝飾元素 -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-[var(--tiffany)] opacity-5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 bg-[var(--tiffany-dark)] opacity-5 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 py-8 md:py-10 relative">
+            <div class="grid md:grid-cols-2 gap-6 items-center">
+                <!-- 左側文字內容 -->
+                <div class="space-y-6">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-[var(--tiffany)] text-white text-xs font-bold px-3 py-1 rounded-full tag-shadow">全職</span>
+                        <span class="bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full">急徵</span>
+                        <span class="text-gray-400 text-sm">2026/03/10 更新</span>
+                    </div>
+                    
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
+                        嘉義館 <span class="text-[var(--tiffany)]">行政部(財務)/主任</span>
+                    </h1>
+                    
+                    <p class="text-lg text-gray-600">
+                        煙波大飯店股份有限公司
+                        <span class="text-gray-400 mx-2">·</span>
+                        <span class="text-[var(--tiffany)] font-medium">319個職缺</span>
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 text-sm">
+                        <div class="flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full">
+                            <svg class="w-4 h-4 text-[var(--tiffany)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            </svg>
+                            <span>嘉義市東區</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full">
+                            <svg class="w-4 h-4 text-[var(--tiffany)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-[var(--tiffany-dark)] font-bold">面議</span>
+                            <span class="text-gray-500">4萬以上</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full">
+                            <svg class="w-4 h-4 text-[var(--tiffany)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>5年以上經驗</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- 右側圖片 -->
+                <div class="relative hidden md:block">
+                    <div class="relative z-10 grid grid-cols-2 gap-3">
+                        <div class="space-y-2">
+                            <div class="h-24 rounded-xl overflow-hidden shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="飯店外觀">
+                            </div>
+                            <div class="h-36 rounded-xl overflow-hidden shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="大廳">
+                            </div>
+                        </div>
+                        <div class="space-y-2 pt-4">
+                            <div class="h-36 rounded-xl overflow-hidden shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="餐廳">
+                            </div>
+                            <div class="h-24 rounded-xl overflow-hidden shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="客房">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 裝飾框 -->
+                    <div class="absolute -inset-3 border-2 border-[var(--tiffany)]/20 rounded-2xl -z-0"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部波浪 -->
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F9FAFB"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 麵包屑 -->
+    <div class="bg-gray-50 border-b">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex items-center text-sm text-gray-500">
+                <a href="../index.html" class="hover:text-[var(--tiffany)]">首頁</a>
+                <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                <a href="hotel-hr-search.html" class="hover:text-[var(--tiffany)]">找工作</a>
+                <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                <span class="text-gray-800">職缺詳情</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要內容 -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 左側主要內容 -->
+            <div class="lg:col-span-2 space-y-6">
+                
+
+                <!-- 工作內容 -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h2 class="section-title text-xl font-bold mb-6">工作內容</h2>
+                    
+                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                        <div class="bg-[var(--tiffany-pale)] rounded-xl p-4 border-l-4 border-[var(--tiffany)]">
+                            <p class="font-medium text-[var(--tiffany-dark)] mb-2">★【遇見煙波未來之星】★</p>
+                            <p class="text-sm">嘉義的朋友們，年後轉職最有感的機會來了！煙波集團 30 週年，我們帶著全台飯店布局的實力，正式深耕嘉義。</p>
+                        </div>
+                        
+                        <ol class="list-decimal list-inside space-y-2 ml-2">
+                            <li>前期需先至台南館進行任務銜接。</li>
+                            <li>能獨立完成財務相關工作。</li>
+                            <li>編製各類報表(財務報表)及分析。</li>
+                            <li>營業稅、營所稅等各項稅務作業。</li>
+                            <li>熟悉財務會計總帳、應收帳款、收入稽核、應付作業、驗收作業。</li>
+                            <li>協助與指導部門內同仁各項作業。</li>
+                            <li>具良好的抗壓力以正面、積極的態度，處理各項主管交付的任務。</li>
+                            <li>配合會計師查帳作業。</li>
+                            <li>具飯店經歷尤佳。</li>
+                        </ol>
+                        
+                        <div class="mt-6 pt-4 border-t border-gray-100">
+                            <h3 class="font-bold mb-3">嘉義現場招募重點資訊</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <p class="text-sm text-gray-500 mb-1">第一場</p>
+                                    <p class="font-medium">2026年3月9日 (一) 08:30 - 11:30</p>
+                                    <p class="text-sm text-gray-600">嘉義產業創新研發中心3A03會議室</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <p class="text-sm text-gray-500 mb-1">第二場</p>
+                                    <p class="font-medium">2026年3月10日 (二) 13:30 - 16:00</p>
+                                    <p class="text-sm text-gray-600">嘉義產業創新研發中心3A03會議室</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 要求條件 -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h2 class="section-title text-xl font-bold mb-6">要求條件</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-gray-400 text-sm mb-1">學歷要求</p>
+                            <p class="font-medium">專科以上</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm mb-1">科系要求</p>
+                            <p class="font-medium">不拘</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm mb-1">工作經驗</p>
+                            <p class="font-medium">5年以上經驗</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm mb-1">外語能力</p>
+                            <p class="font-medium">不拘</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm mb-1">電腦專長</p>
+                            <p class="font-medium">Excel、Outlook、Word</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm mb-1">需管理人數</p>
+                            <p class="font-medium">10人以下</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <p class="text-gray-400 text-sm mb-2">工作技能</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)] text-sm px-3 py-1 rounded-full">具備會計或審計專業知識</span>
+                            <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)] text-sm px-3 py-1 rounded-full">編制或審閱財務報表</span>
+                            <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)] text-sm px-3 py-1 rounded-full">編制會計相關表單及帳務報表</span>
+                            <span class="bg-[var(--tiffany-pale)] text-[var(--tiffany-dark)] text-sm px-3 py-1 rounded-full">會計作業流程規劃檢討</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 公司環境圖片 -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h2 class="section-title text-xl font-bold mb-6">公司環境</h2>
+                    
+                    <div class="flex gap-4 overflow-x-auto gallery-scroll pb-2">
+                        <div class="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="飯店外觀">
+                        </div>
+                        <div class="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="大廳">
+                        </div>
+                        <div class="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="餐廳">
+                        </div>
+                        <div class="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="客房">
+                        </div>
+                        <div class="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600" class="w-full h-full object-cover hover:scale-110 transition duration-500" alt="休閒設施">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 右側側邊欄 -->
+            <div class="space-y-6">
+                
+                <!-- 應徵按鈕卡片 -->
+                <div class="bg-white rounded-2xl card-shadow p-6 sticky top-24">
+                    <button class="w-full gradient-tiffany text-white font-bold py-4 rounded-xl hover:opacity-90 transition shadow-lg shadow-[var(--tiffany)]/30 mb-3">
+                        立即應徵
+                    </button>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button id="sidebarSaveJobBtn" class="flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-gray-700 font-bold py-3 rounded-xl hover:border-[var(--tiffany)] hover:text-[var(--tiffany)] transition">
+                            <svg id="sidebarHeartIcon" class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            <span id="sidebarSaveJobText">收藏職缺</span>
+                        </button>
+                        <button class="bg-white border-2 border-[var(--tiffany)] text-[var(--tiffany)] font-bold py-3 rounded-xl hover:bg-[var(--tiffany-pale)] transition">
+                            聯絡公司
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <p class="text-xs text-gray-500 text-center">
+                            履歷關閉狀態，仍可投遞應徵！
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 公司資訊 -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h3 class="font-bold text-lg mb-4">公司資訊</h3>
+                    
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-16 h-16 bg-[var(--tiffany-pale)] rounded-xl flex items-center justify-center">
+                            <span class="text-2xl font-bold text-[var(--tiffany)]">煙</span>
+                        </div>
+                        <div>
+                            <p class="font-bold">煙波大飯店</p>
+                            <p class="text-sm text-gray-500">股份有限公司</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">產業類別</span>
+                            <span>飯店/旅館</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">公司人數</span>
+                            <span>950人</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">職缺總數</span>
+                            <span class="text-[var(--tiffany)] font-bold">319個</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="block mt-4 text-center text-[var(--tiffany)] font-medium hover:underline">
+                        查看公司所有職缺
+                    </a>
+                </div>
+
+                <!-- 聯絡資訊 -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h3 class="font-bold text-lg mb-4">聯絡資訊</h3>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <p class="text-gray-500 mb-1">聯絡人員</p>
+                            <p class="font-medium">何副理</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 mb-1">工作地點</p>
+                            <p class="font-medium">嘉義市東區忠孝路306號</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 相似職缺 -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h3 class="font-bold text-lg mb-4">相似職缺</h3>
+                    
+                    <div class="space-y-4">
+                        <a href="#" class="block p-3 rounded-xl hover:bg-gray-50 transition">
+                            <p class="font-medium text-sm mb-1">台南館 財務專員</p>
+                            <p class="text-xs text-gray-500">煙波大飯店 · 台南市</p>
+                            <p class="text-[var(--tiffany)] text-sm font-bold mt-1">月薪 35,000-45,000</p>
+                        </a>
+                        
+                        <div class="border-t border-gray-100"></div>
+                        
+                        <a href="#" class="block p-3 rounded-xl hover:bg-gray-50 transition">
+                            <p class="font-medium text-sm mb-1">新竹館 會計主任</p>
+                            <p class="text-xs text-gray-500">煙波大飯店 · 新竹市</p>
+                            <p class="text-[var(--tiffany)] text-sm font-bold mt-1">月薪 45,000-55,000</p>
+                        </a>
+                        
+                        <div class="border-t border-gray-100"></div>
+                        
+                        <a href="#" class="block p-3 rounded-xl hover:bg-gray-50 transition">
+                            <p class="font-medium text-sm mb-1">花蓮館 財務主管</p>
+                            <p class="text-xs text-gray-500">煙波大飯店 · 花蓮縣</p>
+                            <p class="text-[var(--tiffany)] text-sm font-bold mt-1">月薪 50,000-65,000</p>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部應徵列 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg lg:hidden z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex gap-3">
+            <button class="flex-1 bg-[var(--tiffany)] text-white font-bold py-3 rounded-xl">
+                立即應徵
+            </button>
+            <button class="px-4 border border-gray-300 rounded-xl">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- 頁尾 -->
+    <footer class="bg-gray-900 text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-500 text-sm">© 2026 HotelHR 旅宿人才網 版權所有</p>
+        </div>
+    </footer>
+
+    <script>
+        // 收藏職缺功能 - Hero 區域
+        const saveJobBtn = document.getElementById('saveJobBtn');
+        const heartIcon = document.getElementById('heartIcon');
+        const saveJobText = document.getElementById('saveJobText');
+        
+        // 收藏職缺功能 - 側邊欄
+        const sidebarSaveJobBtn = document.getElementById('sidebarSaveJobBtn');
+        const sidebarHeartIcon = document.getElementById('sidebarHeartIcon');
+        const sidebarSaveJobText = document.getElementById('sidebarSaveJobText');
+        
+        let isSaved = false;
+
+        function updateSaveJobState() {
+            isSaved = !isSaved;
+            
+            // 更新 Hero 區域
+            if (heartIcon && saveJobText) {
+                if (isSaved) {
+                    heartIcon.classList.remove('text-gray-400');
+                    heartIcon.classList.add('text-[var(--tiffany)]', 'fill-current');
+                    saveJobText.textContent = '已收藏';
+                    saveJobText.classList.add('text-[var(--tiffany)]');
+                } else {
+                    heartIcon.classList.add('text-gray-400');
+                    heartIcon.classList.remove('text-[var(--tiffany)]', 'fill-current');
+                    saveJobText.textContent = '收藏職缺';
+                    saveJobText.classList.remove('text-[var(--tiffany)]');
+                }
+            }
+            
+            // 更新側邊欄
+            if (sidebarHeartIcon && sidebarSaveJobText) {
+                if (isSaved) {
+                    sidebarHeartIcon.classList.remove('text-gray-400');
+                    sidebarHeartIcon.classList.add('text-[var(--tiffany)]', 'fill-current');
+                    sidebarSaveJobText.textContent = '已收藏';
+                    sidebarSaveJobBtn.classList.add('text-[var(--tiffany)]', 'border-[var(--tiffany)]');
+                } else {
+                    sidebarHeartIcon.classList.add('text-gray-400');
+                    sidebarHeartIcon.classList.remove('text-[var(--tiffany)]', 'fill-current');
+                    sidebarSaveJobText.textContent = '收藏職缺';
+                    sidebarSaveJobBtn.classList.remove('text-[var(--tiffany)]', 'border-[var(--tiffany)]');
+                }
+            }
+        }
+
+        if (saveJobBtn) {
+            saveJobBtn.addEventListener('click', updateSaveJobState);
+        }
+        
+        if (sidebarSaveJobBtn) {
+            sidebarSaveJobBtn.addEventListener('click', updateSaveJobState);
+        }
+    </script>
+
+</body>
+</html>
