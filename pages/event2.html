@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>旅館徵才首頁提案</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --t: #0ABAB5;
+      --td: #089b97;
+      --tl: #dff7f6;
+      --tm: #b2eeec;
+      --night: #091225;
+      --night-2: #10213b;
+      --gold: #c9a84c;
+      --gl: #f5edd8;
+      --ink: #163040;
+      --paper: #f2faf9;
+      --line: rgba(9, 18, 37, 0.08);
+      --shadow: 0 18px 48px rgba(9, 18, 37, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(10, 186, 181, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(201, 168, 76, 0.14), transparent 24%),
+        linear-gradient(180deg, #f7fcfb 0%, var(--paper) 48%, #eef8f7 100%);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(10, 186, 181, 0.4);
+      border-radius: 999px;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: var(--shadow);
+    }
+
+    .section-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: 0 10px 32px rgba(9, 18, 37, 0.05);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      color: var(--td);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--t), var(--gold));
+    }
+
+    .hero-shell {
+      position: relative;
+      min-height: 760px;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(9, 18, 37, 0.96) 0%, rgba(9, 18, 37, 0.82) 54%, rgba(8, 62, 68, 0.78) 100%);
+    }
+
+    .hero-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(10, 186, 181, 0.28), transparent 24%),
+        radial-gradient(circle at 82% 22%, rgba(201, 168, 76, 0.18), transparent 18%);
+      pointer-events: none;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.28;
+      transform: scale(1.06);
+      transition: transform 10s ease;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.2fr 0.88fr;
+      gap: 28px;
+      padding: 28px 0 72px;
+    }
+
+    .headline {
+      font-family: "DM Serif Display", "Noto Sans TC", serif;
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 0.95;
+      margin: 0;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-copy {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 1.04rem;
+      line-height: 1.9;
+      max-width: 560px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stat-box {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-num {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      color: white;
+    }
+
+    .stat-label {
+      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.52);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .search-panel {
+      border-radius: 32px;
+      padding: 24px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(244, 252, 251, 0.92) 100%);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .pill.mint {
+      color: var(--td);
+      background: var(--tl);
+    }
+
+    .pill.gold {
+      color: #8f6a11;
+      background: var(--gl);
+    }
+
+    .pill.dark {
+      color: white;
+      background: var(--night);
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1.5px solid #dbe8ec;
+      background: white;
+      color: var(--ink);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    .input:focus,
+    .select:focus {
+      border-color: var(--t);
+      box-shadow: 0 0 0 4px rgba(10, 186, 181, 0.13);
+      transform: translateY(-1px);
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1.5px solid #d9e8e8;
+      background: #f8fbfb;
+      color: #54707a;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .chip:hover,
+    .chip.active {
+      background: var(--tl);
+      border-color: var(--t);
+      color: var(--td);
+      transform: translateY(-1px);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.97;
+    }
+
+    .btn-primary {
+      padding: 15px 20px;
+      color: white;
+      background: linear-gradient(135deg, var(--t), var(--td));
+      box-shadow: 0 18px 34px rgba(10, 186, 181, 0.28);
+    }
+
+    .btn-secondary {
+      padding: 15px 20px;
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(12px);
+    }
+
+    .feature-strip {
+      margin-top: -42px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+      border-radius: 24px;
+    }
+
+    .feature-item {
+      padding: 18px;
+      border-radius: 20px;
+      background: white;
+      border: 1px solid rgba(9, 18, 37, 0.06);
+    }
+
+    .feature-k {
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #8aa2ab;
+    }
+
+    .feature-v {
+      margin-top: 8px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--night);
+    }
+
+    .jobs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .job-card,
+    .brand-card,
+    .info-card,
+    .faq-item {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(9, 18, 37, 0.05);
+    }
+
+    .job-card {
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .job-card:hover,
+    .brand-card:hover,
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 42px rgba(9, 18, 37, 0.11);
+    }
+
+    .job-thumb {
+      position: relative;
+      height: 214px;
+      overflow: hidden;
+    }
+
+    .job-thumb img,
+    .brand-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .job-thumb::after,
+    .brand-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(9, 18, 37, 0.56), transparent 54%);
+    }
+
+    .job-body,
+    .brand-body,
+    .info-body {
+      padding: 18px;
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .mini-tag {
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f3f8f9;
+      color: #58717b;
+      font-size: 0.73rem;
+      font-weight: 700;
+    }
+
+    .brand-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+    }
+
+    .brand-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .brand-thumb {
+      position: relative;
+      height: 100%;
+      min-height: 250px;
+    }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .process-card {
+      padding: 22px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(243, 250, 249, 0.96) 100%);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .process-card::after {
+      content: "";
+      position: absolute;
+      right: -18px;
+      bottom: -18px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(10, 186, 181, 0.12), transparent 68%);
+    }
+
+    .process-no {
+      font-family: "DM Serif Display", serif;
+      font-size: 2rem;
+      color: var(--t);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .faq-item button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      padding: 18px 20px;
+      font: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-weight: 800;
+      color: var(--night);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease, padding 0.28s ease;
+      padding: 0 20px;
+      color: #57717a;
+      line-height: 1.85;
+      font-size: 0.95rem;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 220px;
+      padding: 0 20px 18px;
+    }
+
+    .faq-sign {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: var(--td);
+      background: var(--tl);
+      flex-shrink: 0;
+    }
+
+    .footer-shell {
+      margin-top: 24px;
+      background: var(--night);
+      color: white;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 24px;
+      padding: 56px 0 26px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .brand-layout,
+      .split,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .jobs,
+      .process,
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .hero-shell {
+        min-height: auto;
+      }
+
+      .headline {
+        line-height: 1.04;
+      }
+
+      .stat-row,
+      .jobs,
+      .process,
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-panel {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .wrap {
+        width: min(100vw - 20px, 1180px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero-shell">
+    <img class="hero-bg" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80" alt="旅館大廳背景">
+    <div class="wrap">
+      <nav class="flex items-center justify-between py-5 relative z-10">
+        <div class="flex items-center gap-3 text-white">
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,var(--t),var(--td));">
+            <svg width="18" height="18" fill="none" stroke="white" stroke-width="2.2" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/></svg>
+          </div>
+          <div>
+            <div class="text-lg font-black tracking-wide">Hotel Talent Hub</div>
+            <div class="text-xs text-white/45">旅館徵才首頁提案</div>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-7 text-sm text-white/68 font-semibold">
+          <a href="#search" class="hover:text-white transition-colors">快速找職缺</a>
+          <a href="#jobs" class="hover:text-white transition-colors">熱門職務</a>
+          <a href="#brands" class="hover:text-white transition-colors">精選品牌</a>
+          <a href="#faq" class="hover:text-white transition-colors">常見問題</a>
+        </div>
+      </nav>
+
+      <div class="hero-grid">
+        <section class="pt-8 pb-4">
+          <div class="hero-badge reveal">2026 旅館徵才季・全台飯店品牌同步招募中</div>
+          <h1 class="headline text-white mt-5 reveal">找的不只是工作<br>而是你的下一間旅館舞台</h1>
+          <p class="hero-copy mt-6 reveal">
+            把求職入口做成真正好用的旅館徵才首頁。先看熱門品牌、再快速篩選職務，
+            同時把住宿福利、輪班條件、語言需求與應徵流程放在同一頁，降低求職者決策成本。
+          </p>
+
+          <div class="flex flex-wrap gap-3 mt-8 reveal">
+            <a class="btn btn-primary" href="#search">立即搜尋職缺</a>
+            <a class="btn btn-secondary" href="#brands">先看品牌特色</a>
+          </div>
+
+          <div class="stat-row reveal">
+            <div class="stat-box">
+              <div class="stat-num" data-count="128">0</div>
+              <div class="stat-label">Open Roles</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num" data-count="26">0</div>
+              <div class="stat-label">Hotel Brands</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num" data-count="14">0</div>
+              <div class="stat-label">Cities</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num" data-count="87">0</div>
+              <div class="stat-label">With Housing</div>
+            </div>
+          </div>
+        </section>
+
+        <aside id="search" class="search-panel glass self-end reveal">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div>
+              <div class="eyebrow">Quick Match</div>
+              <h2 class="text-2xl font-black m-0">30 秒快速配對職缺</h2>
+            </div>
+            <span class="pill gold">住宿福利可篩選</span>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-3">
+            <input class="input" id="keyword" type="text" placeholder="輸入職稱、品牌或關鍵字">
+            <select class="select" id="city">
+              <option value="">全部地區</option>
+              <option value="台北">台北</option>
+              <option value="台中">台中</option>
+              <option value="高雄">高雄</option>
+              <option value="宜蘭">宜蘭</option>
+              <option value="屏東">屏東</option>
+            </select>
+            <select class="select" id="type">
+              <option value="">全部職類</option>
+              <option value="前台">前台接待</option>
+              <option value="房務">房務管理</option>
+              <option value="餐飲">餐飲服務</option>
+              <option value="訂房">訂房客服</option>
+              <option value="主管">儲備主管</option>
+            </select>
+            <select class="select" id="benefit">
+              <option value="">全部條件</option>
+              <option value="住宿">含住宿</option>
+              <option value="高薪">高薪 45K+</option>
+              <option value="語言">需外語</option>
+              <option value="熱門">熱門急徵</option>
+            </select>
+          </div>
+
+          <div class="mt-4">
+            <div class="text-xs font-black tracking-[0.24em] text-slate-400 uppercase mb-2">熱門篩選</div>
+            <div class="chip-list" id="chips">
+              <button class="chip active" data-filter="all">全部</button>
+              <button class="chip" data-filter="五星級">五星級飯店</button>
+              <button class="chip" data-filter="含住宿">外縣市友善</button>
+              <button class="chip" data-filter="無經驗可">無經驗可</button>
+              <button class="chip" data-filter="英文">需英文</button>
+              <button class="chip" data-filter="主管">主管培訓</button>
+            </div>
+          </div>
+
+          <div class="mt-5 p-4 rounded-3xl" style="background:linear-gradient(135deg,var(--night) 0%, var(--night-2) 100%);">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <div class="text-xs font-black tracking-[0.18em] text-white/35 uppercase">AI Match Preview</div>
+                <div class="text-white font-bold text-lg mt-1">目前可推薦 <span id="resultCount" style="color:var(--t);">3</span> 個高匹配職缺</div>
+              </div>
+              <button class="btn btn-primary px-6 py-3 text-sm" type="button" onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">查看推薦</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <section class="feature-strip">
+    <div class="wrap">
+      <div class="feature-grid glass reveal">
+        <div class="feature-item">
+          <div class="feature-k">福利透明</div>
+          <div class="feature-v">住宿、輪班、語言津貼直接列出</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-k">品牌導向</div>
+          <div class="feature-v">先理解飯店風格，再決定投遞</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-k">流程更短</div>
+          <div class="feature-v">首頁就能進入應徵，不必多層跳轉</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-k">求職者友善</div>
+          <div class="feature-v">新鮮人、外縣市、轉職族都有入口</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap py-10 md:py-14 space-y-16">
+    <section id="jobs" class="reveal">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+        <div>
+          <div class="eyebrow">Featured Openings</div>
+          <h2 class="text-3xl md:text-4xl font-black m-0">首頁優先展示的熱門職缺</h2>
+        </div>
+        <p class="text-slate-500 text-sm md:max-w-md m-0 leading-7">
+          這區塊不做太多列表感，而是放最值得點進去的高轉換職缺，讓首頁本身就能承擔導流任務。
+        </p>
+      </div>
+
+      <div class="jobs" id="jobGrid">
+        <article class="job-card job-item" data-tags="台北 前台 五星級 英文 熱門">
+          <div class="job-thumb">
+            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=900&q=80" alt="前台接待職缺">
+          </div>
+          <div class="job-body">
+            <div class="flex items-center justify-between gap-3">
+              <span class="pill mint">急徵職缺</span>
+              <span class="text-sm font-black" style="color:var(--td);">38K–45K</span>
+            </div>
+            <h3 class="text-xl font-black mt-4 mb-1">前台接待專員</h3>
+            <p class="text-slate-400 text-sm m-0">雲岳國際飯店・台北信義</p>
+            <p class="text-slate-600 text-sm leading-7 mt-4 mb-0">適合具英語接待能力、喜歡高節奏服務場景的人才，提供語言津貼與完整前台訓練。</p>
+            <div class="job-meta">
+              <span class="mini-tag">五星級</span>
+              <span class="mini-tag">需英文</span>
+              <span class="mini-tag">輪班制</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="job-card job-item" data-tags="宜蘭 房務 含住宿 無經驗可">
+          <div class="job-thumb">
+            <img src="https://images.unsplash.com/photo-1631049552240-59c37f38802b?auto=format&fit=crop&w=900&q=80" alt="房務職缺">
+          </div>
+          <div class="job-body">
+            <div class="flex items-center justify-between gap-3">
+              <span class="pill gold">外縣市友善</span>
+              <span class="text-sm font-black" style="color:var(--td);">34K–40K</span>
+            </div>
+            <h3 class="text-xl font-black mt-4 mb-1">房務服務人員</h3>
+            <p class="text-slate-400 text-sm m-0">晴川溫泉旅宿・宜蘭礁溪</p>
+            <p class="text-slate-600 text-sm leading-7 mt-4 mb-0">含住宿與三餐補助，適合外縣市求職者與想轉入旅館產業的新鮮人。</p>
+            <div class="job-meta">
+              <span class="mini-tag">含住宿</span>
+              <span class="mini-tag">無經驗可</span>
+              <span class="mini-tag">溫泉館別</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="job-card job-item" data-tags="高雄 主管 五星級 高薪">
+          <div class="job-thumb">
+            <img src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=900&q=80" alt="主管培訓職缺">
+          </div>
+          <div class="job-body">
+            <div class="flex items-center justify-between gap-3">
+              <span class="pill dark">儲備主管</span>
+              <span class="text-sm font-black" style="color:var(--td);">48K–60K</span>
+            </div>
+            <h3 class="text-xl font-black mt-4 mb-1">營運儲備幹部</h3>
+            <p class="text-slate-400 text-sm m-0">港灣洲際酒店・高雄亞洲新灣區</p>
+            <p class="text-slate-600 text-sm leading-7 mt-4 mb-0">跨部門輪調 12 個月，結訓銜接副理層級，是首頁中最有吸引力的高薪入口職缺。</p>
+            <div class="job-meta">
+              <span class="mini-tag">高薪 45K+</span>
+              <span class="mini-tag">五星級</span>
+              <span class="mini-tag">主管培訓</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="brands" class="reveal">
+      <div class="brand-layout">
+        <article class="brand-card overflow-hidden">
+          <div class="brand-thumb">
+            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=80" alt="品牌飯店">
+          </div>
+          <div class="brand-body">
+            <div class="eyebrow">Featured Brand</div>
+            <h2 class="text-3xl font-black mt-0 mb-2">用品牌故事決定投遞意願</h2>
+            <p class="text-slate-600 leading-8 text-sm m-0">
+              旅館徵才首頁不該只是一堆職缺。品牌文化、客群類型、員工培訓制度與住宿支援，
+              都是求職者決定是否投遞的核心資訊。首頁應該讓品牌亮點先說話。
+            </p>
+            <div class="grid grid-cols-2 gap-3 mt-6">
+              <div class="p-4 rounded-2xl" style="background:var(--tl);">
+                <div class="text-xs font-black tracking-[0.18em] uppercase text-slate-400">品牌定位</div>
+                <div class="font-black mt-2">國際商務 × 長住客群</div>
+              </div>
+              <div class="p-4 rounded-2xl" style="background:var(--gl);">
+                <div class="text-xs font-black tracking-[0.18em] uppercase text-slate-400">招募主軸</div>
+                <div class="font-black mt-2">前台、訂房、儲備主管</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="brand-stack">
+          <article class="info-card">
+            <div class="info-body">
+              <div class="flex items-center justify-between gap-3">
+                <h3 class="text-xl font-black m-0">求職者最在意的四件事</h3>
+                <span class="pill mint">首頁要先給</span>
+              </div>
+              <div class="grid grid-cols-2 gap-3 mt-5">
+                <div class="p-4 rounded-2xl bg-slate-50">
+                  <div class="text-sm font-black">住宿與餐食</div>
+                  <div class="text-xs text-slate-500 mt-1 leading-6">外縣市求職者第一個就會看。</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-50">
+                  <div class="text-sm font-black">輪班與排休</div>
+                  <div class="text-xs text-slate-500 mt-1 leading-6">比單看薪資更影響投遞意願。</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-50">
+                  <div class="text-sm font-black">語言需求</div>
+                  <div class="text-xs text-slate-500 mt-1 leading-6">是否需英日語要提早說清楚。</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-50">
+                  <div class="text-sm font-black">晉升制度</div>
+                  <div class="text-xs text-slate-500 mt-1 leading-6">新鮮人與轉職族特別在意。</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="info-card">
+            <div class="info-body">
+              <div class="eyebrow">For Newcomers</div>
+              <h3 class="text-2xl font-black mt-0 mb-2">新鮮人專區入口</h3>
+              <p class="text-sm text-slate-600 leading-8 m-0">
+                把「無經驗可」「培訓完整」「提供住宿」做成首頁的獨立入口，能明顯提升新鮮人與轉職族的點擊率。
+              </p>
+              <a href="#jobs" class="inline-block mt-5 font-black text-sm" style="color:var(--td);">查看適合新手的職缺 →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+        <div>
+          <div class="eyebrow">Application Flow</div>
+          <h2 class="text-3xl md:text-4xl font-black m-0">首頁就把應徵流程說清楚</h2>
+        </div>
+        <p class="text-sm text-slate-500 m-0 md:max-w-md leading-7">
+          旅館徵才常卡在資訊不透明。把流程前置，求職者更敢投，也能減少重複詢問。
+        </p>
+      </div>
+
+      <div class="process">
+        <article class="process-card">
+          <div class="process-no">01</div>
+          <h3 class="font-black text-lg mt-0 mb-2">先看品牌</h3>
+          <p class="text-sm text-slate-600 leading-7 m-0">了解館別、客群、地區與宿舍條件，再決定要不要投。</p>
+        </article>
+        <article class="process-card">
+          <div class="process-no">02</div>
+          <h3 class="font-black text-lg mt-0 mb-2">再挑職缺</h3>
+          <p class="text-sm text-slate-600 leading-7 m-0">前台、房務、餐飲、訂房、主管培訓分流清楚。</p>
+        </article>
+        <article class="process-card">
+          <div class="process-no">03</div>
+          <h3 class="font-black text-lg mt-0 mb-2">快速投遞</h3>
+          <p class="text-sm text-slate-600 leading-7 m-0">履歷上傳與基本資料分步完成，不讓表單太重。</p>
+        </article>
+        <article class="process-card">
+          <div class="process-no">04</div>
+          <h3 class="font-black text-lg mt-0 mb-2">安排面談</h3>
+          <p class="text-sm text-slate-600 leading-7 m-0">人資回覆節點與面談形式直接標註在首頁。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split reveal">
+      <article class="section-card p-6 md:p-8">
+        <div class="eyebrow">Why It Works</div>
+        <h2 class="text-3xl font-black mt-0 mb-4">這種首頁比純列表更好用的原因</h2>
+        <div class="space-y-4 text-sm text-slate-600 leading-8">
+          <p class="m-0">首頁不是拿來塞完整資料庫，而是做出「先理解、再篩選、最後投遞」的求職節奏。</p>
+          <p class="m-0">同色系延續你原本視覺資產，青綠色負責 CTA 與福利感，深夜藍穩住飯店質感，金色點綴強調品牌與高端職缺。</p>
+          <p class="m-0">如果之後要接你原本那個職缺列表頁，這個首頁可以當成進站入口，導到更完整的搜尋與投遞流程。</p>
+        </div>
+      </article>
+
+      <article class="section-card p-6 md:p-8" id="faq">
+        <div class="eyebrow">FAQ</div>
+        <h2 class="text-3xl font-black mt-0 mb-5">求職者常問問題</h2>
+        <div class="space-y-3">
+          <div class="faq-item open">
+            <button type="button">
+              <span>沒有旅館經驗可以投嗎？</span>
+              <span class="faq-sign">−</span>
+            </button>
+            <div class="faq-answer">可以。首頁應清楚把「無經驗可」「提供培訓」「含住宿」的職缺做成獨立入口，降低新手的心理門檻。</div>
+          </div>
+          <div class="faq-item">
+            <button type="button">
+              <span>外縣市應徵者最需要什麼資訊？</span>
+              <span class="faq-sign">+</span>
+            </button>
+            <div class="faq-answer">宿舍費用、是否含餐、報到日期、排班制度與面試方式。這些資訊若放在首頁前段，投遞率通常會更高。</div>
+          </div>
+          <div class="faq-item">
+            <button type="button">
+              <span>首頁該先推品牌還是先推職缺？</span>
+              <span class="faq-sign">+</span>
+            </button>
+            <div class="faq-answer">兩者都要，但順序應該是先讓品牌建立信任，再用熱門職缺承接流量。旅館徵才比一般產業更吃品牌印象。</div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer-shell">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-11 h-11 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,var(--t),var(--td));">
+              <svg width="18" height="18" fill="none" stroke="white" stroke-width="2.2" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/></svg>
+            </div>
+            <div>
+              <div class="font-black text-lg">Hotel Talent Hub</div>
+              <div class="text-white/35 text-xs">旅館徵才首頁概念版</div>
+            </div>
+          </div>
+          <p class="text-white/55 text-sm leading-8 m-0">
+            專為旅館招募場景設計的首頁原型。重點不是做滿，而是讓求職者進站後能快速理解品牌、找到合適職缺、直接開始投遞。
+          </p>
+        </div>
+        <div>
+          <div class="text-xs font-black tracking-[0.22em] uppercase text-white/30 mb-4">Sections</div>
+          <div class="space-y-3 text-sm text-white/65">
+            <a class="block hover:text-white" href="#search">快速搜尋</a>
+            <a class="block hover:text-white" href="#jobs">熱門職缺</a>
+            <a class="block hover:text-white" href="#brands">品牌亮點</a>
+            <a class="block hover:text-white" href="#faq">常見問題</a>
+          </div>
+        </div>
+        <div>
+          <div class="text-xs font-black tracking-[0.22em] uppercase text-white/30 mb-4">Contact</div>
+          <div class="space-y-3 text-sm text-white/65">
+            <div>hr@hotel-talent.tw</div>
+            <div>週一至週五 09:00–18:00</div>
+            <div>可延伸接原本職缺列表與投遞頁</div>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 py-5 text-xs text-white/30 flex flex-col md:flex-row items-center justify-between gap-2">
+        <span>© 2026 Hotel Talent Hub Concept.</span>
+        <span>Same palette, homepage-first recruiting experience.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const heroBg = document.querySelector(".hero-bg");
+    setTimeout(() => {
+      heroBg.style.transform = "scale(1)";
+    }, 120);
+
+    const revealNodes = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.15 });
+    revealNodes.forEach((node) => io.observe(node));
+
+    const counters = document.querySelectorAll("[data-count]");
+    let counted = false;
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !counted) {
+          counted = true;
+          counters.forEach((counter) => animateCount(counter, Number(counter.dataset.count)));
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach((counter) => counterObserver.observe(counter));
+
+    function animateCount(node, target) {
+      let current = 0;
+      const step = Math.max(1, Math.ceil(target / 24));
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          node.textContent = target;
+          clearInterval(timer);
+          return;
+        }
+        node.textContent = current;
+      }, 34);
+    }
+
+    const chips = document.querySelectorAll("#chips .chip");
+    const jobItems = document.querySelectorAll(".job-item");
+    const resultCount = document.getElementById("resultCount");
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chips.forEach((item) => item.classList.remove("active"));
+        chip.classList.add("active");
+        const filter = chip.dataset.filter;
+        let visible = 0;
+
+        jobItems.forEach((job) => {
+          const show = filter === "all" || job.dataset.tags.includes(filter);
+          job.style.display = show ? "" : "none";
+          if (show) visible += 1;
+        });
+
+        resultCount.textContent = visible;
+      });
+    });
+
+    document.querySelectorAll(".faq-item button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.parentElement;
+        const sign = button.querySelector(".faq-sign");
+        const isOpen = item.classList.contains("open");
+        item.classList.toggle("open");
+        sign.textContent = isOpen ? "+" : "−";
+      });
+    });
+  </script>
+</body>
+</html>

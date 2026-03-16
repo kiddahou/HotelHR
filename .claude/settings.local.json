@@ -14,7 +14,10 @@
       "Bash(git add index.html pages/ .gitignore .nojekyll HotelHR.html)",
       "Bash(git commit:*)",
       "Bash(ssh-keyscan -t ed25519 github.com)",
-      "Bash(~/.ssh/known_hosts)"
+      "Bash(~/.ssh/known_hosts)",
+      "Bash(git push origin main)",
+      "Bash(curl -s \"https://llm.redfrog.cloud/v1/models\" -H \"Authorization: Bearer sk-8EGW6operSPeaOdMcZoqCI2cfV7plx2wDWfe3lONDsjozQij\")",
+      "Bash(curl -s -X POST \"https://llm.redfrog.cloud/v1/messages\" -H \"Content-Type: application/json\" -H \"x-api-key: sk-8EGW6operSPeaOdMcZoqCI2cfV7plx2wDWfe3lONDsjozQij\" -H \"anthropic-version: 2023-06-01\" -d '{:*)"
     ]
   }
 }
